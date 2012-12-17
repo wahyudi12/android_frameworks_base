@@ -228,5 +228,12 @@ public class SystemSettingsValidators {
         VALIDATORS.put(System.STATUS_BAR_FILE_HEADER_IMAGE, ANY_STRING_VALIDATOR);
         VALIDATORS.put(System.STATUS_BAR_CUSTOM_HEADER_HEIGHT, ANY_INTEGER_VALIDATOR);
         VALIDATORS.put(System.NOTIFICATION_HEADERS, BOOLEAN_VALIDATOR);
+        VALIDATORS.put(System.STATUS_BAR_CLOCK, BOOLEAN_VALIDATOR);
+        VALIDATORS.put(System.STATUSBAR_CLOCK_STYLE, new InclusiveIntegerRangeValidator(0, 2));
+        VALIDATORS.put(System.STATUS_BAR_CLOCK_SECONDS, BOOLEAN_VALIDATOR);
+        VALIDATORS.put(System.STATUSBAR_CLOCK_AM_PM_STYLE, new InclusiveIntegerRangeValidator(0, 2));
+        VALIDATORS.put(System.STATUSBAR_CLOCK_DATE_DISPLAY, new InclusiveIntegerRangeValidator(0, 2));
+        VALIDATORS.put(System.STATUSBAR_CLOCK_DATE_STYLE, new InclusiveIntegerRangeValidator(0, 2));
+        VALIDATORS.put(System.STATUSBAR_CLOCK_DATE_FORMAT, ANY_STRING_VALIDATOR);
     }
 }
