@@ -46,6 +46,7 @@ import com.android.systemui.qs.tiles.HotspotTile;
 import com.android.systemui.qs.tiles.LiveDisplayTile;
 import com.android.systemui.qs.tiles.LocationTile;
 import com.android.systemui.qs.tiles.LteTile;
+import com.android.systemui.qs.tiles.NavBarTile;
 import com.android.systemui.qs.tiles.NfcTile;
 import com.android.systemui.qs.tiles.NightDisplayTile;
 import com.android.systemui.qs.tiles.ReadingModeTile;
@@ -113,6 +114,7 @@ public class QSFactoryImpl implements QSFactory {
     private final Provider<SoundTile> mSoundTileProvider;
     private final Provider<LteTile> mLteTileProvider;
     private final Provider<WeatherTile> mWeatherTileProvider;
+    private final Provider<NavBarTile> mNavBarTileProvider;
 
     private final Lazy<QSHost> mQsHostLazy;
 
@@ -154,7 +156,8 @@ public class QSFactoryImpl implements QSFactory {
             Provider<VpnTile> vpnTileProvider,
             Provider<SoundTile> soundTileProvider,
             Provider<LteTile> lteTileProvider,
-            Provider<WeatherTile> weatherTileProvider) {
+            Provider<WeatherTile> weatherTileProvider,
+            Provider<NavBarTile> navbarTileProvider) {
         mQsHostLazy = qsHostLazy;
         mWifiTileProvider = wifiTileProvider;
         mBluetoothTileProvider = bluetoothTileProvider;
@@ -193,6 +196,7 @@ public class QSFactoryImpl implements QSFactory {
         mSoundTileProvider = soundTileProvider;
         mLteTileProvider = lteTileProvider;
         mWeatherTileProvider = weatherTileProvider;
+        mNavBarTileProvider = navbarTileProvider;
     }
 
     public QSTile createTile(String tileSpec) {
@@ -277,6 +281,8 @@ public class QSFactoryImpl implements QSFactory {
                 return mLteTileProvider.get();
             case "weather":
                 return mWeatherTileProvider.get();
+            case "navbar":
+                return mNavBarTileProvider.get();
         }
 
         // Custom tiles
