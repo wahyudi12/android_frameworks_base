@@ -2019,6 +2019,9 @@ public class StatusBar extends SystemUI implements DemoMode,
             resolver.registerContentObserver(Settings.Secure.getUriFor(
                     Settings.Secure.HIDE_BACK_ARROW_GESTURE),
                     false, this, UserHandle.USER_ALL);
+            resolver.registerContentObserver(Settings.System.getUriFor(
+                    Settings.System.LOCKSCREEN_MEDIA_BLUR),
+                    false, this, UserHandle.USER_ALL);
         }
 
         @Override
@@ -2051,6 +2054,9 @@ public class StatusBar extends SystemUI implements DemoMode,
             } else if (uri.equals(Settings.Secure.getUriFor(
                     Settings.Secure.HIDE_BACK_ARROW_GESTURE))) {
                 setHideArrowForBackGesture();
+            } else if (uri.equals(Settings.System.getUriFor(
+                    Settings.System.LOCKSCREEN_MEDIA_BLUR))) {
+                setLockScreenMediaBlurLevel();
             }
         }
 
@@ -2063,6 +2069,7 @@ public class StatusBar extends SystemUI implements DemoMode,
             setGamingMode();
             setUseLessBoringHeadsUp();
             setHideArrowForBackGesture();
+            setLockScreenMediaBlurLevel();
         }
     }
 
@@ -2122,6 +2129,12 @@ public class StatusBar extends SystemUI implements DemoMode,
     private void setHideArrowForBackGesture() {
         if (getNavigationBarView() != null) {
             getNavigationBarView().updateBackArrowForGesture();
+        }
+    }
+
+    private void setLockScreenMediaBlurLevel() {
+        if (mMediaManager != null) {
+            mMediaManager.setLockScreenMediaBlurLevel();
         }
     }
 
