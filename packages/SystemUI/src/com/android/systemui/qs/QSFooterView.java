@@ -76,6 +76,8 @@ public class QSFooterView extends FrameLayout {
 
     private OnClickListener mExpandClickListener;
 
+    private View mRunningServicesButton;
+
     private final ContentObserver mDeveloperSettingsObserver = new ContentObserver(
             new Handler(mContext.getMainLooper())) {
         @Override
@@ -102,6 +104,8 @@ public class QSFooterView extends FrameLayout {
         mMultiUserSwitch = findViewById(R.id.multi_user_switch);
         mMultiUserAvatar = mMultiUserSwitch.findViewById(R.id.multi_user_avatar);
 
+        mRunningServicesButton = findViewById(R.id.running_services_button);
+
         mActionsContainer = requireViewById(R.id.qs_footer_actions_container);
         mBuildText = findViewById(R.id.build);
 
@@ -109,6 +113,9 @@ public class QSFooterView extends FrameLayout {
         // settings), so disable it for this view
         if (mSettingsButton.getBackground() instanceof RippleDrawable) {
             ((RippleDrawable) mSettingsButton.getBackground()).setForceSoftware(true);
+        }
+        if (mRunningServicesButton.getBackground() instanceof RippleDrawable) {
+            ((RippleDrawable) mRunningServicesButton.getBackground()).setForceSoftware(true);
         }
         updateResources();
 
@@ -277,6 +284,7 @@ public class QSFooterView extends FrameLayout {
         mSettingsButton.setVisibility(isDemo || !mExpanded ? View.INVISIBLE : View.VISIBLE);
 
         mBuildText.setVisibility(mExpanded && mShouldShowBuildText ? View.VISIBLE : View.INVISIBLE);
+        mRunningServicesButton.setVisibility(!isDemo && mExpanded ? View.VISIBLE : View.INVISIBLE);
     }
 
     private boolean showUserSwitcher(boolean multiUserEnabled) {
