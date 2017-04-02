@@ -943,6 +943,9 @@ public final class DefaultPermissionGrantPolicy {
 
         // Support Pulse on dirty flashes
         grantSystemFixedPermissionsToSystemPackage(pm, "com.android.systemui", userId, PULSE_EQ_PERMISSIONS);
+
+        // OmniJaws
+        grantSystemFixedPermissionsToSystemPackage(pm, "org.omnirom.omnijaws", userId, ALWAYS_LOCATION_PERMISSIONS);
     }
 
     private String getDefaultSystemHandlerActivityPackageForCategory(PackageManagerWrapper pm,
