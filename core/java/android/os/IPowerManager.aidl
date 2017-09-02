@@ -104,4 +104,7 @@ interface IPowerManager
     // temporarily overrides the button brightness settings to allow the user to
     // see the effect of a settings change without applying it immediately
     void setTemporaryButtonBrightnessSettingOverride(int brightness);
+
+    // Wakelock blocker
+    String getSeenWakeLocks();
 }
