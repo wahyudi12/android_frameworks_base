@@ -81,6 +81,7 @@ android_library {
 
     libs: [
         "ims-common",
+        "telephony-common",
     ],
 
     kotlincflags: ["-Xjvm-default=enable"],
@@ -185,6 +186,7 @@ android_app {
 
     libs: [
         "ims-common",
+        "telephony-common",
     ],
 
     kotlincflags: ["-Xjvm-default=enable"],

@@ -46,6 +46,7 @@ import com.android.systemui.qs.tiles.HeadsUpTile;
 import com.android.systemui.qs.tiles.HotspotTile;
 import com.android.systemui.qs.tiles.LiveDisplayTile;
 import com.android.systemui.qs.tiles.LocationTile;
+import com.android.systemui.qs.tiles.LteTile;
 import com.android.systemui.qs.tiles.NfcTile;
 import com.android.systemui.qs.tiles.NightDisplayTile;
 import com.android.systemui.qs.tiles.ReadingModeTile;
@@ -111,6 +112,7 @@ public class QSFactoryImpl implements QSFactory {
     private final Provider<SyncTile> mSyncTileProvider;
     private final Provider<VpnTile> mVpnTileProvider;
     private final Provider<SoundTile> mSoundTileProvider;
+    private final Provider<LteTile> mLteTileProvider;
 
     private final Lazy<QSHost> mQsHostLazy;
 
@@ -151,7 +153,8 @@ public class QSFactoryImpl implements QSFactory {
             Provider<ReadingModeTile> readingModeTileProvider,
             Provider<SyncTile> syncTileProvider,
             Provider<VpnTile> vpnTileProvider,
-            Provider<SoundTile> soundTileProvider) {
+            Provider<SoundTile> soundTileProvider,
+            Provider<LteTile> lteTileProvider) {
         mQsHostLazy = qsHostLazy;
         mWifiTileProvider = wifiTileProvider;
         mBluetoothTileProvider = bluetoothTileProvider;
@@ -189,6 +192,7 @@ public class QSFactoryImpl implements QSFactory {
         mSyncTileProvider = syncTileProvider;
         mVpnTileProvider = vpnTileProvider;
         mSoundTileProvider = soundTileProvider;
+        mLteTileProvider = lteTileProvider;
     }
 
     public QSTile createTile(String tileSpec) {
@@ -271,6 +275,8 @@ public class QSFactoryImpl implements QSFactory {
                 return mVpnTileProvider.get();
             case "sound":
                 return mSoundTileProvider.get();
+            case "lte":
+                return mLteTileProvider.get();
         }
 
         // Custom tiles
