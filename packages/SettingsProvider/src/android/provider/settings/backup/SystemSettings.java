@@ -88,5 +88,8 @@ public class SystemSettings {
         Settings.System.TORCH_POWER_BUTTON_GESTURE,
         Settings.System.RINGTONE_VIBRATION_PATTERN,
         Settings.System.CUSTOM_RINGTONE_VIBRATION_PATTERN,
+        Settings.System.VIBRATE_ON_CONNECT,
+        Settings.System.VIBRATE_ON_CALLWAITING,
+        Settings.System.VIBRATE_ON_DISCONNECT,
     };
 }

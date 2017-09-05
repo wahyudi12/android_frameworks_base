@@ -5473,6 +5473,27 @@ public final class Settings {
         public static final String CUSTOM_RINGTONE_VIBRATION_PATTERN = "custom_ringtone_vibration_pattern";
 
         /**
+         * Whether the phone vibrates on call connect
+         * @hide
+         */
+        @Readable
+        public static final String VIBRATE_ON_CONNECT = "vibrate_on_connect";
+
+        /**
+         * Whether the phone vibrates on call waiting
+         * @hide
+         */
+        @Readable
+        public static final String VIBRATE_ON_CALLWAITING = "vibrate_on_callwaiting";
+
+        /**
+         * Whether the phone vibrates on disconnect
+         * @hide
+         */
+        @Readable
+        public static final String VIBRATE_ON_DISCONNECT = "vibrate_on_disconnect";
+
+        /**
          * IMPORTANT: If you add a new public settings you also have to add it to
          * PUBLIC_SETTINGS below. If the new setting is hidden you have to add
          * it to PRIVATE_SETTINGS below. Also add a validator that can validate
@@ -5921,6 +5942,9 @@ public final class Settings {
             PRIVATE_SETTINGS.add(STATUSBAR_CLOCK_DATE_POSITION);
             PRIVATE_SETTINGS.add(DOUBLE_TAP_SLEEP_GESTURE);
             PRIVATE_SETTINGS.add(BACK_GESTURE_HAPTIC);
+            PRIVATE_SETTINGS.add(VIBRATE_ON_CONNECT);
+            PRIVATE_SETTINGS.add(VIBRATE_ON_CALLWAITING);
+            PRIVATE_SETTINGS.add(VIBRATE_ON_DISCONNECT);
         }
 
         /**
