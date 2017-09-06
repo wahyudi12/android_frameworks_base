@@ -8602,4 +8602,9 @@ public class WindowManagerService extends IWindowManager.Stub
             return snapshot != null && snapshot.hasImeSurface();
         }
     }
+
+    @Override
+    public void sendCustomAction(Intent intent) {
+        mPolicy.sendCustomAction(intent);
+    }
 }
