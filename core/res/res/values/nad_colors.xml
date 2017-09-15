@@ -22,4 +22,8 @@
 
     <!-- Recognizing fingerprint animation -->
     <dimen name="fod_animation_size">280dp</dimen>
+
+    <!-- Toast -->
+    <color name="toast_bg">@color/white</color>
+    <color name="toast_text">@color/black</color>
 </resources>
