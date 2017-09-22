@@ -121,7 +121,7 @@ public class TunerFragment extends PreferenceFragment {
             case android.R.id.home:
                 getActivity().finish();
                 return true;
-            case MENU_REMOVE:
+            /*case MENU_REMOVE:
                 TunerService.showResetRequest(getContext(), new Runnable() {
                     @Override
                     public void run() {
