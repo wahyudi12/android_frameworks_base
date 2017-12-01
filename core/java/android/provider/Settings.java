@@ -6476,6 +6476,12 @@ public final class Settings {
          */
         public static final String POWER_MENU_BG_ALPHA = "power_menu_bg_alpha";
 
+       /**
+        * Check the proximity sensor during wakeup
+        * @hide
+        */
+       public static final String PROXIMITY_ON_WAKE = "proximity_on_wake";
+
         /**
          * Keys we no longer back up under the current schema, but want to continue to
          * process when restoring historical backup datasets.
@@ -6659,6 +6665,7 @@ public final class Settings {
             PRIVATE_SETTINGS.add(FLASHLIGHT_ON_CALL_IGNORE_DND);
             PRIVATE_SETTINGS.add(FLASHLIGHT_ON_CALL_RATE);
             PRIVATE_SETTINGS.add(TOAST_ICON);
+            PRIVATE_SETTINGS.add(PROXIMITY_ON_WAKE);
         }
 
         /**
