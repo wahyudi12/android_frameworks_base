@@ -456,6 +456,8 @@ public class NotificationManagerService extends SystemService {
     boolean mNotificationPulseEnabled;
     private boolean mVibrateOnNotifications;
 
+    private boolean mSoundVibScreenOn;
+
     private Uri mInCallNotificationUri;
     private AudioAttributes mInCallNotificationAudioAttributes;
     private float mInCallNotificationVolume;
@@ -1634,6 +1636,8 @@ public class NotificationManagerService extends SystemService {
                 = Settings.Secure.getUriFor(Settings.Secure.NOTIFICATION_HISTORY_ENABLED);
         private final Uri VIBRATE_ON_NOTIFICATIONS
                 = Settings.System.getUriFor(Settings.System.VIBRATE_ON_NOTIFICATIONS);
+        private final Uri NOTIFICATION_SOUND_VIB_SCREEN_ON
+                = Settings.System.getUriFor(Settings.System.NOTIFICATION_SOUND_VIB_SCREEN_ON);
 
         SettingsObserver(Handler handler) {
             super(handler);
@@ -1652,6 +1656,8 @@ public class NotificationManagerService extends SystemService {
             resolver.registerContentObserver(NOTIFICATION_HISTORY_ENABLED,
                     false, this, UserHandle.USER_ALL);
             resolver.registerContentObserver(VIBRATE_ON_NOTIFICATIONS,
+                    false, this, UserHandle.USER_ALL);
+            resolver.registerContentObserver(NOTIFICATION_SOUND_VIB_SCREEN_ON,
                     false, this, UserHandle.USER_ALL);
             update(null);
         }
@@ -1693,6 +1699,11 @@ public class NotificationManagerService extends SystemService {
                     mArchive.updateHistoryEnabled(userIds.get(i), Settings.Secure.getInt(resolver,
                             Settings.Secure.NOTIFICATION_HISTORY_ENABLED, 0) == 1);
                 }
+            }
+            if (uri == null || NOTIFICATION_SOUND_VIB_SCREEN_ON.equals(uri)) {
+                mSoundVibScreenOn = Settings.System.getIntForUser(resolver,
+                        Settings.System.NOTIFICATION_SOUND_VIB_SCREEN_ON, 1,
+                        UserHandle.USER_CURRENT) == 1;
             }
         }
     }
@@ -6933,7 +6944,8 @@ public class NotificationManagerService extends SystemService {
         }
 
         if (aboveThreshold && isNotificationForCurrentUser(record)) {
-            if (mSystemReady && mAudioManager != null) {
+            boolean skipSound = mScreenOn && !mSoundVibScreenOn;
+            if (mSystemReady && mAudioManager != null && !skipSound) {
                 Uri soundUri = record.getSound();
                 hasValidSound = soundUri != null && !Uri.EMPTY.equals(soundUri);
                 long[] vibration = record.getVibration();
