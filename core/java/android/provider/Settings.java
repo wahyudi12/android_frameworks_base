@@ -5486,6 +5486,20 @@ public final class Settings {
         public static final String THREE_FINGER_GESTURE = "three_finger_gesture";
 
         /**
+         * Show Running Services icon in QS Footer.
+         *
+         * @hide
+         */
+        public static final String QS_FOOTER_SHOW_SERVICES = "qs_footer_show_services";
+
+        /**
+         * Show Edit icon in QS Footer.
+         *
+         * @hide
+         */
+        public static final String QS_FOOTER_SHOW_EDIT = "qs_footer_show_edit";
+        
+        /**
          * These are all public system settings
          *
          * @hide
