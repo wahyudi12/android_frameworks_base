@@ -97,4 +97,7 @@
     <dimen name="ticker_top_padding">2dp</dimen>
     <dimen name="ticker_icon_end_margin">4dp</dimen>
     <dimen name="ticker_text_end_padding">10dp</dimen>
+
+    <!-- OmniWeather image size -->
+    <dimen name="current_weather_image_size">42dp</dimen>
 </resources>
