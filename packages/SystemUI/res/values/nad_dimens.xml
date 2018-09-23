@@ -18,11 +18,6 @@
     <!-- Qs visibility -->
     <dimen name="qs_tile_height_wo_label">64dp</dimen>
 
-    <!-- Network traffic monitor -->
-    <dimen name="net_traffic_sb_multi_text_size">13dp</dimen>
-    <dimen name="net_traffic_multi_text_size">8dp</dimen>
-    <dimen name="net_traffic_txt_img_padding">2dp</dimen>
-
     <!-- Width of the battery icon in the status bar when set to circle style. -->
     <dimen name="status_bar_battery_icon_circle_width">13.5dp</dimen>
 
@@ -91,4 +86,9 @@
 
     <!-- Bottom margin size when fingerprint in display is active -->
     <dimen name="keyguard_security_fod_view_margin">128dp</dimen>
+
+    <!-- Network traffic monitor -->
+    <dimen name="net_traffic_single_text_size">13dp</dimen>
+    <dimen name="net_traffic_multi_text_size">8dp</dimen>
+    <dimen name="net_traffic_txt_img_padding">4dp</dimen>
 </resources>
