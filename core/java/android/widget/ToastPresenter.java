@@ -21,6 +21,7 @@ import static com.android.internal.util.Preconditions.checkState;
 import android.annotation.Nullable;
 import android.app.INotificationManager;
 import android.app.ITransientNotificationCallback;
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
@@ -29,6 +30,7 @@ import android.graphics.PixelFormat;
 import android.graphics.drawable.Drawable;
 import android.os.IBinder;
 import android.os.RemoteException;
+import android.provider.Settings;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -75,6 +77,8 @@ public class ToastPresenter {
     private final WindowManager.LayoutParams mParams;
     @Nullable private View mView;
     @Nullable private IBinder mToken;
+
+    private boolean mShowIcon;
 
     public ToastPresenter(Context context, IAccessibilityManager accessibilityManager,
             INotificationManager notificationManager, String packageName) {
@@ -208,6 +212,8 @@ public class ToastPresenter {
                     context = mView.getContext();
                 }
 
+                boolean mShowIcon = Settings.System.getInt(context.getContentResolver(), Settings.System.TOAST_ICON, 1) == 1;
+
                 ImageView appIcon = (ImageView) mView.findViewById(android.R.id.icon);
                 if (appIcon != null) {
                     PackageManager pm = context.getPackageManager();
@@ -218,6 +224,7 @@ public class ToastPresenter {
                         // nothing to do
                     }
                     appIcon.setImageDrawable(icon);
+                    appIcon.setVisibility(mShowIcon ? View.VISIBLE : View.GONE);
                 }
 
         adjustLayoutParams(mParams, windowToken, duration, gravity, xOffset, yOffset,
