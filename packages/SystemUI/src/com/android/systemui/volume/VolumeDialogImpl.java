@@ -212,6 +212,7 @@ public class VolumeDialogImpl implements VolumeDialog,
 
     private float mElevation;
     private float mHeight, mWidth, mSpacer;
+    private int mTimeOut = 3;
 
     private final List<MediaOutputRow> mMediaOutputRows = new ArrayList<>();
 
@@ -224,6 +225,9 @@ public class VolumeDialogImpl implements VolumeDialog,
             mContext.getContentResolver().registerContentObserver(Settings.System.getUriFor(
                     Settings.System.VOLUME_PANEL_ON_LEFT),
                     false, this, UserHandle.USER_ALL);
+            mContext.getContentResolver().registerContentObserver(Settings.System.getUriFor(
+                    Settings.System.AUDIO_PANEL_VIEW_TIMEOUT),
+                    false, this, UserHandle.USER_ALL);
         }
 
         @Override
@@ -234,6 +238,10 @@ public class VolumeDialogImpl implements VolumeDialog,
         public void update() {
             final boolean volumePanelOnLeft = Settings.System.getInt(mContext.getContentResolver(),
                         Settings.System.VOLUME_PANEL_ON_LEFT, 0) == 1;
+
+            mTimeOut = Settings.System.getIntForUser(mContext.getContentResolver(),
+                       Settings.System.AUDIO_PANEL_VIEW_TIMEOUT, 3,
+                       UserHandle.USER_CURRENT);
 
             if (!mShowActiveStreamOnly) {
                 if (mVolumePanelOnLeft != volumePanelOnLeft) {
@@ -1276,8 +1284,7 @@ public class VolumeDialogImpl implements VolumeDialog,
                     AccessibilityManager.FLAG_CONTENT_TEXT
                             | AccessibilityManager.FLAG_CONTENT_CONTROLS);
         }
-        return mAccessibilityMgr.getRecommendedTimeoutMillis(DIALOG_TIMEOUT_MILLIS,
-                AccessibilityManager.FLAG_CONTENT_CONTROLS);
+        return mTimeOut * 1000;
     }
 
     protected void dismissH(int reason) {
