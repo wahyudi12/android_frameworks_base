@@ -190,4 +190,6 @@
   <!-- Pulse brightness -->
   <java-symbol type="integer" name="config_screenBrightnessPulse" />
 
+  <!-- Toast animation -->
+  <java-symbol type="style" name="Animation.Toast.Material" />
 </resources>
