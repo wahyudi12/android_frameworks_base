@@ -180,6 +180,7 @@ public class QuickStatusBarHeader extends RelativeLayout implements
 
     private boolean mLandscape;
     private boolean mHeaderImageEnabled;
+    private boolean mForceHideQsStatusBar;
 
     // Used for RingerModeTracker
     private final LifecycleRegistry mLifecycle = new LifecycleRegistry(this);
@@ -276,6 +277,7 @@ public class QuickStatusBarHeader extends RelativeLayout implements
         mPrivacyChip = findViewById(R.id.privacy_chip);
         mPrivacyChip.setOnClickListener(this::onClick);
         mCarrierGroup = findViewById(R.id.carrier_group);
+        mForceHideQsStatusBar = mContext.getResources().getBoolean(R.bool.qs_status_bar_hidden);
         mDataUsageView = findViewById(R.id.data_sim_usage);
         mDataUsageLayout = findViewById(R.id.daily_data_usage_layout);
         mDataUsageImage = findViewById(R.id.daily_data_usage_icon);
@@ -930,7 +932,7 @@ public class QuickStatusBarHeader extends RelativeLayout implements
 
     // Update color schemes in landscape to use wallpaperTextColor
     private void updateStatusbarProperties() {
-        boolean shouldUseWallpaperTextColor = mLandscape && !mHeaderImageEnabled;
+        boolean shouldUseWallpaperTextColor = (mLandscape || mForceHideQsStatusBar) && !mHeaderImageEnabled;
         mBatteryMeterView.useWallpaperTextColor(shouldUseWallpaperTextColor);
         mClockView.useWallpaperTextColor(shouldUseWallpaperTextColor);
         updateBatteryInQs();
