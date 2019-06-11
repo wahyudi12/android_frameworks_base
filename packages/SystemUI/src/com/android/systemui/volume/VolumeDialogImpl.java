@@ -236,8 +236,8 @@ public class VolumeDialogImpl implements VolumeDialog,
         }
 
         public void update() {
-            final boolean volumePanelOnLeft = Settings.System.getInt(mContext.getContentResolver(),
-                        Settings.System.VOLUME_PANEL_ON_LEFT, 0) == 1;
+            final boolean volumePanelOnLeft = Settings.System.getIntForUser(mContext.getContentResolver(),
+                        Settings.System.VOLUME_PANEL_ON_LEFT, isAudioPanelOnLeftSide() ? 1 : 0, UserHandle.USER_CURRENT) != 0;
 
             mTimeOut = Settings.System.getIntForUser(mContext.getContentResolver(),
                        Settings.System.AUDIO_PANEL_VIEW_TIMEOUT, 3,
@@ -484,6 +484,10 @@ public class VolumeDialogImpl implements VolumeDialog,
             mainLocation[1] + mDialogView.getHeight()
         );
     };
+
+    private boolean isAudioPanelOnLeftSide() {
+        return mContext.getResources().getBoolean(R.bool.config_audioPanelOnLeftSide);
+    }
 
     protected ViewGroup getDialogView() {
         return mDialogView;
