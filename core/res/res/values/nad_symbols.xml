@@ -185,4 +185,7 @@
   <!-- Ambient stuff -->
   <java-symbol type="bool" name="config_has_Soli" />
   <java-symbol type="bool" name="config_has_weird_dt_sensor" />
+
+  <!-- Pulse brightness -->
+  <java-symbol type="integer" name="config_screenBrightnessPulse" />
 </resources>
