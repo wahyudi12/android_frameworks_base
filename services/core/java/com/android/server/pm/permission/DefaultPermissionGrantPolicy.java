@@ -843,6 +843,14 @@ public final class DefaultPermissionGrantPolicy {
                     CAMERA_PERMISSIONS);
         }
 
+        // ThemePicker
+        String themePickerPackage = "com.android.wallpaper";
+        PackageInfo pkg = pm.getPackageInfo(themePickerPackage);
+        if (pkg != null) {
+            grantPermissionsToPackage(pm, themePickerPackage, userId, false /* ignoreSystemPackage */,
+                    true /*whitelistRestrictedPermissions*/, STORAGE_PERMISSIONS);
+        }
+
         // There is no real "marker" interface to identify the shared storage backup, it is
         // hardcoded in BackupManagerService.SHARED_BACKUP_AGENT_PACKAGE.
         grantSystemFixedPermissionsToSystemPackage(pm, "com.android.sharedstoragebackup", userId,
