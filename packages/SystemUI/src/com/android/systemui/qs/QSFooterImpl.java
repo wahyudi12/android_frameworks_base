@@ -51,7 +51,6 @@ import com.android.internal.logging.MetricsLogger;
 import com.android.internal.logging.nano.MetricsProto;
 import com.android.keyguard.KeyguardUpdateMonitor;
 import com.android.settingslib.Utils;
-import com.android.settingslib.development.DevelopmentSettingsEnabler;
 import com.android.settingslib.drawable.UserIconDrawable;
 import com.android.systemui.Dependency;
 import com.android.systemui.R;
@@ -106,7 +105,7 @@ public class QSFooterImpl extends FrameLayout implements QSFooter,
 
     private OnClickListener mExpandClickListener;
 
-    private final ContentObserver mDeveloperSettingsObserver = new ContentObserver(
+    private final ContentObserver mSettingsObserver = new ContentObserver(
             new Handler(mContext.getMainLooper())) {
         @Override
         public void onChange(boolean selfChange, Uri uri) {
@@ -174,18 +173,20 @@ public class QSFooterImpl extends FrameLayout implements QSFooter,
 
     private void setBuildText() {
         if (mBuildText == null) return;
-        if (DevelopmentSettingsEnabler.isDevelopmentSettingsEnabled(mContext)) {
-            mBuildText.setText(mContext.getString(
-                    com.android.internal.R.string.bugreport_status,
-                    Build.VERSION.RELEASE_OR_CODENAME,
-                    Build.ID));
+        boolean isShow = Settings.System.getIntForUser(mContext.getContentResolver(),
+                        Settings.System.FOOTER_TEXT_SHOW, 0,
+                        UserHandle.USER_CURRENT)
             // Set as selected for marquee before its made visible, then it won't be announced when
             // it's made visible.
+        if (isShow) {
+            mBuildText.setText(text == null || text == "" ? "NusantaraProject" : text);
             mBuildText.setSelected(true);
             mShouldShowBuildText = true;
+            mBuildText.setVisibility(View.VISIBLE);
         } else {
             mShouldShowBuildText = false;
             mBuildText.setSelected(false);
+            mBuildText.setVisibility(View.GONE);
         }
     }
 
@@ -267,15 +268,15 @@ public class QSFooterImpl extends FrameLayout implements QSFooter,
     protected void onAttachedToWindow() {
         super.onAttachedToWindow();
         mContext.getContentResolver().registerContentObserver(
-                Settings.Global.getUriFor(Settings.Global.DEVELOPMENT_SETTINGS_ENABLED), false,
-                mDeveloperSettingsObserver, UserHandle.USER_ALL);
+                Settings.System.getUriFor(Settings.System.FOOTER_TEXT_SHOW), false,
+                mSettingsObserver, UserHandle.USER_ALL);
     }
 
     @Override
     @VisibleForTesting
     public void onDetachedFromWindow() {
         setListening(false);
-        mContext.getContentResolver().unregisterContentObserver(mDeveloperSettingsObserver);
+        mContext.getContentResolver().unregisterContentObserver(mSettingsObserver);
         super.onDetachedFromWindow();
     }
 
