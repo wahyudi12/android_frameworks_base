@@ -102,6 +102,12 @@
   <java-symbol type="string" name="gaming_mode_enabled_toast" />
   <java-symbol type="string" name="gaming_mode_disabled_toast" />
 
+  <!-- Pocket Lock -->
+  <java-symbol type="layout" name="pocket_lock_view_layout" />
+  <java-symbol type="id" name="pocket_hint_container" />
+  <java-symbol type="id" name="pocket_hint_image" />
+  <java-symbol type="id" name="pocket_hint_message" />
+
   <!-- True if the notification's should dynamically tint the app icon and text -->
   <java-symbol type="bool" name="config_allowNotificationIconTextTinting" />
 
