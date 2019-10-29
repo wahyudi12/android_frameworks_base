@@ -278,6 +278,9 @@
   <!-- DC Dimming -->
   <java-symbol type="string" name="config_deviceDcDimmingSysfsNode" />
 
+  <!-- Pocket bridge -->
+  <java-symbol type="string" name="config_pocketBridgeSysfsInpocket" />
+
   <!-- LiveDisplay -->
   <java-symbol type="string" name="live_display_title" />
   <java-symbol type="string" name="live_display_hint" />
