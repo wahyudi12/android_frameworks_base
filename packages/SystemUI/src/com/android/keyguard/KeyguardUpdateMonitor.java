@@ -306,6 +306,9 @@ public class KeyguardUpdateMonitor implements TrustManager.TrustListener {
     };
 
     private boolean mKeyguardReset = false;
+    public boolean isPocketLockVisible(){
+        return mPocketManager.isPocketLockVisible();
+    }
 
     private final Handler mHandler = new Handler(Looper.getMainLooper()) {
         @Override

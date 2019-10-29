@@ -1688,7 +1688,9 @@ public class PhoneWindowManager implements WindowManagerPolicy {
 
         @Override
         public void run() {
-            mDefaultDisplayPolicy.takeScreenshot(mScreenshotType);
+            if (!mPocketLockShowing) {
+                mDefaultDisplayPolicy.takeScreenshot(mScreenshotType);
+            }
         }
     }
 
@@ -2066,7 +2068,10 @@ public class PhoneWindowManager implements WindowManagerPolicy {
                     if (sshotType == 1) mScreenshotRunnable.setScreenshotType(TAKE_SCREENSHOT_SELECTED_REGION);
                         else mScreenshotRunnable.setScreenshotType(TAKE_SCREENSHOT_FULLSCREEN);
                         takeScreenshot(TAKE_SCREENSHOT_FULLSCREEN); 
-            }
+                if (!mPocketLockShowing) {
+                    mHandler.post(mScreenshotRunnable);
+                }
+             }
         });
         mHandler = new PolicyHandler();
         mWakeGestureListener = new MyWakeGestureListener(mContext, mHandler);
@@ -5627,12 +5632,18 @@ public class PhoneWindowManager implements WindowManagerPolicy {
             return;
         }
 
+        if (mPowerManager.isInteractive() && !isKeyguardShowingAndNotOccluded()){
+            return;
+        }
+
         if (DEBUG) {
             Log.d(TAG, "showPocketLock, animate=" + animate);
         }
 
         mPocketLock.show(animate);
         mPocketLockShowing = true;
+
+        mPocketManager.setPocketLockVisible(true);
     }
 
     /**
@@ -5654,6 +5665,8 @@ public class PhoneWindowManager implements WindowManagerPolicy {
 
         mPocketLock.hide(animate);
         mPocketLockShowing = false;
+
+        mPocketManager.setPocketLockVisible(false);
     }
 
     private void handleHideBootMessage() {
