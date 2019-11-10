@@ -21,6 +21,7 @@ import android.content.Intent;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.PowerManager;
+import android.service.quicksettings.Tile;
 import android.view.View;
 
 import androidx.annotation.Nullable;
@@ -85,7 +86,7 @@ public class RebootTile extends QSTileImpl<BooleanState> {
                 PowerManager pm =
                     (PowerManager) mContext.getSystemService(Context.POWER_SERVICE);
                 if (mRebootToRecovery == 1) {
-                    pm.rebootCustom(PowerManager.REBOOT_RECOVERY);
+                    pm.reboot(PowerManager.REBOOT_RECOVERY);
                 } else if (mRebootToRecovery == 2) {
                     pm.shutdown(false, pm.SHUTDOWN_USER_REQUESTED, false);
                 } else {
@@ -122,6 +123,7 @@ public class RebootTile extends QSTileImpl<BooleanState> {
             state.label = mContext.getString(R.string.quick_settings_reboot_label);
             state.icon = ResourceIcon.get(R.drawable.ic_qs_reboot);
         }
+        state.state = Tile.STATE_INACTIVE;
     }
 
     @Override
