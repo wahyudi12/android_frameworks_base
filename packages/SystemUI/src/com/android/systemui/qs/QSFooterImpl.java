@@ -175,7 +175,10 @@ public class QSFooterImpl extends FrameLayout implements QSFooter,
         if (mBuildText == null) return;
         boolean isShow = Settings.System.getIntForUser(mContext.getContentResolver(),
                         Settings.System.FOOTER_TEXT_SHOW, 0,
-                        UserHandle.USER_CURRENT)
+                        UserHandle.USER_CURRENT) == 1;
+        String text = Settings.System.getStringForUser(mContext.getContentResolver(),
+                        Settings.System.FOOTER_TEXT_STRING,
+                        UserHandle.USER_CURRENT);
             // Set as selected for marquee before its made visible, then it won't be announced when
             // it's made visible.
         if (isShow) {
@@ -269,6 +272,9 @@ public class QSFooterImpl extends FrameLayout implements QSFooter,
         super.onAttachedToWindow();
         mContext.getContentResolver().registerContentObserver(
                 Settings.System.getUriFor(Settings.System.FOOTER_TEXT_SHOW), false,
+                mSettingsObserver, UserHandle.USER_ALL);
+        mContext.getContentResolver().registerContentObserver(
+                Settings.System.getUriFor(Settings.System.FOOTER_TEXT_STRING), false,
                 mSettingsObserver, UserHandle.USER_ALL);
     }
 
