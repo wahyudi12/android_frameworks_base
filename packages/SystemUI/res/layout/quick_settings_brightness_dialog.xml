@@ -65,4 +65,5 @@
         android:background="?android:attr/selectableItemBackgroundBorderless"
         android:src="@drawable/ic_qs_brightness_auto_off"
         android:contentDescription="@null" />
+
 </LinearLayout>
