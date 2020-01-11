@@ -173,4 +173,7 @@
 
   <!-- Whether device has a big physical display cutout -->
   <java-symbol type="bool" name="config_physicalDisplayCutoutCentered" />
+
+  <java-symbol type="bool" name="config_hasOnePlusHapticMotor" />
+
 </resources>
