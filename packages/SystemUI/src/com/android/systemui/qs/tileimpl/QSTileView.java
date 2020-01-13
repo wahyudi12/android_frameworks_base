@@ -137,8 +137,10 @@ public class QSTileView extends QSTileBaseView {
         if (setQsUseNewTint) {
             if (state.state == Tile.STATE_ACTIVE) {
                 mLabel.setTextColor(mColorLabelActive);
+                mSecondLine.setTextColor(mColorLabelActive);
             } else if (state.state == Tile.STATE_INACTIVE) {
                 mLabel.setTextColor(mColorLabelDefault);
+                mSecondLine.setTextColor(mColorLabelDefault);
             }
         }
         boolean dualTarget = DUAL_TARGET_ALLOWED && state.dualTarget;
