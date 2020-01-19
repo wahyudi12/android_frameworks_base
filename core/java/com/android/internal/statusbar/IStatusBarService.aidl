@@ -154,4 +154,14 @@ interface IStatusBarService
      * NAD
      */
     void toggleCameraFlash();
+
+    /**
+     * Starts the default assistant app.
+     */
+    void startAssist(in Bundle args);
+
+    /**
+     * Used to block or unblock usage of gestural navigation
+     */
+    void setBlockedGesturalNavigation(boolean blocked);
 }
