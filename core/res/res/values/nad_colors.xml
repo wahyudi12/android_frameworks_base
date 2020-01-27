@@ -20,4 +20,6 @@
     <!-- Bootleg unneccesary gradient declaration | Just for our shishu bars -->
     <color name="bootleg_accent_gradient_end_color">#00000000</color>
 
+    <!-- Recognizing fingerprint animation -->
+    <dimen name="fod_animation_size">280dp</dimen>
 </resources>

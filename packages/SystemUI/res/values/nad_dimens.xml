@@ -71,4 +71,8 @@
 
     <!-- Margin on the left side of the heads up notification -->
     <dimen name="heads_up_status_bar_padding_start">0dp</dimen>
+
+    <!-- Recognizing fingerprint animation -->
+    <dimen name="fod_animation_size">280dp</dimen>
+    <dimen name="fod_animation_offset">0dp</dimen>
 </resources>
