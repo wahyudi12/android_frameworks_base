@@ -86,5 +86,6 @@ public class SystemSettings {
         Settings.System.NOTIFICATION_LIGHT_PULSE,
         Settings.System.FORCE_SHOW_NAVBAR,
         Settings.System.TORCH_POWER_BUTTON_GESTURE,
+        Settings.System.RINGTONE_VIBRATION_PATTERN,
     };
 }
