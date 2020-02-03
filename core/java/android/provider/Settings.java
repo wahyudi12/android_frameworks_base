@@ -6045,6 +6045,11 @@ public final class Settings {
         /**
          * @hide
          */
+        public static final String AMBIENT_LIGHT_PULSE_FOR_ALL = "ambient_light_pulse_for_all";
+
+        /**
+         * @hide
+         */
         public static final String SMART_CHARGING = "smart_charging";
 
         /**
