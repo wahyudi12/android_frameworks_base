@@ -1090,6 +1090,7 @@
     <string name="controls_added_tooltip" msgid="4842812921719153085">"ਨਵੇਂ ਕੰਟਰੋਲ ਦੇਖਣ ਲਈ ਪਾਵਰ ਬਟਨ ਦਬਾਈ ਰੱਖੋ"</string>
     <string name="controls_menu_add" msgid="4447246119229920050">"ਕੰਟਰੋਲ ਸ਼ਾਮਲ ਕਰੋ"</string>
     <string name="controls_menu_edit" msgid="890623986951347062">"ਕੰਟਰੋਲਾਂ ਦਾ ਸੰਪਾਦਨ ਕਰੋ"</string>
+    <string name="media_output_title" msgid="115223550977351699">"ਇਸ 'ਤੇ ਮੀਡੀਆ ਚਲਾਓ"</string>
     <string name="media_output_dialog_add_output" msgid="5642703238877329518">"ਆਊਟਪੁੱਟ ਸ਼ਾਮਲ ਕਰੋ"</string>
     <string name="media_output_dialog_group" msgid="5571251347877452212">"ਗਰੁੱਪ"</string>
     <string name="media_output_dialog_single_device" msgid="3102758980643351058">"1 ਡੀਵਾਈਸ ਨੂੰ ਚੁਣਿਆ ਗਿਆ"</string>

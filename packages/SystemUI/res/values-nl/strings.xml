@@ -1090,6 +1090,7 @@
     <string name="controls_added_tooltip" msgid="4842812921719153085">"Houd de aan/uit-knop ingedrukt om nieuwe bedieningselementen te bekijken"</string>
     <string name="controls_menu_add" msgid="4447246119229920050">"Bedieningselementen toevoegen"</string>
     <string name="controls_menu_edit" msgid="890623986951347062">"Bedieningselementen bewerken"</string>
+    <string name="media_output_title" msgid="115223550977351699">"Media afspelen naar"</string>
     <string name="media_output_dialog_add_output" msgid="5642703238877329518">"Uitvoer toevoegen"</string>
     <string name="media_output_dialog_group" msgid="5571251347877452212">"Groep"</string>
     <string name="media_output_dialog_single_device" msgid="3102758980643351058">"Eén apparaat geselecteerd"</string>

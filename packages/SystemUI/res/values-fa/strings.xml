@@ -1090,6 +1090,7 @@
     <string name="controls_added_tooltip" msgid="4842812921719153085">"برای دیدن کنترل‌های جدید، دکمه روشن/خاموش را پایین نگه دارید"</string>
     <string name="controls_menu_add" msgid="4447246119229920050">"افزودن کنترل‌ها"</string>
     <string name="controls_menu_edit" msgid="890623986951347062">"ویرایش کنترل‌ها"</string>
+    <string name="media_output_title" msgid="115223550977351699">"پخش رسانه در"</string>
     <string name="media_output_dialog_add_output" msgid="5642703238877329518">"افزودن خروجی"</string>
     <string name="media_output_dialog_group" msgid="5571251347877452212">"گروه"</string>
     <string name="media_output_dialog_single_device" msgid="3102758980643351058">"۱ دستگاه انتخاب شد"</string>
