@@ -6056,6 +6056,12 @@ public final class Settings {
         public static final String AMBIENT_LIGHT_REPEAT_DIRECTION = "ambient_light_repeat_direction";
 
         /**
+         * Ambient Edge Light Layout
+         * @hide
+         */
+        public static final String AMBIENT_LIGHT_LAYOUT = "ambient_light_layout";
+
+        /**
          * @hide
          */
         public static final String SMART_CHARGING = "smart_charging";
@@ -10594,7 +10600,6 @@ public final class Settings {
          * @hide
          */
         public static final String ACCENT_COLOR = "accent_color";
-
 
         /**
          * Keys we no longer back up under the current schema, but want to continue to
