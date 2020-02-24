@@ -330,6 +330,8 @@ public class PhoneWindowManager implements WindowManagerPolicy {
             .setUsage(AudioAttributes.USAGE_ASSISTANCE_SONIFICATION)
             .build();
 
+    private int sshotType;
+
     /**
      * Keyguard stuff
      */
@@ -899,6 +901,9 @@ public class PhoneWindowManager implements WindowManagerPolicy {
                     UserHandle.USER_ALL);
             resolver.registerContentObserver(Settings.Secure.getUriFor(
                     Settings.Secure.TORCH_POWER_BUTTON_GESTURE), false, this,
+                    UserHandle.USER_ALL);
+            resolver.registerContentObserver(Settings.System.getUriFor(
+                    Settings.System.SCREENSHOT_TYPE), false, this,
                     UserHandle.USER_ALL);
             updateSettings();
         }
@@ -1532,8 +1537,7 @@ public class PhoneWindowManager implements WindowManagerPolicy {
                             + SCREENSHOT_CHORD_DEBOUNCE_DELAY_MILLIS) {
                 mScreenshotChordVolumeDownKeyConsumed = true;
                 cancelPendingPowerKeyAction();
-                if (Settings.System.getIntForUser(mContext.getContentResolver(),
-                    Settings.System.SCREENSHOT_TYPE, 0, UserHandle.USER_CURRENT) == 1) {
+                if (sshotType == 1) {
                     mScreenshotRunnable.setScreenshotType(TAKE_SCREENSHOT_SELECTED_REGION);
                 } else {
                     mScreenshotRunnable.setScreenshotType(TAKE_SCREENSHOT_FULLSCREEN);
@@ -2449,7 +2453,8 @@ public class PhoneWindowManager implements WindowManagerPolicy {
         if (updateRotation) {
             updateRotation(true);
         }
-
+        sshotType = Settings.System.getIntForUser(mContext.getContentResolver(),
+        Settings.System.SCREENSHOT_TYPE, 0, UserHandle.USER_CURRENT);
         readConfigurationDependentBehaviors();
     }
 
