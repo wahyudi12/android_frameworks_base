@@ -2467,6 +2467,7 @@ enum PageId {
     // CATEGORY: SETTINGS
     // OS: Q
     SETTINGS_GESTURE_TAP = 1751;
+
     // ---- End Q Constants, all Q constants go above this line ----
     // OPEN: Settings > Network & Internet > Wi-Fi > Click new network
     // CATEGORY: SETTINGS
@@ -2691,4 +2692,8 @@ enum PageId {
 
     // OS: R QPR2
     BLUETOOTH_PAIRING_RECEIVER = 1851;
+
+    // CarbonROM Additions
+    // Panel for Mobile Data
+    PANEL_MOBILE_DATA = 2000;
 }
