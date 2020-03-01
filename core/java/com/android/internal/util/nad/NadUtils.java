@@ -45,6 +45,34 @@ public class NadUtils {
         return (cm.isNetworkSupported(ConnectivityManager.TYPE_MOBILE) == false);
     } */
 
+    public static void killForegroundApp() {
+        FireActions.killForegroundApp();
+    }
+
+    private static final class FireActions {
+        private static IStatusBarService mStatusBarService = null;
+        private static IStatusBarService getStatusBarService() {
+            synchronized (FireActions.class) {
+                if (mStatusBarService == null) {
+                    mStatusBarService = IStatusBarService.Stub.asInterface(
+                            ServiceManager.getService("statusbar"));
+                }
+                return mStatusBarService;
+            }
+        }
+
+        public static void killForegroundApp() {
+            IStatusBarService service = getStatusBarService();
+            if (service != null) {
+                try {
+                    service.killForegroundApp();
+                } catch (RemoteException e) {
+                    // do nothing.
+                }
+            }
+        }
+    }
+
     // Check to see if device supports the Fingerprint scanner
     public static boolean hasFingerprintSupport(Context context) {
         FingerprintManager fingerprintManager = (FingerprintManager) context.getSystemService(Context.FINGERPRINT_SERVICE);
