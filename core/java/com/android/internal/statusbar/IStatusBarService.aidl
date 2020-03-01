@@ -154,6 +154,7 @@ interface IStatusBarService
      * NAD
      */
     void toggleCameraFlash();
+    void killForegroundApp();
 
     /**
      * Starts the default assistant app.
