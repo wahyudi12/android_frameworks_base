@@ -172,6 +172,7 @@ import com.android.systemui.plugins.statusbar.NotificationSwipeActionHelper.Snoo
 import com.android.systemui.plugins.statusbar.StatusBarStateController;
 import com.android.systemui.qs.QSFragment;
 import com.android.systemui.qs.QSPanel;
+import com.android.systemui.qs.QuickStatusBarHeader;
 import com.android.systemui.recents.Recents;
 import com.android.systemui.recents.ScreenPinningRequest;
 import com.android.systemui.shared.plugins.PluginManager;
@@ -413,6 +414,7 @@ public class StatusBar extends SystemUI implements DemoMode,
     private final RemoteInputQuickSettingsDisabler mRemoteInputQuickSettingsDisabler;
 
     private View mReportRejectedTouch;
+    private View mQSBarHeader;
 
     private boolean mExpandedVisible;
 
@@ -1197,6 +1199,7 @@ public class StatusBar extends SystemUI implements DemoMode,
             fragmentHostManager.addTagListener(QS.TAG, (tag, f) -> {
                 QS qs = (QS) f;
                 if (qs instanceof QSFragment) {
+                    mQSBarHeader = ((QSFragment) qs).getHeader();
                     mQSPanel = ((QSFragment) qs).getQsPanel();
                     mQSPanel.setBrightnessMirror(mBrightnessMirrorController);
                 }
@@ -1980,6 +1983,9 @@ public class StatusBar extends SystemUI implements DemoMode,
             resolver.registerContentObserver(Settings.System.getUriFor(
                     Settings.System.QS_LABEL_USE_NEW_TINT),
                     false, this, UserHandle.USER_ALL);
+            resolver.registerContentObserver(Settings.System.getUriFor(
+                    Settings.System.QS_SHOW_BATTERY_PERCENT),
+                    false, this, UserHandle.USER_ALL);
         }
 
         @Override
@@ -1999,12 +2005,21 @@ public class StatusBar extends SystemUI implements DemoMode,
                 if (mQSPanel != null) {
                     mQSPanel.getHost().reloadAllTiles();
                 }
+            } else if (uri.equals(Settings.System.getUriFor(Settings.System.QS_SHOW_BATTERY_PERCENT))) {
+                setQsBatteryPercentMode();
             }
         }
 
         public void update() {
             setQsRowsColumns();
             setStatusDoubleTapToSleep();
+            setQsBatteryPercentMode();
+        }
+    }
+
+    private void setQsBatteryPercentMode() {
+        if (mQSBarHeader != null) {
+            ((QuickStatusBarHeader) mQSBarHeader).setBatteryPercentMode();
         }
     }
 
