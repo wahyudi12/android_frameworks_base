@@ -30,8 +30,10 @@ import static com.android.settingslib.RestrictedLockUtils.EnforcedAdmin;
 import android.annotation.CallSuper;
 import android.annotation.NonNull;
 import android.app.ActivityManager;
+import android.content.res.ColorUtils;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.metrics.LogMaker;
 import android.os.Handler;
@@ -74,6 +76,7 @@ import com.android.systemui.qs.logging.QSLogger;
 import java.io.FileDescriptor;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Random;
 
 /**
  * Base quick-settings tile, extend this to create a new tile.
@@ -504,8 +507,9 @@ public abstract class QSTileImpl<TState extends State> implements QSTile, Lifecy
     public abstract CharSequence getTileLabel();
 
     public static int getColorForState(Context context, int state) {
-        boolean setQsUseNewTint = Settings.System.getIntForUser(context.getContentResolver(),
-                Settings.System.QS_PANEL_BG_USE_NEW_TINT, 1, UserHandle.USER_CURRENT) == 1;
+        int setQsUseNewTint = Settings.System.getIntForUser(context.getContentResolver(),
+                    Settings.System.QS_PANEL_BG_USE_NEW_TINT, 0, UserHandle.USER_CURRENT);
+
         switch (state) {
             case Tile.STATE_UNAVAILABLE:
                 return Utils.getDisabled(context,
@@ -517,7 +521,9 @@ public abstract class QSTileImpl<TState extends State> implements QSTile, Lifecy
                     return Utils.getColorAttrDefaultColor(context, android.R.attr.textColorSecondary);
                 }
             case Tile.STATE_ACTIVE:
-                if (setQsUseNewTint) {
+                if (setQsUseNewTint == 1) {
+                    return ColorUtils.genRandomAccentColor(isThemeDark(context));
+                } else if (setQsUseNewTint == 2) {
                     return Utils.getColorAttrDefaultColor(context, android.R.attr.colorAccent);
                 } else {
                     return Utils.getColorAttrDefaultColor(context, android.R.attr.colorPrimary);
@@ -730,4 +736,16 @@ public abstract class QSTileImpl<TState extends State> implements QSTile, Lifecy
         pw.println(this.getClass().getSimpleName() + ":");
         pw.print("    "); pw.println(getState().toString());
     }
+
+
+    private static Boolean isThemeDark(Context context) {
+        switch (context.getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK) {
+            case Configuration.UI_MODE_NIGHT_YES:
+              return true;
+            case Configuration.UI_MODE_NIGHT_NO:
+              return false;
+            default:
+              return false;
+         }
+     }
 }
