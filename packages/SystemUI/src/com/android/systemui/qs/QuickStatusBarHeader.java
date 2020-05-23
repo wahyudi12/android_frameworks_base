@@ -77,6 +77,7 @@ import com.android.systemui.privacy.PrivacyChipEvent;
 import com.android.systemui.privacy.PrivacyItem;
 import com.android.systemui.privacy.PrivacyItemController;
 import com.android.systemui.qs.QSDetail.Callback;
+import com.android.systemui.statusbar.info.DataUsageView;
 import com.android.systemui.qs.carrier.QSCarrierGroup;
 import com.android.systemui.statusbar.CommandQueue;
 import com.android.systemui.statusbar.phone.StatusBarIconController;
@@ -156,6 +157,7 @@ public class QuickStatusBarHeader extends RelativeLayout implements
     private Space mSpace;
     private BatteryMeterView mBatteryRemainingIcon;
     private BatteryMeterView mBatteryMeterView;
+    private DataUsageView mDataUsageView;
     private RingerModeTracker mRingerModeTracker;
     private boolean mAllIndicatorsEnabled;
     private boolean mMicCameraIndicatorsEnabled;
@@ -260,6 +262,7 @@ public class QuickStatusBarHeader extends RelativeLayout implements
         mPrivacyChip = findViewById(R.id.privacy_chip);
         mPrivacyChip.setOnClickListener(this::onClick);
         mCarrierGroup = findViewById(R.id.carrier_group);
+        mDataUsageView = findViewById(R.id.data_sim_usage);
 
 
         updateResources();
@@ -457,6 +460,7 @@ public class QuickStatusBarHeader extends RelativeLayout implements
     private void updateSettings() {
         updateBatteryInQs();
         updateStatusbarProperties();
+        updateDataUsageView();
     }
 
     private void updateStatusIconAlphaAnimator() {
@@ -491,6 +495,13 @@ public class QuickStatusBarHeader extends RelativeLayout implements
                 UserHandle.USER_CURRENT) == 1;
         mBatteryMeterView.setVisibility(showBatteryInQs ? View.VISIBLE : View.GONE);
         mBatteryRemainingIcon.setVisibility(showBatteryInQs ? View.GONE : View.VISIBLE);
+    }
+
+    private void updateDataUsageView() {
+        if (mDataUsageView.isDataUsageEnabled())
+            mDataUsageView.setVisibility(View.VISIBLE);
+        else
+            mDataUsageView.setVisibility(View.GONE);
     }
 
     public void setBatteryPercentMode() {
@@ -827,6 +838,9 @@ public class QuickStatusBarHeader extends RelativeLayout implements
             ContentResolver resolver = getContext().getContentResolver();
             resolver.registerContentObserver(Settings.System.getUriFor(
                     Settings.System.QS_BATTERY_LOCATION_BAR), false,
+                    this, UserHandle.USER_ALL);
+            resolver.registerContentObserver(Settings.System
+                    .getUriFor(Settings.System.QS_DATAUSAGE), false,
                     this, UserHandle.USER_ALL);
         }
 
