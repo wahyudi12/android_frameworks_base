@@ -157,13 +157,17 @@ public class QuickStatusBarHeader extends RelativeLayout implements
     private Space mSpace;
     private BatteryMeterView mBatteryRemainingIcon;
     private BatteryMeterView mBatteryMeterView;
-    private DataUsageView mDataUsageView;
     private RingerModeTracker mRingerModeTracker;
     private boolean mAllIndicatorsEnabled;
     private boolean mMicCameraIndicatorsEnabled;
 
     private PrivacyItemController mPrivacyItemController;
     private final UiEventLogger mUiEventLogger;
+
+    // Data Usage
+    private View mDataUsageLayout;
+    private ImageView mDataUsageImage;
+    private DataUsageView mDataUsageView;
 
     private boolean mLandscape;
 
@@ -263,6 +267,8 @@ public class QuickStatusBarHeader extends RelativeLayout implements
         mPrivacyChip.setOnClickListener(this::onClick);
         mCarrierGroup = findViewById(R.id.carrier_group);
         mDataUsageView = findViewById(R.id.data_sim_usage);
+        mDataUsageLayout = findViewById(R.id.daily_data_usage_layout);
+        mDataUsageImage = findViewById(R.id.daily_data_usage_icon);
 
 
         updateResources();
@@ -498,10 +504,15 @@ public class QuickStatusBarHeader extends RelativeLayout implements
     }
 
     private void updateDataUsageView() {
-        if (mDataUsageView.isDataUsageEnabled() != 0)
+        if (mDataUsageView.isDataUsageEnabled() != 0) {
+            mDataUsageLayout.setVisibility(View.VISIBLE);
+            mDataUsageImage.setVisibility(View.VISIBLE);
             mDataUsageView.setVisibility(View.VISIBLE);
-        else
+        } else {
             mDataUsageView.setVisibility(View.GONE);
+            mDataUsageImage.setVisibility(View.GONE);
+            mDataUsageLayout.setVisibility(View.GONE);
+        }
     }
 
     public void setBatteryPercentMode() {
