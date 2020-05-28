@@ -201,7 +201,6 @@ import com.android.systemui.statusbar.StatusBarState;
 import com.android.systemui.statusbar.SuperStatusBarViewFactory;
 import com.android.systemui.statusbar.SysuiStatusBarStateController;
 import com.android.systemui.statusbar.VibratorHelper;
-import com.android.systemui.statusbar.info.DataUsageView;
 import com.android.systemui.statusbar.notification.ActivityLaunchAnimator;
 import com.android.systemui.statusbar.notification.DynamicPrivacyController;
 import com.android.systemui.statusbar.notification.NotificationActivityStarter;
@@ -2184,10 +2183,6 @@ public class StatusBar extends SystemUI implements DemoMode,
         } else {
             animateExpandSettingsPanel(null);
         }
-    }
-
-    public void updateQSDataUsageInfo() {
-        DataUsageView.updateUsage();
     }
 
     void makeExpandedVisible(boolean force) {
