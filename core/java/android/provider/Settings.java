@@ -6064,6 +6064,11 @@ public final class Settings {
         /**
          * @hide
          */
+        public static final String AMBIENT_LIGHT_BLEND_COLOR = "ambient_light_blend_color";
+
+        /**
+         * @hide
+         */
         public static final String SMART_CHARGING = "smart_charging";
 
         /**
