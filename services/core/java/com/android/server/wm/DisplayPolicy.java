@@ -155,6 +155,7 @@ import android.os.Message;
 import android.os.SystemClock;
 import android.os.SystemProperties;
 import android.os.UserHandle;
+import android.provider.Settings;
 import android.util.ArraySet;
 import android.util.IntArray;
 import android.util.Pair;
@@ -4103,7 +4104,10 @@ public class DisplayPolicy {
      */
     public void takeScreenshot(int screenshotType, int source) {
         if (mScreenshotHelper != null) {
-            String packageName = mFocusedWindow == null ? "" : mFocusedWindow.getAttrs().packageName;
+            final boolean fullShot = Settings.System.getIntForUser(mContext.getContentResolver(),
+                    Settings.System.SCREENSHOT_TYPE, 0, UserHandle.USER_CURRENT) == 0;
+            String packageName = fullShot ? "com.android.systemui" :
+                    (mFocusedWindow == null ? "" : mFocusedWindow.getAttrs().packageName);
             mScreenshotHelper.takeScreenshot(screenshotType,
                     getStatusBar() != null && getStatusBar().isVisibleLw(),
                     getNavigationBar() != null && getNavigationBar().isVisibleLw(),
