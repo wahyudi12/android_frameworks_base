@@ -96,7 +96,7 @@ public class CollapsedStatusBarFragment extends Fragment implements CommandQueue
     private int mShowCarrierLabel;
 
     // Notification ticker
-    private int mTickerEnabled;
+    private boolean mTickerEnabled;
     private View mTickerViewFromStub;
 
     // Nad Logo
@@ -133,6 +133,9 @@ public class CollapsedStatusBarFragment extends Fragment implements CommandQueue
                     false, this, UserHandle.USER_ALL);
             mContentResolver.registerContentObserver(Settings.System.getUriFor(
                     Settings.System.STATUSBAR_CLOCK_STYLE),
+                    false, this, UserHandle.USER_ALL);
+            mContentResolver.registerContentObserver(Settings.System.getUriFor(
+                    Settings.System.STATUS_BAR_SHOW_TICKER),
                     false, this, UserHandle.USER_ALL);
         }
 
@@ -217,6 +220,7 @@ public class CollapsedStatusBarFragment extends Fragment implements CommandQueue
         showSystemIconArea(false);
         initEmergencyCryptkeeperText();
         initOperatorName();
+        mSettingsObserver.observe();
     }
 
     @Override
@@ -549,9 +553,9 @@ public class CollapsedStatusBarFragment extends Fragment implements CommandQueue
                     Settings.System.STATUSBAR_CLOCK_STYLE, 0,
                     UserHandle.USER_CURRENT);
         }
-        mTickerEnabled = Settings.System.getIntForUser(getContext().getContentResolver(),
+        mTickerEnabled = Settings.System.getIntForUser(mContentResolver,
                 Settings.System.STATUS_BAR_SHOW_TICKER, 0,
-                UserHandle.USER_CURRENT);
+                UserHandle.USER_CURRENT) == 1;
         initTickerView();
         setCarrierLabel(animate);
         updateClockStyle(animate);
@@ -616,15 +620,14 @@ public class CollapsedStatusBarFragment extends Fragment implements CommandQueue
     }
 
     private void initTickerView() {
-        if (mTickerEnabled != 0) {
+        if (mTickerEnabled) {
             View tickerStub = mStatusBar.findViewById(R.id.ticker_stub);
             if (mTickerViewFromStub == null && tickerStub != null) {
                 mTickerViewFromStub = ((ViewStub) tickerStub).inflate();
             }
             TickerView tickerView = (TickerView) mStatusBar.findViewById(R.id.tickerText);
             ImageSwitcher tickerIcon = (ImageSwitcher) mStatusBar.findViewById(R.id.tickerIcon);
-            mStatusBarComponent.createTicker(
-                    mTickerEnabled, getContext(), mStatusBar, tickerView, tickerIcon, mTickerViewFromStub);
+            mStatusBarComponent.createTicker(getContext(), mStatusBar, tickerView, tickerIcon, mTickerViewFromStub);
         } else {
             mStatusBarComponent.disableTicker();
         }
