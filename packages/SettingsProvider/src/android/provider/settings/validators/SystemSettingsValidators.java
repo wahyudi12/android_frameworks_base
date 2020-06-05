@@ -206,5 +206,6 @@ public class SystemSettingsValidators {
         VALIDATORS.put(System.FORCE_SHOW_NAVBAR, ANY_INTEGER_VALIDATOR);
         VALIDATORS.put(System.TORCH_POWER_BUTTON_GESTURE, new InclusiveIntegerRangeValidator(0, 2));
         VALIDATORS.put(System.RINGTONE_VIBRATION_PATTERN, new InclusiveIntegerRangeValidator(0, 4));
+        VALIDATORS.put(System.CUSTOM_RINGTONE_VIBRATION_PATTERN, ANY_STRING_VALIDATOR);
     }
 }
