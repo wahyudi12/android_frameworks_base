@@ -44,6 +44,7 @@ public class ActionUtils {
 
     public static final String INTENT_SCREENSHOT = "action_take_screenshot";
     public static final String INTENT_REGION_SCREENSHOT = "action_take_region_screenshot";
+    public static final String INTENT_LONG_SCREENSHOT = "action_take_long_screenshot";
 
     private static IStatusBarService mStatusBarService = null;
 
@@ -114,11 +115,23 @@ public class ActionUtils {
     }
 
     // Screenshots
-    public static void takeScreenshot(boolean full) {
+    public static void takeScreenshot(int type) {
         IWindowManager wm = WindowManagerGlobal.getWindowManagerService();
         try {
-//            wm.sendCustomAction(new Intent(full? INTENT_SCREENSHOT : INTENT_REGION_SCREENSHOT));
-              wm.takeAlternativeScreenshot();
+            switch (type) {
+            case 0:
+                // Do Nothing
+                break;
+            case 1:
+                wm.sendCustomAction(new Intent(INTENT_SCREENSHOT));
+                break;
+            case 2:
+                wm.sendCustomAction(new Intent(INTENT_REGION_SCREENSHOT));
+                break;
+            case 3:
+                wm.sendCustomAction(new Intent(INTENT_LONG_SCREENSHOT));
+                break;
+            }
         } catch (RemoteException e) {
             e.printStackTrace();
         }
