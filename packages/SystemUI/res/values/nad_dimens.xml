@@ -31,4 +31,6 @@
 
     <!-- Ending padding for custom status bar elements -->
     <dimen name="status_bar_end_padding">1dp</dimen>
+
+    <dimen name="data_usage_padding_start">2dp</dimen>
 </resources>
