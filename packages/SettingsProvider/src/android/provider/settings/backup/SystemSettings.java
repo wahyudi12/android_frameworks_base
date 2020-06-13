@@ -107,5 +107,7 @@ public class SystemSettings {
         Settings.System.STATUSBAR_CLOCK_DATE_POSITION,
         Settings.System.INCALL_FEEDBACK_VIBRATE,
         Settings.System.FLASHLIGHT_ON_CALL,
+        Settings.System.FLASHLIGHT_ON_CALL_IGNORE_DND,
+        Settings.System.FLASHLIGHT_ON_CALL_RATE,
     };
 }
