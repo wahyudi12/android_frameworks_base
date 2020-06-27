@@ -4871,6 +4871,12 @@ public final class Settings {
         public static final String CUSTOM_AMBIENT_POCKETMODE_GESTURE = "custom_ambient_pocketmode_gesture";
 
         /**
+         * Custom Ambient raise gesture
+         * @hide
+         */
+        public static final String CUSTOM_AMBIENT_RAISE_GESTURE = "custom_ambient_raise_gesture";
+
+        /**
          * Setting to determine whether or not to show the battery percentage in the status bar.
          *    0 - Don't show percentage
          *    1 - Show percentage
