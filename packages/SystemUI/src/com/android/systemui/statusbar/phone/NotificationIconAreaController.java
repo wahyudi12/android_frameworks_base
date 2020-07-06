@@ -523,7 +523,11 @@ public class NotificationIconAreaController implements DarkReceiver,
         if (colorize) {
             color = DarkIconDispatcher.getTint(mTintArea, v, tint);
         }
+<<<<<<< HEAD
         if (v.getStatusBarIcon().pkg.contains("systemui") || !NewIconStyle) {
+=======
+        if (v.getStatusBarIcon().pkg.contains("systemui") || !NewIconStyle) {
+>>>>>>> d16cb27affdf (StatusBarIconView: use app icons instead of provided notif one)
             v.setStaticDrawableColor(color);
             v.setDecorColor(tint);
         } else {

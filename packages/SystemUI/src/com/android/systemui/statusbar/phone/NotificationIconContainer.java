@@ -809,7 +809,11 @@ public class NotificationIconContainer extends AlphaOptimizedFrameLayout {
                     }
                 }
                 icon.setVisibleState(visibleState, animationsAllowed);
+<<<<<<< HEAD
                 if (icon.getStatusBarIcon().pkg.contains("systemui") || !NewIconStyle)
+=======
+                if (icon.getStatusBarIcon().pkg.contains("systemui") || !NewIconStyle)
+>>>>>>> d16cb27affdf (StatusBarIconView: use app icons instead of provided notif one)
                     icon.setIconColor(iconColor, needsCannedAnimation && animationsAllowed);
                 if (animate) {
                     animateTo(icon, animationProperties);
@@ -833,7 +837,11 @@ public class NotificationIconContainer extends AlphaOptimizedFrameLayout {
             super.initFrom(view);
             if (view instanceof StatusBarIconView) {
                 StatusBarIconView icon = (StatusBarIconView) view;
+<<<<<<< HEAD
                 if (icon.getStatusBarIcon().pkg.contains("systemui") || !NewIconStyle)
+=======
+                if (icon.getStatusBarIcon().pkg.contains("systemui") || !NewIconStyle)
+>>>>>>> d16cb27affdf (StatusBarIconView: use app icons instead of provided notif one)
                     iconColor = ((StatusBarIconView) view).getStaticDrawableColor();
                 else
                     return;
