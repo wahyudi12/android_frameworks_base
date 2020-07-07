@@ -93,6 +93,8 @@ public class QSContainerImpl extends FrameLayout implements
     private int mContentPaddingEnd = -1;
     private boolean mAnimateBottomOnNextLayout;
 
+    private boolean mImmerseMode;
+
     private boolean mHeaderImageEnabled;
     private ImageView mBackgroundImage;
     private StatusBarHeaderMachine mStatusBarHeaderMachine;
@@ -192,6 +194,9 @@ public class QSContainerImpl extends FrameLayout implements
             resolver.registerContentObserver(Settings.System.getUriFor(
                     Settings.System.STATUS_BAR_CUSTOM_HEADER_HEIGHT),
                     false,this, UserHandle.USER_ALL);
+            resolver.registerContentObserver(Settings.System.getUriFor(
+                    Settings.System.DISPLAY_CUTOUT_MODE),
+                    false,this, UserHandle.USER_ALL);
         }
 
         @Override
@@ -211,6 +216,9 @@ public class QSContainerImpl extends FrameLayout implements
         mHeaderImageHeight = Math.round(TypedValue.applyDimension(
                 TypedValue.COMPLEX_UNIT_DIP, mImageHeight,
                 getResources().getDisplayMetrics()));
+        mImmerseMode = Settings.System.getIntForUser(resolver,
+                Settings.System.DISPLAY_CUTOUT_MODE, 0,
+                UserHandle.USER_CURRENT) == 1;
 
         Drawable bg = mBackground.getBackground();
         if (bgAlpha < 255 ) {
@@ -499,7 +507,10 @@ public class QSContainerImpl extends FrameLayout implements
     private void updateStatusbarVisibility() {
         boolean hideGradient = mLandscape || mHeaderImageEnabled;
         boolean hideStatusbar = (mLandscape || mForceHideQsStatusBar) && !mHeaderImageEnabled;
+        boolean immersive = mLandscape || mImmerseMode;
 
+        mBackgroundGradient.setVisibility(immersive ? View.INVISIBLE : View.INVISIBLE);
+        mStatusBarBackground.setVisibility(immersive ? View.INVISIBLE : View.INVISIBLE);
         mBackgroundGradient.setVisibility(hideGradient ? View.INVISIBLE : View.VISIBLE);
         mStatusBarBackground.setVisibility(hideStatusbar ? View.INVISIBLE : View.VISIBLE);
         mStatusBarBackground.setBackgroundColor(mHeaderImageEnabled ? Color.TRANSPARENT : getResources().getColor(R.color.quick_settings_status_bar_background_color));

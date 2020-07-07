@@ -6247,6 +6247,18 @@ public final class Settings {
         public static final String DISMISS_ALL_BUTTON = "dismiss_all_button";
 
         /**
+         * Control how to handle the display cutout
+         * @hide
+         */
+        public static final String DISPLAY_CUTOUT_MODE = "display_cutout_mode";
+
+        /**
+         * Control how to handle the display cutout
+         * @hide
+         */
+        public static final String STOCK_STATUSBAR_IN_HIDE = "stock_statusbar_in_hide";
+
+        /**
          * Keys we no longer back up under the current schema, but want to continue to
          * process when restoring historical backup datasets.
          *
@@ -6429,6 +6441,8 @@ public final class Settings {
             PRIVATE_SETTINGS.add(DISPLAY_COLOR_ADJUSTMENT);
             PRIVATE_SETTINGS.add(DISPLAY_PICTURE_ADJUSTMENT);
             PRIVATE_SETTINGS.add(LIVE_DISPLAY_HINTED);
+            PRIVATE_SETTINGS.add(DISPLAY_CUTOUT_MODE);
+            PRIVATE_SETTINGS.add(STOCK_STATUSBAR_IN_HIDE);
         }
 
         /**
