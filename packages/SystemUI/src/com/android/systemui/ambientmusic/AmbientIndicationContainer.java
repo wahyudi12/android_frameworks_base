@@ -27,6 +27,7 @@ import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -41,11 +42,14 @@ import com.android.systemui.statusbar.phone.StatusBar;
 import com.android.systemui.util.wakelock.SettableWakeLock;
 import com.android.systemui.util.wakelock.WakeLock;
 
+import com.android.internal.util.nad.fod.FodUtils;
+
 public class AmbientIndicationContainer extends AutoReinflateContainer implements
         NotificationMediaManager.MediaListener {
 
     public static final boolean DEBUG_AMBIENTMUSIC = false;
 
+    private final int mFODmargin;
     private View mAmbientIndication;
     private boolean mDozing;
     private boolean mKeyguard;
@@ -73,6 +77,8 @@ public class AmbientIndicationContainer extends AutoReinflateContainer implement
     private boolean mMediaIsVisible;
     private SettableWakeLock mMediaWakeLock;
 
+    protected boolean mHasFod;
+
     public AmbientIndicationContainer(Context context, AttributeSet attributeSet) {
         super(context, attributeSet);
         mContext = context;
@@ -80,6 +86,9 @@ public class AmbientIndicationContainer extends AutoReinflateContainer implement
         initializeMedia();
         mTrackInfoSeparator = getResources().getString(R.string.ambientmusic_songinfo);
         mAmbientMusicTicker = getAmbientMusicTickerStyle();
+        mFODmargin = mContext.getResources().getDimensionPixelSize(
+                R.dimen.keyguard_security_fod_view_margin);
+        mHasFod = FodUtils.hasFodSupport(mContext);
     }
 
     private class CustomSettingsObserver extends ContentObserver {
@@ -160,6 +169,18 @@ public class AmbientIndicationContainer extends AutoReinflateContainer implement
         mMediaManager.addCallback(this);
     }
 
+    private void updatePosition() {
+        FrameLayout.LayoutParams lp = (FrameLayout.LayoutParams) this.getLayoutParams();
+        if (hasInDisplayFingerprint()) {
+            lp.setMargins(0, 0, 0, mFODmargin);
+        }
+        this.setLayoutParams(lp);
+    }
+
+    private boolean hasInDisplayFingerprint() {
+        return mHasFod;
+    }
+
     public void updateKeyguardState(boolean keyguard) {
         if (keyguard && (mInfoAvailable || mNpInfoAvailable)) {
             mText.setText(mInfoToSet);
@@ -176,6 +197,9 @@ public class AmbientIndicationContainer extends AutoReinflateContainer implement
             mDozing = dozing;
         }
         mAmbientIndication.setVisibility(shouldShow() ? View.VISIBLE : View.INVISIBLE);
+        if (hasInDisplayFingerprint() && shouldShow()) {
+            updatePosition();
+        }
 
         if (DEBUG_AMBIENTMUSIC) {
             Log.d("AmbientIndicationContainer", "updateDozingState: dozing=" + dozing + " shouldShow=" + shouldShow());
@@ -239,6 +263,9 @@ public class AmbientIndicationContainer extends AutoReinflateContainer implement
         if (mInfoToSet != null) {
             mText.setText(mInfoToSet);
             mAmbientIndication.setVisibility(shouldShow() ? View.VISIBLE : View.INVISIBLE);
+            if (hasInDisplayFingerprint() && shouldShow()) {
+                updatePosition();
+            }
         } else {
             hideIndication();
         }
