@@ -8914,6 +8914,12 @@ public final class Settings {
         public static final String AWARE_ENABLED = "aware_enabled";
 
         /**
+         * Custom device hostname
+         * @hide
+         */
+        public static final String DEVICE_HOSTNAME = "device_hostname";
+
+        /**
          * Controls whether aware_lock is enabled.
          * @hide
          */
