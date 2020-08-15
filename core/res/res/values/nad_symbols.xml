@@ -209,4 +209,9 @@
 
   <!-- Default fod pressed icon -->
   <java-symbol type="integer" name="config_fod_pressed_color" />
+
+    <!-- Clipboard access toast -->
+    <java-symbol type="string" name="app_clipboard_access_denied" />
+    <java-symbol type="string" name="app_clipboard_access_granted" />
+
 </resources>

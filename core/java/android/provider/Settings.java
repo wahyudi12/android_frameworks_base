@@ -6656,10 +6656,10 @@ public final class Settings {
         public static final String ARTWORK_MEDIA_FADE_LEVEL = "artwork_media_fade_level";
 
         /**
-         * Toggle for clipboard access toast.
+         * Toggle for clipboard info.
          * @hide
          */
-        public static final String SHOW_CLIPBOARD_TOAST = "show_clipboard_toast";
+        public static final String CLIPBOARD_TOAST_INFO = "clipboard_toast_info";
 
 	/**
          * Keys we no longer back up under the current schema, but want to continue to
