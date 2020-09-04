@@ -204,6 +204,10 @@ class ZygoteConnection {
                             + Long.toHexString(parsedArgs.mEffectiveCapabilities));
                 }
 
+                if (parsedArgs.refreshTypeface) {
+                    return handleRefreshTypeface(zygoteServer);
+                }
+
                 Zygote.applyUidSecurityPolicy(parsedArgs, peer);
                 Zygote.applyInvokeWithSecurityPolicy(parsedArgs, peer);
 
@@ -230,10 +234,6 @@ class ZygoteConnection {
                                 errnoEx);
                     }
                 }
-
-            if (parsedArgs.refreshTheme) {
-                Typeface.recreateDefaults();
-            }
 
                 /**
                  * In order to avoid leaking descriptors to the Zygote child,
@@ -421,6 +421,11 @@ class ZygoteConnection {
     private Runnable handleApiBlacklistExemptions(ZygoteServer zygoteServer, String[] exemptions) {
         return stateChangeWithUsapPoolReset(zygoteServer,
                 () -> ZygoteInit.setApiBlacklistExemptions(exemptions));
+    }
+
+    private Runnable handleRefreshTypeface(ZygoteServer zygoteServer) {
+        return stateChangeWithUsapPoolReset(zygoteServer,
+                () -> Typeface.recreateDefaults());
     }
 
     private Runnable handleUsapPoolStatusChange(ZygoteServer zygoteServer, boolean newStatus) {
