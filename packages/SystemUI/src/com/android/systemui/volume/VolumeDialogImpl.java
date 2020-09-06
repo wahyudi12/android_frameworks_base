@@ -208,6 +208,8 @@ public class VolumeDialogImpl implements VolumeDialog,
     private boolean mVolumePanelOnLeft;
     private CustomSettingsObserver mCustomSettingsObserver;
 
+    private boolean mShowAppVolume;
+
     private LocalMediaManager mLocalMediaManager;
     private Animator mCurrAnimator;
 
@@ -235,6 +237,9 @@ public class VolumeDialogImpl implements VolumeDialog,
             mContext.getContentResolver().registerContentObserver(Settings.System.getUriFor(
                     Settings.System.AUDIO_PANEL_VIEW_TIMEOUT),
                     false, this, UserHandle.USER_ALL);
+            mContext.getContentResolver().registerContentObserver(Settings.System.getUriFor(
+                    Settings.System.SHOW_APP_VOLUME),
+                    false, this, UserHandle.USER_ALL);
         }
 
         @Override
@@ -246,9 +251,20 @@ public class VolumeDialogImpl implements VolumeDialog,
             final boolean volumePanelOnLeft = Settings.System.getIntForUser(mContext.getContentResolver(),
                         Settings.System.VOLUME_PANEL_ON_LEFT, isAudioPanelOnLeftSide() ? 1 : 0, UserHandle.USER_CURRENT) != 0;
 
+            final boolean showAppVolume = Settings.System.getIntForUser(mContext.getContentResolver(),
+                        Settings.System.SHOW_APP_VOLUME, 0, UserHandle.USER_CURRENT) != 0;
+
             mTimeOut = Settings.System.getIntForUser(mContext.getContentResolver(),
                        Settings.System.AUDIO_PANEL_VIEW_TIMEOUT, 3,
                        UserHandle.USER_CURRENT);
+
+            if (mShowAppVolume != showAppVolume) {
+                mShowAppVolume = showAppVolume;
+                mHandler.post(() -> {
+                    // Trigger panel rebuild on next show
+                    mConfigChanged = true;
+                });
+            }
 
             if (!mShowActiveStreamOnly) {
                 if (mVolumePanelOnLeft != volumePanelOnLeft) {
@@ -855,7 +871,7 @@ public class VolumeDialogImpl implements VolumeDialog,
                 mExpandRows.setExpanded(mExpanded);
             });
         }
-        if (expand) {
+        if (mShowAppVolume) {
             updateAppRows();
         }
     }
@@ -865,6 +881,7 @@ public class VolumeDialogImpl implements VolumeDialog,
             final VolumeRow row = mAppRows.get(i);
             removeAppRow(row);
         }
+        if (!mShowAppVolume) return;
         List<AppTrackData> trackDatas = mController.getAudioManager().listAppTrackDatas();
         for (AppTrackData data : trackDatas) {
             if (data.isActive()) {
