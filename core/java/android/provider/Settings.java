@@ -4825,10 +4825,6 @@ public final class Settings {
          */
         public static final String DOUBLE_TAP_SLEEP_GESTURE = "double_tap_sleep_gesture";
 
-        /** @hide */
-        private static final Validator DOUBLE_TAP_SLEEP_GESTURE_VALIDATOR =
-                BOOLEAN_VALIDATOR;
-
         /**
          * Wheter to show network traffic indicator in statusbar
          * @hide
