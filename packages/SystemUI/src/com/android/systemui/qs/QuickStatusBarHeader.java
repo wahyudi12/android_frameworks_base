@@ -180,6 +180,8 @@ public class QuickStatusBarHeader extends RelativeLayout implements
     private float mKeyguardExpansionFraction;
     private boolean mPrivacyChipLogged = false;
 
+    private SettingsObserver mSettingsObserver = new SettingsObserver(mHandler);
+
     private PrivacyItemController.Callback mPICCallback = new PrivacyItemController.Callback() {
         @Override
         public void onPrivacyItemsChanged(List<PrivacyItem> privacyItems) {
@@ -228,6 +230,7 @@ public class QuickStatusBarHeader extends RelativeLayout implements
         mCommandQueue = commandQueue;
         mRingerModeTracker = ringerModeTracker;
         mUiEventLogger = uiEventLogger;
+        mSettingsObserver.observe();
     }
 
     @Override
@@ -288,7 +291,7 @@ public class QuickStatusBarHeader extends RelativeLayout implements
         mRingerModeTextView.setSelected(true);
 
         mBatteryMeterView = findViewById(R.id.battery);
-        mBatteryMeterView.setIsQsHeader(true);
+        mBatteryMeterView.setForceShowPercent(true);
         mBatteryMeterView.setOnClickListener(this);
         mBatteryMeterView.setPercentShowMode(getBatteryPercentMode());
 
@@ -296,6 +299,7 @@ public class QuickStatusBarHeader extends RelativeLayout implements
 
         mAllIndicatorsEnabled = mPrivacyItemController.getAllIndicatorsAvailable();
         mMicCameraIndicatorsEnabled = mPrivacyItemController.getMicCameraAvailable();
+        updateSettings();
     }
 
     public QuickQSPanel getHeaderQsPanel() {
@@ -837,5 +841,6 @@ public class QuickStatusBarHeader extends RelativeLayout implements
         boolean shouldUseWallpaperTextColor = (mLandscape);
         mBatteryMeterView.useWallpaperTextColor(shouldUseWallpaperTextColor);
         mClockView.useWallpaperTextColor(shouldUseWallpaperTextColor);
+        updateBatteryInQs();
     }
 }
