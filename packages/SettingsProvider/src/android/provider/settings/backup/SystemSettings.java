@@ -97,6 +97,7 @@ public class SystemSettings {
         Settings.System.STATUS_BAR_FILE_HEADER_IMAGE,
         Settings.System.STATUS_BAR_CUSTOM_HEADER_HEIGHT,
         Settings.System.NOTIFICATION_HEADERS,
+        Settings.System.CENTER_NOTIFICATION_HEADERS,
         Settings.System.STATUS_BAR_CLOCK,
         Settings.System.STATUSBAR_CLOCK_STYLE,
         Settings.System.STATUS_BAR_CLOCK_SECONDS,
