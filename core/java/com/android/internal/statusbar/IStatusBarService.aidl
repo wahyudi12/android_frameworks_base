@@ -155,6 +155,7 @@ interface IStatusBarService
      */
     void toggleCameraFlash();
     void killForegroundApp();
+    void screenPinningStateChanged(boolean enabled);
 
     /**
      * Starts the default assistant app.
