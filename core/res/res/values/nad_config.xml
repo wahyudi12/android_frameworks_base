@@ -218,4 +218,6 @@
 
     <!-- Screen off delay -->
     <integer name="config_screen_off_delay">1000</integer>
+
+    <bool name="config_has_Soli">false</bool>
 </resources>
