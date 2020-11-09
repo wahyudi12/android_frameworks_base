@@ -3088,7 +3088,7 @@ public class NotificationPanelViewController extends PanelViewController {
         int ambientLightsTimeout = Settings.System.getIntForUser(resolver,
                 Settings.System.AOD_NOTIFICATION_PULSE_TIMEOUT, 0, UserHandle.USER_CURRENT);
         boolean pulseColorAutomatic = Settings.System.getIntForUser(resolver,
-                Settings.System.NOTIFICATION_PULSE_COLOR_AUTOMATIC, 0, UserHandle.USER_CURRENT) != 0;
+                Settings.System.NOTIFICATION_PULSE_COLOR_MODE, 0, UserHandle.USER_CURRENT) == 2;
         int repeats = Settings.System.getIntForUser(resolver,
                 Settings.System.AMBIENT_LIGHT_REPEAT_COUNT, 0, UserHandle.USER_CURRENT);
         if (animatePulse) {
