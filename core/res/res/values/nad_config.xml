@@ -219,5 +219,7 @@
     <!-- Screen off delay -->
     <integer name="config_screen_off_delay">1000</integer>
 
+    <!-- Ambient stuff -->
     <bool name="config_has_Soli">false</bool>
+    <bool name="config_has_weird_dt_sensor">false</bool>
 </resources>
