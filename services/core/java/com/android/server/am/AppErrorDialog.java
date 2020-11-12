@@ -24,6 +24,7 @@ import android.content.ClipData;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.os.Build;
 import android.os.Bundle;
@@ -51,6 +52,7 @@ final class AppErrorDialog extends BaseErrorDialog implements View.OnClickListen
     private final ProcessRecord mProc;
     private final boolean mIsRestartable;
     private String mPaste;
+    private final String mPackageName;
 
     static int CANT_SHOW = -1;
     static int BACKGROUND_USER = -2;
@@ -97,6 +99,9 @@ final class AppErrorDialog extends BaseErrorDialog implements View.OnClickListen
                     bidi.unicodeWrap(name.toString())));
         }
 
+        // Store crashing package name
+        mPackageName = mProc.processName;
+
         setCancelable(true);
         setCancelMessage(mHandler.obtainMessage(CANCEL));
 
@@ -137,6 +142,9 @@ final class AppErrorDialog extends BaseErrorDialog implements View.OnClickListen
         close.setOnClickListener(this);
         final TextView appInfo = findViewById(com.android.internal.R.id.aerr_app_info);
         appInfo.setOnClickListener(this);
+        final TextView disable = findViewById(com.android.internal.R.id.aerr_disable);
+        disable.setOnClickListener(this);
+        disable.setVisibility(!isAosp(mPackageName) ? View.VISIBLE : View.GONE);
 
         boolean showMute = !Build.IS_USER && Settings.Global.getInt(context.getContentResolver(),
                 Settings.Global.DEVELOPMENT_SETTINGS_ENABLED, 0) != 0
@@ -214,6 +222,10 @@ final class AppErrorDialog extends BaseErrorDialog implements View.OnClickListen
             case com.android.internal.R.id.aerr_mute:
                 mHandler.obtainMessage(MUTE).sendToTarget();
                 break;
+            case com.android.internal.R.id.aerr_disable:
+                disablePackage();
+                mHandler.obtainMessage(FORCE_QUIT).sendToTarget();
+                break;
             default:
                 break;
         }
@@ -236,6 +248,19 @@ final class AppErrorDialog extends BaseErrorDialog implements View.OnClickListen
                 Log.e(TAG, message, e);
             }
         });
+    }
+
+    // Helper that disables a crashing package
+    private void disablePackage() {
+        if(mPackageName != null) {
+            PackageManager pm = getContext().getPackageManager();
+            pm.setApplicationEnabledSetting(mPackageName, PackageManager.COMPONENT_ENABLED_STATE_DISABLED_USER, 0);
+        }
+    }
+
+    // Check if that's an AOSP app or Google's
+    private boolean isAosp(String mPackageName) {
+        return mPackageName.contains("com.android") || mPackageName.contains("com.google");
     }
 
     private final BroadcastReceiver mReceiver = new BroadcastReceiver() {
