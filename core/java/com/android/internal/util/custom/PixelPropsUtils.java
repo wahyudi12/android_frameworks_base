@@ -80,11 +80,6 @@ public class PixelPropsUtils {
         propsToChange.put("PRODUCT", "redfin");
         propsToChange.put("MODEL", "Pixel 5");
         propsToChange.put("FINGERPRINT", "google/redfin/redfin:12/SQ1A.211205.008/7888514:user/release-keys");
-        propsToChange.put("IS_DEBUGGABLE", false);
-        propsToChange.put("IS_ENG", false);
-        propsToChange.put("IS_USERDEBUG", false);
-        propsToChange.put("IS_USER", true);
-        propsToChange.put("TYPE", "user");
     }
 
     public static void setProps(String packageName) {
