@@ -46,5 +46,8 @@
 
     <!-- Quicksettings main QS background-->
     <color name="quick_settings_status_bar_background_color">#ff000000</color>
+    
+    <!-- Notification Header Color-->
+    <color name="notification_header_text">#ffffffff</color>
 </resources>
 
