@@ -153,4 +153,7 @@
     <!-- Names of the key handler classes -->
     <string-array name="config_deviceKeyHandlerClasses" translatable="false">
     </string-array>
+
+    <!-- Default value for FOD animation package resources -->
+    <string name="config_fodAnimationPackage" translatable="false">com.nusantara.fod.animations</string>
 </resources>

@@ -65,6 +65,8 @@ import java.util.NoSuchElementException;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import com.android.internal.util.nad.NadUtils;
+
 public class FODCircleView extends ImageView implements ConfigurationListener {
     private static final String DOZE_INTENT = "com.android.systemui.doze.pulse";
     private static final int FADE_ANIM_DURATION = 250;
@@ -114,6 +116,7 @@ public class FODCircleView extends ImageView implements ConfigurationListener {
 
     private FODAnimation mFODAnimation;
     private boolean mIsRecognizingAnimEnabled;
+    private boolean mIsFodAnimationAvailable = false;
 
     private int mSelectedIcon;
     private final int[] ICON_STYLES = {
@@ -217,7 +220,7 @@ public class FODCircleView extends ImageView implements ConfigurationListener {
         public void onKeyguardVisibilityChanged(boolean showing) {
             mIsKeyguard = showing;
             updateStyle();
-            if (mFODAnimation != null) {
+            if (mIsFodAnimationAvailable && mFODAnimation != null) {
                 mFODAnimation.setAnimationKeyguard(mIsKeyguard);
             }
         }
@@ -235,7 +238,7 @@ public class FODCircleView extends ImageView implements ConfigurationListener {
             } else {
                 hide();
             }
-            if (mFODAnimation != null) {
+            if (mIsFodAnimationAvailable && mFODAnimation != null) {
                 mFODAnimation.setAnimationKeyguard(mIsBouncer);
             }
         }
@@ -402,7 +405,12 @@ public class FODCircleView extends ImageView implements ConfigurationListener {
         updateCutoutFlags();
         Dependency.get(ConfigurationController.class).addCallback(this);
 
-        mFODAnimation = new FODAnimation(context, mPositionX, mPositionY);
+        mIsFodAnimationAvailable = NadUtils.isPackageInstalled(context,
+                                    context.getResources().getString(
+                                    com.android.internal.R.string.config_fodAnimationPackage));
+        if (mIsFodAnimationAvailable) {
+            mFODAnimation = new FODAnimation(context, mPositionX, mPositionY);
+        }
     }
 
     private CustomSettingsObserver mCustomSettingsObserver = new CustomSettingsObserver(mHandler);
@@ -459,19 +467,23 @@ public class FODCircleView extends ImageView implements ConfigurationListener {
 
         if (event.getAction() == MotionEvent.ACTION_DOWN && newIsInside) {
             showCircle();
-            if (mIsRecognizingAnimEnabled) {
+            if (mIsFodAnimationAvailable) {
                 mHandler.post(() -> mFODAnimation.showFODanimation());
             }
             return true;
         } else if (event.getAction() == MotionEvent.ACTION_UP) {
             hideCircle();
-            mHandler.post(() -> mFODAnimation.hideFODanimation());
+            if (mIsFodAnimationAvailable) {
+                mHandler.post(() -> mFODAnimation.hideFODanimation());
+            }
             return true;
         } else if (event.getAction() == MotionEvent.ACTION_MOVE) {
             return true;
         }
 
-        mHandler.post(() -> mFODAnimation.hideFODanimation());
+        if (mIsFodAnimationAvailable) {
+            mHandler.post(() -> mFODAnimation.hideFODanimation());
+        }
         return false;
     }
 
@@ -614,7 +626,7 @@ public class FODCircleView extends ImageView implements ConfigurationListener {
         mSelectedIcon = Settings.System.getInt(mContext.getContentResolver(),
                 Settings.System.FOD_ICON, 0);
 
-        if (mFODAnimation != null) {
+        if (mIsFodAnimationAvailable && mFODAnimation != null) {
             mFODAnimation.update();
         }
     }
@@ -655,7 +667,9 @@ public class FODCircleView extends ImageView implements ConfigurationListener {
         if (mIsDreaming) {
             mParams.x += mDreamingOffsetX;
             mParams.y += mDreamingOffsetY;
-            mFODAnimation.updateParams(mParams.y);
+            if (mIsFodAnimationAvailable) {
+                mFODAnimation.updateParams(mParams.y);
+            }
         }
 
         mWindowManager.updateViewLayout(this, mParams);
