@@ -87,6 +87,8 @@ public class FODCircleView extends ImageView implements ConfigurationListener {
     private int mDreamingOffsetY;
 
     private boolean mFading;
+    private int mColor;
+
     private boolean mIsBouncer;
     private boolean mIsBiometricRunning;
     private boolean mIsCircleShowing;
@@ -302,10 +304,8 @@ public class FODCircleView extends ImageView implements ConfigurationListener {
 
         Resources res = context.getResources();
 
-        mPaintFingerprint.setColor(res.getColor(R.color.config_fodColor));
-        mPaintFingerprint.setAntiAlias(true);
-
-        mPaintFingerprintBackground.setColor(res.getColor(R.color.config_fodColorBackground));
+        mColorBackground = res.getColor(R.color.config_fodColorBackground);
+        mPaintFingerprintBackground.setColor(mColorBackground);
         mPaintFingerprintBackground.setAntiAlias(true);
 
         mPowerManager = context.getSystemService(PowerManager.class);
