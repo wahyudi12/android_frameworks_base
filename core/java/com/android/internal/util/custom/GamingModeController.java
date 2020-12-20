@@ -343,9 +343,9 @@ public class GamingModeController {
     }
 
     private void activateGamingMode(boolean enabled) {
-        if (mGamingModeActivated == enabled && mGamingModeEnabled)
+        if (mGamingModeActivated == enabled)
             return;
-        mGamingModeActivated = enabled && mGamingModeEnabled;
+        mGamingModeActivated = enabled;
         if (mGamingModeActivated) {
             enableGamingFeatures();
         } else {
