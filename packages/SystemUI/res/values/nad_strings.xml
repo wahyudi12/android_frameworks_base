@@ -181,4 +181,7 @@
 
     <!-- Scrolling Screenshot string -->
     <string name="scrollss">Scroll</string>
+
+    <string name="screenrecord_delete_label">Delete</string>
+    <string name="screenrecord_delete_description">Screen recording deleted</string>
 </resources>
