@@ -303,7 +303,7 @@ public class Camera {
          * if the package name does not falls in this bucket
          */
         String packageList = SystemProperties.get("vendor.camera.aux.packagelist", "");
-        String packageBlacklist = SystemProperties.get("vendor.camera.aux.packageblacklist", "");
+        String packageBlacklist = SystemProperties.get("vendor.camera.aux.packageexcludelist", "");
         if (!packageList.isEmpty()) {
             exposeAuxCamera = false;
             if (Arrays.asList(packageList.split(",")).contains(packageName)) {
