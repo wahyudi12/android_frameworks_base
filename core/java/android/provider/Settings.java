@@ -6035,12 +6035,12 @@ public final class Settings {
         /**
          * @hide
          */
-        public static final String AMBIENT_LIGHT_DURATION = "ambient_light_duration";
+        public static final String NOTIFICATION_PULSE_DURATION = "ambient_notification_light_duration";
 
         /**
          * @hide
          */
-        public static final String AMBIENT_LIGHT_REPEAT_COUNT = "ambient_light_repeat_count";
+        public static final String NOTIFICATION_PULSE_REPEATS = "ambient_notification_light_repeats";
 
         /**
          * @hide
