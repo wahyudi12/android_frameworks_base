@@ -34,6 +34,7 @@ public class PixelPropsUtils {
             "com.google.android.apps.safetyhub",
             "com.google.android.apps.turbo",
             "com.google.android.apps.maps",
+            "com.google.android.inputmethod.latin",
             "com.google.android.gms"
     };
 
