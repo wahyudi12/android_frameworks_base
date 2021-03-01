@@ -50,6 +50,7 @@ public class AmbientIndicationContainer extends AutoReinflateContainer implement
     private View mAmbientIndication;
     private boolean mDozing;
     private boolean mKeyguard;
+    private boolean mVisible;
     private StatusBar mStatusBar;
     private TextView mText;
     private Context mContext;
@@ -123,7 +124,7 @@ public class AmbientIndicationContainer extends AutoReinflateContainer implement
         mInfoAvailable = false;
         mNpInfoAvailable = false;
         mText.setText(null);
-        mAmbientIndication.setVisibility(View.INVISIBLE);
+        setVisibility(false);
     }
 
     public void initializeView(StatusBar statusBar, Handler handler) {
@@ -170,23 +171,32 @@ public class AmbientIndicationContainer extends AutoReinflateContainer implement
     }
 
     public void updateKeyguardState(boolean keyguard) {
-        if (keyguard && (mInfoAvailable || mNpInfoAvailable)) {
-            mText.setText(mInfoToSet);
-            mLastInfo = mInfoToSet;
-        } else {
-            mText.setText(null);
-            mAmbientIndication.setVisibility(View.INVISIBLE);
+        if (keyguard != mKeyguard) {
+            mKeyguard = keyguard;
+            if (keyguard && (mInfoAvailable || mNpInfoAvailable)) {
+                mText.setText(mInfoToSet);
+                mLastInfo = mInfoToSet;
+            } else {
+                mText.setText(null);
+            }
+            setVisibility(shouldShow());
         }
-        mKeyguard = keyguard;
     }
 
     public void updateDozingState(boolean dozing) {
         if (mDozing != dozing) {
             mDozing = dozing;
+            setVisibility(shouldShow());
         }
-        mAmbientIndication.setVisibility(shouldShow() ? View.VISIBLE : View.INVISIBLE);
-        if (hasInDisplayFingerprint() && shouldShow()) {
-            updatePosition();
+    }
+
+    private void setVisibility(boolean shouldShow) {
+        if (mVisible != shouldShow) {
+            mVisible = shouldShow;
+            mAmbientIndication.setVisibility(shouldShow ? View.VISIBLE : View.INVISIBLE);
+            if (hasInDisplayFingerprint() && shouldShow) {
+                updatePosition();
+            }
         }
     }
 
@@ -247,10 +257,7 @@ public class AmbientIndicationContainer extends AutoReinflateContainer implement
         }
         if (mInfoToSet != null) {
             mText.setText(mInfoToSet);
-            mAmbientIndication.setVisibility(shouldShow() ? View.VISIBLE : View.INVISIBLE);
-            if (hasInDisplayFingerprint() && shouldShow()) {
-                updatePosition();
-            }
+            setVisibility(shouldShow());
         } else {
             hideIndication();
         }
