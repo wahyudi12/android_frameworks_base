@@ -6,7 +6,6 @@ import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.os.UserHandle;
 import android.provider.Settings;
-import android.provider.Settings;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
@@ -38,9 +37,9 @@ public class TileLayout extends ViewGroup implements QSTileLayout {
     //protected int mMaxAllowedRows = 3;
 
     // Prototyping with less rows
-    private final boolean mLessRows;
+    //private final boolean mLessRows;
     private int mMinRows = 1;
-    //private int mMaxColumns = NO_MAX_COLUMNS;
+    private int mMaxColumns = NO_MAX_COLUMNS;
     private int mResourceColumns;
     private int mResourceRows;
 
@@ -51,7 +50,8 @@ public class TileLayout extends ViewGroup implements QSTileLayout {
     public TileLayout(Context context, AttributeSet attrs) {
         super(context, attrs);
         setFocusableInTouchMode(true);
-        mLessRows = (Settings.System.getInt(context.getContentResolver(), "qs_less_rows", 0) != 0);
+        /*mLessRows = (Settings.System.getInt(context.getContentResolver(), "qs_less_rows", 0) != 0)
+                || useQsMediaPlayer(context);*/
         updateResources();
 
     }
@@ -70,7 +70,7 @@ public class TileLayout extends ViewGroup implements QSTileLayout {
         }
     }
 
-   /* @Override
+    @Override
     public boolean setMinRows(int minRows) {
         if (mMinRows != minRows) {
             mMinRows = minRows;
@@ -84,7 +84,7 @@ public class TileLayout extends ViewGroup implements QSTileLayout {
     public boolean setMaxColumns(int maxColumns) {
         mMaxColumns = maxColumns;
         return updateColumns();
-    }*/
+    }
 
     public void addTile(TileRecord tile) {
         mRecords.add(tile);
@@ -114,51 +114,57 @@ public class TileLayout extends ViewGroup implements QSTileLayout {
 
     public boolean updateResources() {
         final Resources res = mContext.getResources();
+        //mResourceColumns = Math.max(1, res.getInteger(R.integer.quick_settings_num_columns));
         final ContentResolver resolver = mContext.getContentResolver();
 
+        int rows;
         if (res.getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
-            mResourceColumns = Settings.System.getIntForUser(resolver,
+            mResourceColumns = Math.max(1, Settings.System.getIntForUser(resolver,
                     Settings.System.QS_COLUMNS_PORTRAIT, 4,
-                    UserHandle.USER_CURRENT);
-            mResourceRows = Settings.System.getIntForUser(mContext.getContentResolver(),
+                    UserHandle.USER_CURRENT));
+            rows = Math.max(1, Settings.System.getIntForUser(mContext.getContentResolver(),
                     Settings.System.QS_ROWS_PORTRAIT, 3,
-                    UserHandle.USER_CURRENT);
+                    UserHandle.USER_CURRENT));
         } else {
-            mResourceColumns = Settings.System.getIntForUser(resolver,
+            mResourceColumns = Math.max(1, Settings.System.getIntForUser(resolver,
                     Settings.System.QS_COLUMNS_LANDSCAPE, 4,
-                    UserHandle.USER_CURRENT);
-            mResourceRows = Settings.System.getIntForUser(mContext.getContentResolver(),
-                        Settings.System.QS_ROWS_LANDSCAPE, 2,
-                        UserHandle.USER_CURRENT);
+                    UserHandle.USER_CURRENT));
+            rows = Math.max(1, Settings.System.getIntForUser(mContext.getContentResolver(),
+                        Settings.System.QS_ROWS_LANDSCAPE, 1,
+                        UserHandle.USER_CURRENT));
         }
 
-        if (mResourceColumns < 1) {
-            mResourceColumns = 1;
-        }
-        if (mResourceRows < 1) {
-            mResourceRows = 1;
-        }
+        //mCellHeight = mContext.getResources().getDimensionPixelSize(R.dimen.qs_tile_height);
         mCellMarginHorizontal = res.getDimensionPixelSize(R.dimen.qs_tile_margin_horizontal);
         mCellMarginVertical= res.getDimensionPixelSize(R.dimen.qs_tile_margin_vertical);
         mCellMarginTop = res.getDimensionPixelSize(R.dimen.qs_tile_margin_top);
-        //mMaxAllowedRows = Math.max(1, getResources().getInteger(R.integer.quick_settings_max_rows));
+        /*mMaxAllowedRows = Math.max(1, getResources().getInteger(R.integer.quick_settings_max_rows));
+        if (mLessRows) mMaxAllowedRows = Math.max(mMinRows, mMaxAllowedRows - 1);*/
+        int cellHeight;
         if (Settings.System.getIntForUser(resolver,
                 Settings.System.QS_TILE_TITLE_VISIBILITY, 1,
                 UserHandle.USER_CURRENT) == 1) {
-            mCellHeight = mContext.getResources().getDimensionPixelSize(R.dimen.qs_tile_height);
+            cellHeight = mContext.getResources().getDimensionPixelSize(R.dimen.qs_tile_height);
         } else {
-            mCellHeight = mContext.getResources().getDimensionPixelSize(R.dimen.qs_tile_height_wo_label);
+            cellHeight = mContext.getResources().getDimensionPixelSize(R.dimen.qs_tile_height_wo_label);
         }
         for (TileRecord record : mRecords) {
             record.tileView.textVisibility();
         }
-        if (mColumns != mResourceColumns || mRows != mResourceRows) {
-            mColumns = mResourceColumns;
-            mRows = mResourceRows;
+        if (updateColumns() || mRows != rows || mCellHeight != cellHeight) {
+            mRows = rows;
+            mCellHeight = cellHeight;
+            requestLayout();
             return true;
         }
-        requestLayout();
         return false;
+    }
+
+
+    private boolean updateColumns() {
+        int oldColumns = mColumns;
+        mColumns = Math.min(mResourceColumns, mMaxColumns);
+        return oldColumns != mColumns;
     }
 
     @Override
@@ -205,6 +211,12 @@ public class TileLayout extends ViewGroup implements QSTileLayout {
                 // Add the cell margin in order to divide easily by the height + the margin below
                 + mCellMarginVertical;
         final int previousRows = mRows;
+        /*mRows = availableHeight / (mCellHeight + mCellMarginVertical);*/
+        if (mRows < mMinRows) {
+            mRows = mMinRows;
+        }/* else if (mRows >= mMaxAllowedRows) {
+            mRows = mMaxAllowedRows;
+        }*/
         if (mRows > (tilesCount + mColumns - 1) / mColumns) {
             mRows = (tilesCount + mColumns - 1) / mColumns;
         }

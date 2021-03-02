@@ -89,11 +89,8 @@ public class QSCustomizer extends LinearLayout implements OnMenuItemClickListene
     private int mY;
     private boolean mOpening;
     private boolean mIsShowingNavBackdrop;
-
     private UiEventLogger mUiEventLogger = new UiEventLoggerImpl();
-
     private GridLayoutManager mGlm;
-    private int mDefaultColumns;
 
     private boolean mHeaderImageEnabled;
     private float mHeaderImageHeight;
@@ -112,7 +109,6 @@ public class QSCustomizer extends LinearLayout implements OnMenuItemClickListene
         mToolbar = findViewById(com.android.internal.R.id.action_bar);
         TypedValue value = new TypedValue();
         mContext.getTheme().resolveAttribute(android.R.attr.homeAsUpIndicator, value, true);
-        mDefaultColumns = Math.max(1, mContext.getResources().getInteger(R.integer.quick_settings_num_columns));
         mHeaderImageHeight = (float) 25;
         mToolbar.setNavigationIcon(
                 getResources().getDrawable(value.resourceId, mContext.getTheme()));
@@ -133,7 +129,7 @@ public class QSCustomizer extends LinearLayout implements OnMenuItemClickListene
         mTileQueryHelper.setListener(mTileAdapter);
         mRecyclerView.setAdapter(mTileAdapter);
         mTileAdapter.getItemTouchHelper().attachToRecyclerView(mRecyclerView);
-        mGlm = new GridLayoutManager(getContext(), mDefaultColumns) {
+        mGlm = new GridLayoutManager(getContext(), 5) {
             @Override
             public void onInitializeAccessibilityNodeInfoForItem(RecyclerView.Recycler recycler,
                     RecyclerView.State state, View host, AccessibilityNodeInfoCompat info) {
@@ -171,16 +167,13 @@ public class QSCustomizer extends LinearLayout implements OnMenuItemClickListene
         mTransparentView.setLayoutParams(lp);
         int columns;
         if (mContext.getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
-            columns = Settings.System.getIntForUser(mContext.getContentResolver(),
-                    Settings.System.QS_COLUMNS_PORTRAIT, mDefaultColumns,
-                    UserHandle.USER_CURRENT);
+            columns = Math.max(1, Settings.System.getIntForUser(mContext.getContentResolver(),
+                    Settings.System.QS_COLUMNS_PORTRAIT, 4,
+                    UserHandle.USER_CURRENT));
         } else {
-            columns = Settings.System.getIntForUser(mContext.getContentResolver(),
-                    Settings.System.QS_COLUMNS_LANDSCAPE, mDefaultColumns,
-                    UserHandle.USER_CURRENT);
-        }
-        if (columns < 1) {
-            columns = 1;
+            columns = Math.max(1, Settings.System.getIntForUser(mContext.getContentResolver(),
+                    Settings.System.QS_COLUMNS_LANDSCAPE, 4,
+                    UserHandle.USER_CURRENT));
         }
         mTileAdapter.setColumns(columns);
         mGlm.setSpanCount(columns);
@@ -301,26 +294,13 @@ public class QSCustomizer extends LinearLayout implements OnMenuItemClickListene
             case MENU_RESET:
                 mUiEventLogger.log(QSEditEvent.QS_EDIT_RESET);
                 reset();
-                resetQsOptions();
                 break;
         }
-        updateResources();
         return false;
     }
 
     private void reset() {
         mTileAdapter.resetTileSpecs(mHost, QSTileHost.getDefaultSpecs(mContext));
-    }
-
-    private void resetQsOptions() {
-        // reset QS panel columns
-        Settings.System.putInt(mContext.getContentResolver(),
-                Settings.System.QS_COLUMNS_PORTRAIT, mDefaultColumns);
-        Settings.System.putInt(mContext.getContentResolver(),
-                Settings.System.QS_COLUMNS_LANDSCAPE, mDefaultColumns);
-        // reset QS tile title visibility
-        Settings.System.putInt(mContext.getContentResolver(),
-                Settings.System.QS_TILE_TITLE_VISIBILITY, 1);
     }
 
     private void setTileSpecs() {
@@ -384,7 +364,6 @@ public class QSCustomizer extends LinearLayout implements OnMenuItemClickListene
         public void onAnimationEnd(Animator animation) {
             if (isShown) {
                 setCustomizing(true);
-                updateResources();
             }
             mOpening = false;
             mNotifQsContainer.setCustomizerAnimating(false);

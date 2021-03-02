@@ -2204,10 +2204,9 @@ public class StatusBar extends SystemUI implements DemoMode,
             if (uri.equals(Settings.System.getUriFor(Settings.System.QS_ROWS_PORTRAIT)) ||
                     uri.equals(Settings.System.getUriFor(Settings.System.QS_ROWS_LANDSCAPE)) ||
                     uri.equals(Settings.System.getUriFor(Settings.System.QS_COLUMNS_PORTRAIT)) ||
-                    uri.equals(Settings.System.getUriFor(Settings.System.QS_COLUMNS_LANDSCAPE))) {
-                setQsRowsColumns();
-            } else if (uri.equals(Settings.System.getUriFor(Settings.System.QS_TILE_TITLE_VISIBILITY))) {
-                updateQsPanelResources();
+                    uri.equals(Settings.System.getUriFor(Settings.System.QS_COLUMNS_LANDSCAPE)) ||
+                    uri.equals(Settings.System.getUriFor(Settings.System.QS_TILE_TITLE_VISIBILITY))) {
+                setQsPanelResources();
             } else if (uri.equals(Settings.System.getUriFor(Settings.System.DOUBLE_TAP_SLEEP_LOCKSCREEN)) ||
                        uri.equals(Settings.System.getUriFor(Settings.System.DOUBLE_TAP_SLEEP_GESTURE))) {
                 setStatusDoubleTapToSleep();
@@ -2242,7 +2241,7 @@ public class StatusBar extends SystemUI implements DemoMode,
         }
 
         public void update() {
-            setQsRowsColumns();
+            setQsPanelResources();
             setStatusDoubleTapToSleep();
             setQsBatteryPercentMode();
             setHeadsUpStoplist();
@@ -2264,14 +2263,7 @@ public class StatusBar extends SystemUI implements DemoMode,
         }
     }
 
-    private void setQsRowsColumns() {
-        if (mQSPanel != null) {
-            mQSPanel.updateResources();
-            updateQsPanelResources();
-        }
-    }
-
-    private void updateQsPanelResources() {
+    private void setQsPanelResources() {
         if (mQSPanel != null) {
             mQSPanel.updateResources();
         }
