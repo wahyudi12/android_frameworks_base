@@ -582,6 +582,8 @@ public class StatusBar extends SystemUI implements DemoMode,
     private final NotificationRemoteInputManager mRemoteInputManager;
     private boolean mWallpaperSupported;
 
+    private int mChargingAnimation;
+
     private PulseController mPulseController;
     private VisualizerView mVisualizerView;
     private VolumePluginManager mVolumePluginManager;
@@ -2192,6 +2194,9 @@ public class StatusBar extends SystemUI implements DemoMode,
             resolver.registerContentObserver(Settings.System.getUriFor(
                     Settings.System.STATUS_BAR_BRIGHTNESS_CONTROL),
                     false, this, UserHandle.USER_ALL);
+            resolver.registerContentObserver(Settings.System.getUriFor(
+                    Settings.System.LOCKSCREEN_CHARGING_ANIMATION_STYLE),
+                    false, this, UserHandle.USER_ALL);
         }
 
         @Override
@@ -2231,6 +2236,8 @@ public class StatusBar extends SystemUI implements DemoMode,
             } else if (uri.equals(Settings.System.getUriFor(
                     Settings.System.PULSE_ON_NEW_TRACKS))) {
                 setPulseOnNewTracks();
+            } else if (uri.equals(Settings.System.getUriFor(Settings.System.LOCKSCREEN_CHARGING_ANIMATION_STYLE))) {
+                setChargingAnimation();
             }
         }
 
@@ -2247,6 +2254,7 @@ public class StatusBar extends SystemUI implements DemoMode,
             setLockScreenMediaBlurLevel();
             setPulseOnNewTracks();
             setScreenBrightnessMode();
+            setChargingAnimation();
         }
     }
 
@@ -2341,6 +2349,13 @@ public class StatusBar extends SystemUI implements DemoMode,
             UserHandle.USER_CURRENT) == 1;
     }
 
+    private void setChargingAnimation() {
+        mChargingAnimation = Settings.System.getIntForUser(mContext.getContentResolver(),
+                Settings.System.LOCKSCREEN_CHARGING_ANIMATION_STYLE, 1, UserHandle.USER_CURRENT);
+        if (mKeyguardIndicationController != null) {
+            mKeyguardIndicationController.updateChargingIndication();
+        }
+    }
 
     @VisibleForTesting
     void setBarStateForTest(int state) {
