@@ -179,9 +179,6 @@
     <!-- Power menu item for taking a Screen record [CHAR LIMIT=20]-->
     <string name="global_action_screenrecord">Screen Record</string>
 
-    <!-- Scrolling Screenshot string -->
-    <string name="scrollss">Scroll</string>
-
     <string name="screenrecord_delete_label">Delete</string>
     <string name="screenrecord_delete_description">Screen recording deleted</string>
 </resources>
