@@ -188,4 +188,8 @@
 
   <!-- Pulse brightness -->
   <java-symbol type="integer" name="config_screenBrightnessPulse" />
+
+  <!-- Smart cutoff temperature -->
+  <java-symbol type="integer" name="config_smartCutoffTemperature" />
+  <java-symbol type="integer" name="config_smartCutoffResumeTemperature" />
 </resources>

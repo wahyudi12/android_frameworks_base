@@ -225,4 +225,8 @@
 
     <!-- -1 means use same as config_screenBrightnessDoze -->
     <integer name="config_screenBrightnessPulse">-1</integer>
+
+    <!-- Smart cutoff -->
+    <integer name="config_smartCutoffTemperature">30</integer>
+    <integer name="config_smartCutoffResumeTemperature">25</integer>
 </resources>
