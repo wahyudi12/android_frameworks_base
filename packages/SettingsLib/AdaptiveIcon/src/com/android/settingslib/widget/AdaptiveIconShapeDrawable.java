@@ -19,6 +19,7 @@ package com.android.settingslib.widget;
 import android.content.res.Resources;
 import android.content.res.Resources.Theme;
 import android.graphics.Path;
+import android.graphics.Paint.Style;
 import android.graphics.drawable.AdaptiveIconDrawable;
 import android.graphics.drawable.ShapeDrawable;
 import android.graphics.drawable.shapes.PathShape;
@@ -51,9 +52,11 @@ public class AdaptiveIconShapeDrawable extends ShapeDrawable {
     }
 
     private void init(Resources resources) {
-        final float pathSize = AdaptiveIconDrawable.MASK_SIZE;
         final Path path = new Path(PathParser.createPathFromPathData(
                 resources.getString(com.android.internal.R.string.config_icon_mask)));
-        setShape(new PathShape(path, pathSize, pathSize));
+        getPaint().setAntiAlias(true);
+        getPaint().setStyle(Style.STROKE);
+        getPaint().setStrokeWidth(3.0f);
+        setShape(new PathShape(path, 100.0f, 100.0f));
     }
 }
