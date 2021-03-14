@@ -18,12 +18,14 @@
 <com.android.systemui.statusbar.notification.row.FooterView
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="@dimen/notification_section_header_height"
         android:paddingStart="4dp"
         android:paddingEnd="4dp"
+        android:background="@drawable/notification_section_header_background"
         android:visibility="gone">
     <com.android.systemui.statusbar.AlphaOptimizedFrameLayout
         android:id="@+id/content"
+        android:layout_marginTop="@dimen/notification_header_margin_top"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <com.android.systemui.statusbar.notification.row.FooterViewButton
