@@ -6672,7 +6672,18 @@ public final class Settings {
          */
         public static final String CLIPBOARD_TOAST_INFO = "clipboard_toast_info";
 
-	/**
+        /**
+         * Which action to display in the fourth (user) button in power menu
+         * 0: None
+         * 1: Screenshot
+         * 2: Screenrecord
+         * 3: Flashlight
+         *
+         * @hide
+         */
+        public static final String GLOBAL_ACTIONS_USERS_CHOICE = "global_actions_users_choice";
+
+        /**
          * Keys we no longer back up under the current schema, but want to continue to
          * process when restoring historical backup datasets.
          *
