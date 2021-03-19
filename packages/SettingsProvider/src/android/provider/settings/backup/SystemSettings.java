@@ -88,7 +88,6 @@ public class SystemSettings {
         Settings.System.VOLUME_ROCKER_WAKE,
         Settings.System.NAVIGATION_BAR_ARROW_KEYS,
         Settings.System.FORCE_SHOW_NAVBAR,
-        Settings.System.ACCENT_COLOR,
         Settings.System.STATUS_BAR_CUSTOM_HEADER,
         Settings.System.STATUS_BAR_CUSTOM_HEADER_SHADOW,
         Settings.System.STATUS_BAR_DAYLIGHT_HEADER_PACK,

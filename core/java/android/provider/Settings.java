@@ -5305,12 +5305,6 @@ public final class Settings {
         public static final String THREE_FINGER_GESTURE = "three_finger_gesture";
 
         /**
-         * Accent Color
-         * @hide
-         */
-        public static final String ACCENT_COLOR = "accent_color";
-
-        /**
          * Whether footer #Nusantara Project text shows
          * @hide
          */
@@ -6365,7 +6359,6 @@ public final class Settings {
             PRIVATE_SETTINGS.add(KEY_CAMERA_LONG_PRESS_ACTION);
             PRIVATE_SETTINGS.add(KEY_CAMERA_DOUBLE_TAP_ACTION);
             PRIVATE_SETTINGS.add(FORCE_SHOW_NAVBAR);
-            PRIVATE_SETTINGS.add(ACCENT_COLOR);
             PRIVATE_SETTINGS.add(SHOW_FOURG);
             PRIVATE_SETTINGS.add(SHOW_VOLTE_ICON);
             PRIVATE_SETTINGS.add(VOLTE_ICON_STYLE);

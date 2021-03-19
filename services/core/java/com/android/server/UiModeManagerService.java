@@ -32,7 +32,6 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.om.IOverlayManager;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.content.res.Resources;
@@ -53,7 +52,6 @@ import android.os.ShellCommand;
 import android.os.SystemProperties;
 import android.os.UserHandle;
 import android.provider.Settings.Secure;
-import android.provider.Settings.System;
 import android.service.dreams.Sandman;
 import android.service.vr.IVrManager;
 import android.service.vr.IVrStateCallbacks;
@@ -96,7 +94,6 @@ final class UiModeManagerService extends SystemService {
     // Enable launching of applications when entering the dock.
     private static final boolean ENABLE_LAUNCH_DESK_DOCK_APP = true;
     private static final String SYSTEM_PROPERTY_DEVICE_THEME = "persist.sys.theme";
-    private static final String ACCENT_COLOR_PROP = "persist.sys.nad.accent_color";
 
     final Object mLock = new Object();
     private int mDockState = Intent.EXTRA_DOCK_STATE_UNDOCKED;
@@ -159,7 +156,6 @@ final class UiModeManagerService extends SystemService {
     private int mOverrideNightModeUser = USER_SYSTEM;
 
     private PowerManager.WakeLock mWakeLock;
-    private IOverlayManager mOverlayManager;
 
     private final LocalService mLocalService = new LocalService();
     private PowerManagerInternal mLocalPowerManager;
@@ -316,14 +312,6 @@ final class UiModeManagerService extends SystemService {
         }
     };
 
-    private final ContentObserver mAccentObserver = new ContentObserver(mHandler) {
-        @Override
-        public void onChange(boolean selfChange, Uri uri) {
-            applyAccentColor();
-        }
-    };
-
-
     private void updateSystemProperties() {
         int mode = Secure.getIntForUser(getContext().getContentResolver(), Secure.UI_NIGHT_MODE,
                 mNightMode, 0);
@@ -331,22 +319,6 @@ final class UiModeManagerService extends SystemService {
             mode = MODE_NIGHT_YES;
         }
         SystemProperties.set(SYSTEM_PROPERTY_DEVICE_THEME, Integer.toString(mode));
-    }
-
-    private void applyAccentColor() {
-        final Context context = getContext();
-        int intColor = System.getIntForUser(context.getContentResolver(),
-                System.ACCENT_COLOR, 0xFF1A73E8, UserHandle.USER_CURRENT);
-        String colorHex = String.format("%08x", (0xFFFFFFFF & intColor));
-        String accentVal = SystemProperties.get(ACCENT_COLOR_PROP);
-        if (!accentVal.equals(colorHex)) {
-            SystemProperties.set(ACCENT_COLOR_PROP, colorHex);
-            try {
-                mOverlayManager.reloadAndroidAssets(UserHandle.USER_CURRENT);
-                mOverlayManager.reloadAssets("com.android.settings", UserHandle.USER_CURRENT);
-                mOverlayManager.reloadAssets("com.android.systemui", UserHandle.USER_CURRENT);
-            } catch (Exception e) { }
-        }
     }
 
     @Override
@@ -425,10 +397,6 @@ final class UiModeManagerService extends SystemService {
         mCar = pm.hasSystemFeature(PackageManager.FEATURE_AUTOMOTIVE);
         mWatch = pm.hasSystemFeature(PackageManager.FEATURE_WATCH);
 
-        mOverlayManager = IOverlayManager.Stub
-                .asInterface(ServiceManager.getService(Context.OVERLAY_SERVICE));
-        applyAccentColor();
-
         // Update the initial, static configurations.
         SystemServerInitThreadPool.submit(() -> {
             synchronized (mLock) {
@@ -441,8 +409,6 @@ final class UiModeManagerService extends SystemService {
         }, TAG + ".onStart");
         publishBinderService(Context.UI_MODE_SERVICE, mService);
         publishLocalService(UiModeManagerInternal.class, mLocalService);
-        context.getContentResolver().registerContentObserver(System.getUriFor(System.ACCENT_COLOR),
-                false, mAccentObserver, UserHandle.USER_ALL);
     }
 
     private final BroadcastReceiver mOnShutdown = new BroadcastReceiver() {
