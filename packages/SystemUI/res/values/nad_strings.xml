@@ -220,4 +220,5 @@
 
     <!-- Data usage info -->
     <string name="usage_data">used</string>
+    <string name="usage_wifi_prefix">Wi-Fi</string>
 </resources>
