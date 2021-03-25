@@ -167,9 +167,9 @@ public class QSPanel extends LinearLayout implements Tunable, Callback, Brightne
 
     private Vibrator mVibrator;
 
-    private int mBrightnessSlider = 1;
-    private boolean mBrightnessBottom;
+    private int mBrightnessSlider;
     private View mBrightnessPlaceholder;
+    private boolean mBrightnessBottom;
 
     @Inject
     public QSPanel(
@@ -249,9 +249,9 @@ public class QSPanel extends LinearLayout implements Tunable, Callback, Brightne
     protected void addViewsAboveTiles() {
         mBrightnessView = LayoutInflater.from(mContext).inflate(
             R.layout.quick_settings_brightness_dialog, this, false);
-
         mBrightnessPlaceholder = LayoutInflater.from(mContext).inflate(
             R.layout.quick_settings_brightness_placeholder, this, false);
+        addView(mBrightnessPlaceholder);
 
         final ContentResolver resolver = mContext.getContentResolver();
 
@@ -328,23 +328,6 @@ public class QSPanel extends LinearLayout implements Tunable, Callback, Brightne
 
     protected QSTileLayout createHorizontalTileLayout() {
         return createRegularTileLayout();
-    }
-
-    private void addQSPanel() {
-        switch (mBrightnessSlider) {
-            case 1:
-            default:
-                addView(mBrightnessView, 1);
-                removeView(mBrightnessView);
-                mBrightnessBottom = false;
-                break;
-            case 2:
-                addView(mBrightnessPlaceholder);
-                removeView(mBrightnessView);
-                addView(mBrightnessView, getBrightnessViewPositionBottom());
-                mBrightnessBottom = true;
-                break;
-        }
     }
 
     protected void initMediaHostState() {
@@ -485,7 +468,19 @@ public class QSPanel extends LinearLayout implements Tunable, Callback, Brightne
             if (QS_SHOW_BRIGHTNESS_SLIDER.equals(key) && mBrightnessView != null) {
                 mBrightnessSlider = TunerService.parseInteger(newValue, 1);
                 mBrightnessView.setVisibility(mBrightnessSlider != 0 ? VISIBLE : GONE);
-                addQSPanel();
+            }
+            if (mBrightnessSlider == 1) {
+                removeView(mBrightnessView);
+                addView(mBrightnessView, 1);
+                mBrightnessBottom = false;
+            } else if (mBrightnessSlider == 2) {
+                removeView(mBrightnessView);
+                addView(mBrightnessView, getBrightnessViewPositionBottom());
+                mBrightnessBottom = true;
+            } else {
+                removeView(mBrightnessView);
+                addView(mBrightnessView, 0);
+                mBrightnessBottom = false;
             }
         } catch (Exception e){
             // Do nothing
@@ -749,6 +744,11 @@ public class QSPanel extends LinearLayout implements Tunable, Callback, Brightne
         // Let's first move the tileLayout to the new parent, since that should come first.
         switchToParent((View) newLayout, parent, index);
         index++;
+
+        if (!mUsingHorizontalLayout && mBrightnessView != null) {
+            switchToParent(mBrightnessView, parent, mBrightnessSlider != 0 ? index : 0);
+            index++;
+        }
 
         if (mSecurityFooter != null) {
             View view = mSecurityFooter.getView();
@@ -1352,10 +1352,6 @@ public class QSPanel extends LinearLayout implements Tunable, Callback, Brightne
         default void setExpansion(float expansion) {}
 
         int getNumVisibleTiles();
-    }
-
-    public boolean isBrightnessViewBottom() {
-        return mBrightnessBottom;
     }
 
     private void setBrightnessMinMax(boolean min) {
