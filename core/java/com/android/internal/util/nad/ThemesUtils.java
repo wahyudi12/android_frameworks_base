@@ -67,23 +67,23 @@ public class ThemesUtils {
     };
 
     public static final String[] PITCH_BLACK = {
-            "com.android.theme.pitchblack.system",
-            "com.android.theme.pitchblack.systemui",
+            "com.android.theme.color.pitchblack.system",
+            "com.android.theme.color.pitchblack.systemui"
     };
 
     public static final String[] SOLARIZED_DARK = {
-            "com.android.theme.solarizeddark.system",
-            "com.android.theme.solarizeddark.systemui",
+            "com.android.theme.color.solarized.system",
+            "com.android.theme.color.solarized.systemui"
     };
 
     public static final String[] NAD_CLEAR = {
-            "com.android.theme.nadclear.system",
-            "com.android.theme.nadclear.systemui",
+            "com.android.theme.color.nadclear.system",
+            "com.android.theme.color.nadclear.systemui"
     };
 
     public static final String[] MATERIAL_OCEAN = {
-            "com.android.theme.materialocean.system",
-            "com.android.theme.materialocean.systemui",
+            "com.android.theme.color.ocean.system",
+            "com.android.theme.color.ocean.systemui"
     };
 
     public static final String[] FONTS = {
@@ -99,7 +99,7 @@ public class ThemesUtils {
             "com.android.theme.font.ubuntu",
             "com.android.theme.font.titilliumweb",
             "com.android.theme.font.caviardreamssource",
-            "com.android.theme.font.linotte",
+            "com.android.theme.font.linotte"
     };
 
     public static final String[] NAVBAR_STYLES = {
@@ -111,26 +111,26 @@ public class ThemesUtils {
             "com.android.theme.navbar.oneplus",
             "com.android.theme.navbar.oneui",
             "com.android.theme.navbar.sammy",
-            "com.android.theme.navbar.tecno",
+            "com.android.theme.navbar.tecno"
     };
 
     public static final String[] QS_HEADER_THEMES = {
             "com.android.systemui.qsheader.grey",
             "com.android.systemui.qsheader.lightgrey",
             "com.android.systemui.qsheader.accent",
-            "com.android.systemui.qsheader.transparent",
+            "com.android.systemui.qsheader.transparent"
     };
 
     public static final String[] STATUSBAR_HEIGHT = {
             "com.gnonymous.gvisualmod.sbh_m", // 1
             "com.gnonymous.gvisualmod.sbh_l", // 2
-            "com.gnonymous.gvisualmod.sbh_xl", // 3
+            "com.gnonymous.gvisualmod.sbh_xl" // 3
     };
 
     public static final String[] UI_RADIUS = {
             "com.gnonymous.gvisualmod.urm_r", // 1
             "com.gnonymous.gvisualmod.urm_m", // 2
-            "com.gnonymous.gvisualmod.urm_l", // 3
+            "com.gnonymous.gvisualmod.urm_l"  // 3
     };
 
     public static final String[] BRIGHTNESS_SLIDER_THEMES = {
@@ -141,9 +141,9 @@ public class ThemesUtils {
     };
 
     public static final String[] PANEL_BG_STYLE = {
-            "com.jrinfected.panel.batik", // 1
-            "com.jrinfected.panel.kece", // 2
-            "com.jrinfected.panel.outline", // 3
+            "com.jrinfected.panel.batik",   // 1
+            "com.jrinfected.panel.kece",    // 2
+            "com.jrinfected.panel.outline"  // 3
     };
 
     public static final String[] QS_SHAPE = {
@@ -165,16 +165,16 @@ public class ThemesUtils {
             "com.jrinfected.qs.shape.p",
             "com.jrinfected.qs.shape.q",
             "com.jrinfected.qs.shape.r",
-            "com.jrinfected.qs.shape.s",
+            "com.jrinfected.qs.shape.s"
     };
 
     public static final String[] SWITCH_STYLE = {
-        "com.android.system.switch.md2", // 1
-        "com.android.system.switch.oneplus", // 2
-        "com.android.system.switch.telegram", // 3
-        "com.android.system.switch.narrow", // 4
+        "com.android.system.switch.md2",       // 1
+        "com.android.system.switch.oneplus",   // 2
+        "com.android.system.switch.telegram",  // 3
+        "com.android.system.switch.narrow",    // 4
         "com.android.system.switch.contained", // 5
-        "com.android.system.switch.retro", // 6
-        "com.android.system.switch.stockish", // 7
+        "com.android.system.switch.retro",     // 6
+        "com.android.system.switch.stockish"   // 7
     };
 }
