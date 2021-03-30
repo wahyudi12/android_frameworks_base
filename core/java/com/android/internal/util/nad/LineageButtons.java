@@ -229,7 +229,7 @@ public final class LineageButtons {
                 ActionUtils.switchScreenOff(context);
                 break;
             case 5: // Screenshot
-                ActionUtils.takeScreenshot(true);
+                ActionUtils.takeScreenshot(1);
                 break;
             case 6: // Notification panel
                 ActionUtils.toggleNotifications();
@@ -253,7 +253,7 @@ public final class LineageButtons {
                 previousTrack();
                 break;
             case 13: // Partial screenshot
-                ActionUtils.takeScreenshot(false);
+                ActionUtils.takeScreenshot(2);
                 break;
         }
     }
