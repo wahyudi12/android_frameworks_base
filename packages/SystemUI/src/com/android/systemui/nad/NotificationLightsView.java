@@ -194,11 +194,11 @@ public class NotificationLightsView extends RelativeLayout {
         leftViewFaded.setVisibility(style == 0 ? View.VISIBLE : View.GONE);
         rightViewFaded.setVisibility(style == 0 ? View.VISIBLE : View.GONE);
         if (lightcolor == 6) {
-            leftViewFaded.setColorFilter(randomColor());
-            rightViewFaded.setColorFilter(randomColor());
+            leftViewSolid.setColorFilter(randomColor());
+            rightViewSolid.setColorFilter(randomColor());
         } else {
-           leftViewFaded.setColorFilter(color);
-           rightViewFaded.setColorFilter(color);
+           leftViewSolid.setColorFilter(color);
+           rightViewSolid.setColorFilter(color);
         }
         leftViewSolid.setVisibility(style == 1 ? View.VISIBLE : View.GONE);
         rightViewSolid.setVisibility(style == 1 ? View.VISIBLE : View.GONE);
