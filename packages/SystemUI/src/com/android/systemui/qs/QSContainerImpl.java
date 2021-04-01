@@ -513,7 +513,9 @@ public class QSContainerImpl extends FrameLayout implements
         mStatusBarBackground.setVisibility(immersive ? View.INVISIBLE : View.INVISIBLE);
         mBackgroundGradient.setVisibility(hideGradient ? View.INVISIBLE : View.VISIBLE);
         mStatusBarBackground.setVisibility(hideStatusbar ? View.INVISIBLE : View.VISIBLE);
-        mStatusBarBackground.setBackgroundColor(mHeaderImageEnabled ? Color.TRANSPARENT : getResources().getColor(R.color.quick_settings_status_bar_background_color));
+        if (mHeaderImageEnabled) {
+            mStatusBarBackground.setBackgroundColor(Color.TRANSPARENT);
+        }
         applyHeaderBackgroundShadow();
     }
 
