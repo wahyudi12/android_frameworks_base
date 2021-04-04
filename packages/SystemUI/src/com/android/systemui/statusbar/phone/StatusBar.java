@@ -2292,7 +2292,8 @@ public class StatusBar extends SystemUI implements DemoMode,
                 setStatusDoubleTapToSleep();
             } else if (uri.equals(Settings.System.getUriFor(Settings.System.QS_PANEL_BG_USE_NEW_TINT)) ||
                     uri.equals(Settings.System.getUriFor(Settings.System.QS_LABEL_USE_NEW_TINT)) ||
-                    uri.equals(Settings.System.getUriFor(Settings.System.QS_TILE_ICON_PRIMARY))) {
+                    uri.equals(Settings.System.getUriFor(Settings.System.QS_TILE_ICON_PRIMARY)) ||
+                    uri.equals(Settings.System.getUriFor(Settings.System.SYSUI_COLORS_ACTIVE))) {
                 if (mQSPanel != null) {
                     mQSPanel.getHost().reloadAllTiles();
                 }
@@ -4076,7 +4077,7 @@ public class StatusBar extends SystemUI implements DemoMode,
 
         // Lock wallpaper defines the color of the majority of the views, hence we'll use it
         // to set our default theme.
-        final boolean lockDarkText = mColorExtractor.getNeutralColors().supportsDarkText();
+        final boolean lockDarkText = mColorExtractor.getScrimColors(WallpaperManager.FLAG_LOCK).supportsDarkText();
         final int themeResId = lockDarkText ? R.style.Theme_SystemUI_Light : R.style.Theme_SystemUI;
         if (mContext.getThemeResId() != themeResId) {
             mContext.setTheme(themeResId);
