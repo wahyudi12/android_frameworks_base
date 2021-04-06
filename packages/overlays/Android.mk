@@ -19,36 +19,30 @@ LOCAL_MODULE := frameworks-base-overlays
 LOCAL_REQUIRED_MODULES := \
 	DisplayCutoutEmulationCornerOverlay \
 	DisplayCutoutEmulationDoubleOverlay \
-        DisplayCutoutEmulationHoleOverlay \
+	DisplayCutoutEmulationHoleOverlay \
 	DisplayCutoutEmulationTallOverlay \
 	DisplayCutoutEmulationWaterfallOverlay \
 	FontNotoSerifSourceOverlay \
-	IconPackCircularAndroidOverlay \
 	IconPackCircularLauncherOverlay \
 	IconPackCircularSettingsOverlay \
 	IconPackCircularSystemUIOverlay \
 	IconPackCircularThemePickerOverlay \
-	IconPackVictorAndroidOverlay \
-    IconPackVictorLauncherOverlay \
-    IconPackVictorSettingsOverlay \
-    IconPackVictorSystemUIOverlay \
-    IconPackVictorThemePickerOverlay \
-    IconPackSamAndroidOverlay \
-    IconPackSamLauncherOverlay \
-    IconPackSamSettingsOverlay \
-    IconPackSamSystemUIOverlay \
-    IconPackSamThemePickerOverlay \
-    IconPackKaiAndroidOverlay \
-    IconPackKaiLauncherOverlay \
-    IconPackKaiSettingsOverlay \
-    IconPackKaiSystemUIOverlay \
-    IconPackKaiThemePickerOverlay \
-	IconPackFilledAndroidOverlay \
+	IconPackVictorLauncherOverlay \
+	IconPackVictorSettingsOverlay \
+	IconPackVictorSystemUIOverlay \
+	IconPackVictorThemePickerOverlay \
+	IconPackSamLauncherOverlay \
+	IconPackSamSettingsOverlay \
+	IconPackSamSystemUIOverlay \
+	IconPackSamThemePickerOverlay \
+	IconPackKaiLauncherOverlay \
+	IconPackKaiSettingsOverlay \
+	IconPackKaiSystemUIOverlay \
+	IconPackKaiThemePickerOverlay \
 	IconPackFilledLauncherOverlay \
 	IconPackFilledSettingsOverlay \
 	IconPackFilledSystemUIOverlay \
 	IconPackFilledThemePickerOverlay \
-	IconPackRoundedAndroidOverlay \
 	IconPackRoundedLauncherOverlay \
 	IconPackRoundedSettingsOverlay \
 	IconPackRoundedSystemUIOverlay \
