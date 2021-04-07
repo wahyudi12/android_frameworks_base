@@ -570,8 +570,11 @@ public class VolumeDialogImpl implements VolumeDialog,
                 }
                 int x = (int) (mLeftVolumeRocker ? 0 : (3 * mWidth + 2 * mSpacer));
                 int endRadius = (int) Math.hypot(3 * mWidth + 2 * mSpacer, mHeight);
+            try{
                 mCurrAnimator = circularExit(mMediaOutputScrollView, x, endRadius);
                 mCurrAnimator.start();
+            }catch(Exception ignored){
+            }
             } else {
                 Util.setVisOrGone(mMediaOutputScrollView, false);
                 Util.setVisOrGone(mDialogRowsView, true);
