@@ -52,11 +52,14 @@ public class AdaptiveIconShapeDrawable extends ShapeDrawable {
     }
 
     private void init(Resources resources) {
+        final float pathSize = AdaptiveIconDrawable.MASK_SIZE;
         final Path path = new Path(PathParser.createPathFromPathData(
                 resources.getString(com.android.internal.R.string.config_icon_mask)));
-        getPaint().setAntiAlias(true);
-        getPaint().setStyle(Style.STROKE);
-        getPaint().setStrokeWidth(3.0f);
-        setShape(new PathShape(path, 100.0f, 100.0f));
+        //getPaint().setAntiAlias(true);
+        //getPaint().setStyle(Style.STROKE);
+        //getPaint().setStrokeWidth(3.0f);
+        //setShape(new PathShape(path, 100.0f, 100.0f));
+        getPaint().setAlpha(148);
+        setShape(new PathShape(path, pathSize, pathSize));
     }
 }
