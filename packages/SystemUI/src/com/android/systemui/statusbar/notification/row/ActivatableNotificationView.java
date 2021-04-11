@@ -203,7 +203,7 @@ public abstract class ActivatableNotificationView extends ExpandableOutlineView 
         initBackground();
         updateBackground();
         updateBackgroundTint();
-        updateOutlineAlpha();
+        //updateOutlineAlpha();
     }
 
     /**
@@ -381,7 +381,7 @@ public abstract class ActivatableNotificationView extends ExpandableOutlineView 
 
     private void setNormalBackgroundVisibilityAmount(float normalBackgroundVisibilityAmount) {
         mNormalBackgroundVisibilityAmount = normalBackgroundVisibilityAmount;
-        updateOutlineAlpha();
+        //updateOutlineAlpha();
     }
 
     @Override
