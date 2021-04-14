@@ -25,7 +25,7 @@
     <TextView
             android:id="@+id/no_notifications"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_marginTop="@dimen/notification_header_margin_top"
             android:textAppearance="?android:attr/textAppearanceButton"
             android:gravity="center"
