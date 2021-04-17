@@ -877,9 +877,6 @@ public class QuickStatusBarHeader extends RelativeLayout implements
         boolean shouldUseWallpaperTextColor = (mLandscape || mForceHideQsStatusBar) && !mHeaderImageEnabled;
         mBatteryMeterView.useWallpaperTextColor(shouldUseWallpaperTextColor);
         mClockView.useWallpaperTextColor(shouldUseWallpaperTextColor);
-        int topPadding = mContext.getResources().getDimensionPixelSize(R.dimen.qs_header_top_padding);
-        int bottomPadding = mContext.getResources().getDimensionPixelSize(R.dimen.qs_header_bottom_padding);
-        mQuickQsStatusIcons.setPadding(0,topPadding,0,bottomPadding);
         updateBatteryInQs();
     }
 }
