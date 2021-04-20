@@ -6378,19 +6378,19 @@ public final class Settings {
          * 1: Notifications & media
          * @hide
          */
-        public static final String STATUS_BAR_TICKER_MODE = "status_bar_ticker_mode";
 
         /**
          * Ticker animation
          * 0: Fade animation
          * 1: Scrolling ticker
-	       * @hide
+         * @hide
          */
         public static final String STATUS_BAR_TICKER_ANIMATION_MODE =
                 "status_bar_ticker_animation_mode";
+        public static final String STATUS_BAR_TICKER_MODE = "status_bar_ticker_mode";
 
         /**
-         * Status bar ticker duration in milliseconds.
+         * Status bar ticker duration in milliseconds
          *
          * @hide
          */
@@ -6720,6 +6720,12 @@ public final class Settings {
         public static final String SENSOR_BLOCKED_APP_DUMMY = "sensor_blocked_app_dummy";
 
         /**
+         * Whether StatusBar icons should use app icon
+         * @hide
+         */
+        public static final String STATUSBAR_ICONS_STYLE = "statusbar_icons_style";
+
+        /**
          * Keys we no longer back up under the current schema, but want to continue to
          * process when restoring historical backup datasets.
          *
@@ -6904,7 +6910,9 @@ public final class Settings {
             PRIVATE_SETTINGS.add(FLASHLIGHT_ON_CALL_RATE);
             PRIVATE_SETTINGS.add(TOAST_ICON);
             PRIVATE_SETTINGS.add(PROXIMITY_ON_WAKE);
-        }
+         }
+            PRIVATE_SETTINGS.add(STATUSBAR_ICONS_STYLE);
+         }
 
         /**
          * These entries are considered common between the personal and the managed profile,
