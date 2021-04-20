@@ -562,8 +562,8 @@
     <!-- Padding between subtitles and the following text in the QSFooter dialog -->
     <dimen name="qs_footer_dialog_subtitle_padding">20dp</dimen>
 
-    <dimen name="seek_bar_height">3dp</dimen>
-    <dimen name="seek_bar_corner_radius">3dp</dimen>
+    <dimen name="seek_bar_height">6dp</dimen>
+    <dimen name="seek_bar_corner_radius">6dp</dimen>
 
     <!-- Zen mode panel: condition item button padding -->
     <dimen name="zen_mode_condition_detail_button_padding">8dp</dimen>
@@ -1050,8 +1050,8 @@
     <dimen name="global_actions_wallet_top_margin">40dp</dimen>
 
     <!-- Shutdown and restart actions are larger in power options dialog -->
-    <dimen name="global_actions_power_dialog_item_height">108dp</dimen>
-    <dimen name="global_actions_power_dialog_item_width">135dp</dimen>
+    <dimen name="global_actions_power_dialog_item_height">100dp</dimen>
+    <dimen name="global_actions_power_dialog_item_width">115dp</dimen>
     <dimen name="global_actions_power_dialog_item_bottom_margin">14dp</dimen>
 
     <dimen name="global_actions_power_dialog_message_top_margin">15dp</dimen>
