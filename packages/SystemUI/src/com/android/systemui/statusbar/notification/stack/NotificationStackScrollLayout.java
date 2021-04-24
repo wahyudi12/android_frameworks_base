@@ -482,6 +482,7 @@ public class NotificationStackScrollLayout extends ViewGroup implements ScrollAd
     private int mMaxDisplayedNotifications = -1;
     private int mStatusBarHeight;
     private int mMinInteractionHeight;
+    private int mNotificationBackgroundAlpha;
     private boolean mNoAmbient;
     private final Rect mClipRect = new Rect();
     private boolean mIsClipped;
@@ -652,6 +653,10 @@ public class NotificationStackScrollLayout extends ViewGroup implements ScrollAd
                 updateDismissRtlSetting("1".equals(newValue));
             } else if (key.equals(Settings.Secure.NOTIFICATION_HISTORY_ENABLED)) {
                 updateFooter();
+            } else if (key.equals(Settings.System.NOTIFICATION_BG_ALPHA)) {
+                mNotificationBackgroundAlpha =
+                        TunerService.parseInteger(newValue, 255);
+                updateBackgroundDimming();
             }
         }, HIGH_PRIORITY, Settings.Secure.NOTIFICATION_DISMISS_RTL,
                 Settings.Secure.NOTIFICATION_HISTORY_ENABLED);
@@ -1077,9 +1082,11 @@ public class NotificationStackScrollLayout extends ViewGroup implements ScrollAd
                 mLinearHideAmount);
         int color = ColorUtils.blendARGB(mBgColor, Color.WHITE, colorInterpolation);
 
-        if (mCachedBackgroundColor != color) {
+        if (mCachedBackgroundColor != color ||
+                mBackgroundPaint.getAlpha() != mNotificationBackgroundAlpha) {
             mCachedBackgroundColor = color;
             mBackgroundPaint.setColor(color);
+            mBackgroundPaint.setAlpha(mNotificationBackgroundAlpha);
             invalidate();
         }
     }
