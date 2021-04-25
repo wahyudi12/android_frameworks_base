@@ -100,9 +100,11 @@ public class QSContainerImpl extends FrameLayout implements
     private StatusBarHeaderMachine mStatusBarHeaderMachine;
     private Drawable mCurrentBackground;
     private boolean mLandscape;
-    private boolean mQsBackgroundAlpha;
     private float mHeaderImageHeight;
     private boolean mForceHideQsStatusBar;
+
+    private Drawable mQsBackGround;
+    private int mQsBackGroundAlpha;
 
     public QSContainerImpl(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -119,13 +121,14 @@ public class QSContainerImpl extends FrameLayout implements
         mQSPanelContainer = findViewById(R.id.expanded_qs_scroll_view);
         mQSDetail = findViewById(R.id.qs_detail);
         mHeader = findViewById(R.id.header);
-        mQSCustomizer = (QSCustomizer) findViewById(R.id.qs_customize);
+        mQSCustomizer = findViewById(R.id.qs_customize);
         mDragHandle = findViewById(R.id.qs_drag_handle_view);
         mBackground = findViewById(R.id.quick_settings_background);
         mStatusBarBackground = findViewById(R.id.quick_settings_status_bar_background);
         mBackgroundGradient = findViewById(R.id.quick_settings_gradient_view);
         mBackgroundImage = findViewById(R.id.qs_header_image_view);
         mBackgroundImage.setClipToOutline(true);
+        mQsBackGround = getContext().getDrawable(R.drawable.qs_background_primary);
         mForceHideQsStatusBar = mContext.getResources().getBoolean(R.bool.qs_status_bar_hidden);
         mHeaderImageHeight = (float) 25;
         mHeader.getHeaderQsPanel().setMediaVisibilityChangedListener((visible) -> {
@@ -201,13 +204,13 @@ public class QSContainerImpl extends FrameLayout implements
 
         @Override
         public void onChange(boolean selfChange) {
-            updateSettings();
+           updateSettings();
         }
     }
 
     private void updateSettings() {
         ContentResolver resolver = getContext().getContentResolver();
-        int bgAlpha = Settings.System.getIntForUser(resolver,
+        mQsBackGroundAlpha = Settings.System.getIntForUser(resolver,
                 Settings.System.QS_PANEL_BG_ALPHA, 255,
                 UserHandle.USER_CURRENT);
         int mImageHeight = Settings.System.getIntForUser(resolver,
@@ -219,21 +222,16 @@ public class QSContainerImpl extends FrameLayout implements
         mImmerseMode = Settings.System.getIntForUser(resolver,
                 Settings.System.DISPLAY_CUTOUT_MODE, 0,
                 UserHandle.USER_CURRENT) == 1;
-
-        Drawable bg = mBackground.getBackground();
-        if (bgAlpha < 255 ) {
-            mQsBackgroundAlpha = true;
-            bg.setAlpha(bgAlpha);
-            mBackground.setBackground(bg);
-            mBackgroundGradient.setVisibility(View.INVISIBLE);
-        } else {
-            mQsBackgroundAlpha = false;
-            bg.setAlpha(255);
-            mBackground.setBackground(bg);
-            mBackgroundGradient.setVisibility(View.VISIBLE);
-        }
+        setQsBackground();
         updateResources();
         updateStatusbarVisibility();
+    }
+
+    private void setQsBackground() {
+        if (mQsBackGround != null) {
+            mQsBackGround.setAlpha(mQsBackGroundAlpha);
+            mBackground.setBackground(mQsBackGround);
+        }
     }
 
     @Override
