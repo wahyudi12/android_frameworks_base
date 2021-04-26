@@ -153,12 +153,36 @@ public class ThemesUtils {
     };
 
     public static final String[] SWITCH_STYLE = {
-        "com.android.system.switch.md2",       // 1
-        "com.android.system.switch.oneplus",   // 2
-        "com.android.system.switch.telegram",  // 3
-        "com.android.system.switch.narrow",    // 4
-        "com.android.system.switch.contained", // 5
-        "com.android.system.switch.retro",     // 6
-        "com.android.system.switch.stockish"   // 7
+            "com.android.system.switch.md2",       // 1
+            "com.android.system.switch.oneplus",   // 2
+            "com.android.system.switch.telegram",  // 3
+            "com.android.system.switch.narrow",    // 4
+            "com.android.system.switch.contained", // 5
+            "com.android.system.switch.retro",     // 6
+            "com.android.system.switch.stockish"   // 7
+    };
+
+    // Statusbar Signal icons
+    public static final String[] SIGNAL_BAR = {
+            "com.nusantara.systemui.signalbar_a",
+            "com.nusantara.systemui.signalbar_b",
+            "com.nusantara.systemui.signalbar_c",
+            "com.nusantara.systemui.signalbar_d",
+            "com.nusantara.systemui.signalbar_e",
+            "com.nusantara.systemui.signalbar_f",
+            "com.nusantara.systemui.signalbar_g",
+            "com.nusantara.systemui.signalbar_h",
+    };
+
+    // Statusbar Wifi icons
+    public static final String[] WIFI_BAR = {
+            "com.nusantara.systemui.wifibar_a",
+            "com.nusantara.systemui.wifibar_b",
+            "com.nusantara.systemui.wifibar_c",
+            "com.nusantara.systemui.wifibar_d",
+            "com.nusantara.systemui.wifibar_e",
+            "com.nusantara.systemui.wifibar_f",
+            "com.nusantara.systemui.wifibar_g",
+            "com.nusantara.systemui.wifibar_h",
     };
 }
