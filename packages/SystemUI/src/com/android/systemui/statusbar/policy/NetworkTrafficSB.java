@@ -62,7 +62,7 @@ public class NetworkTrafficSB extends NetworkTraffic implements DarkReceiver, St
     @Override
     protected void setMode() {
         super.setMode();
-        mIsEnabled = mIsEnabled && !Utils.hasNotch(mContext);
+        mIsEnabled = mIsEnabled && !NadUtils.hasNotch(mContext);
     }
 
     @Override
