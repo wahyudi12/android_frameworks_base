@@ -11828,6 +11828,12 @@ public final class Settings {
         public static final String DEVICE_HOSTNAME = "device_hostname";
 
         /**
+         * Dark Accent Color
+         * @hide
+         */
+        public static final String ACCENT_COLOR = "accent_color";
+
+        /**
          * This are the settings to be backed up.
          *
          * NOTE: Settings are backed up and restored in the order they appear
