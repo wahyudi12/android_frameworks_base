@@ -22,6 +22,7 @@ import android.content.res.ColorStateList;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.content.res.ColorUtils;
+import android.content.res.Configuration;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
@@ -108,19 +109,24 @@ public class QSTileBaseView extends com.android.systemui.plugins.qs.QSTileView {
         int size = context.getResources().getDimensionPixelSize(R.dimen.qs_quick_tile_size);
         addView(mIconFrame, new LayoutParams(size, size));
         mBg = new ImageView(getContext());
-        Path path = new Path(PathParser.createPathFromPathData(
-                context.getResources().getString(ICON_MASK_ID)));
-        float pathSize = AdaptiveIconDrawable.MASK_SIZE;
-        PathShape p = new PathShape(path, pathSize, pathSize);
-        ShapeDrawable d = new ShapeDrawable(p);
-        d.setTintList(ColorStateList.valueOf(Color.TRANSPARENT));
-        int bgSize = context.getResources().getDimensionPixelSize(R.dimen.qs_tile_background_size);
-        d.setIntrinsicHeight(bgSize);
-        d.setIntrinsicWidth(bgSize);
-        mBg.setImageDrawable(d);
-        FrameLayout.LayoutParams lp = new FrameLayout.LayoutParams(bgSize, bgSize, Gravity.CENTER);
-        mIconFrame.addView(mBg, lp);
-        mBg.setLayoutParams(lp);
+        if (context.getResources().getBoolean(R.bool.config_useMaskForQs)) {
+            Path path = new Path(PathParser.createPathFromPathData(
+                    context.getResources().getString(ICON_MASK_ID)));
+            float pathSize = AdaptiveIconDrawable.MASK_SIZE;
+            PathShape p = new PathShape(path, pathSize, pathSize);
+            ShapeDrawable d = new ShapeDrawable(p);
+            d.setTintList(ColorStateList.valueOf(Color.TRANSPARENT));
+            int bgSize = context.getResources().getDimensionPixelSize(R.dimen.qs_tile_background_size);
+            d.setIntrinsicHeight(bgSize);
+            d.setIntrinsicWidth(bgSize);
+            mBg.setImageDrawable(d);
+            FrameLayout.LayoutParams lp = new FrameLayout.LayoutParams(bgSize, bgSize, Gravity.CENTER);
+            mIconFrame.addView(mBg, lp);
+            mBg.setLayoutParams(lp);
+        } else {
+            mBg.setImageResource(R.drawable.ic_qs_circle);
+            mIconFrame.addView(mBg);
+        }
         FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(
                 ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT,
                 Gravity.CENTER);
@@ -145,11 +151,11 @@ public class QSTileBaseView extends com.android.systemui.plugins.qs.QSTileView {
     private void setActiveColor(Context context) {
         if (setQsUseNewTint == 1) {
             mColorActive = ColorUtils.genRandomAccentColor(isThemeDark(context));
-            mColorActiveAlpha = adjustAlpha(mColorActive, 0.2f);
+            mColorActiveAlpha = adjustAlpha(mColorActive, 0.3f);
             mColorActive = mColorActiveAlpha;
         } else if (setQsUseNewTint == 2) {
             mColorActive = Utils.getColorAttrDefaultColor(context, android.R.attr.colorAccent);
-            mColorActiveAlpha = adjustAlpha(mColorActive, 0.2f);
+            mColorActiveAlpha = adjustAlpha(mColorActive, 0.3f);
             mColorActive = mColorActiveAlpha;
         } else if (setQsUseNewTint == 3) {
             mColorActive = ColorUtils.genRandomAccentColor(isThemeDark(context), (long) (ColorUtils.getBootTime() + mIcon.toString().hashCode()));

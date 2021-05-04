@@ -76,7 +76,6 @@ public class NotificationInterruptStateProviderImpl implements NotificationInter
     private final ContentObserver mHeadsUpObserver;
     private HeadsUpManager mHeadsUpManager;
     private TelecomManager mTm;
-    private Context mContext;
 
     ActivityManager mAm;
     private ArrayList<String> mStoplist = new ArrayList<String>();
@@ -109,7 +108,6 @@ public class NotificationInterruptStateProviderImpl implements NotificationInter
         mAmbientDisplayConfiguration = ambientDisplayConfiguration;
         mNotificationFilter = notificationFilter;
         mStatusBarStateController = statusBarStateController;
-        mContext = context;
         mTm = (TelecomManager) context.getSystemService(Context.TELECOM_SERVICE);
         mHeadsUpManager = headsUpManager;
         mAm = (ActivityManager) mContext.getSystemService(Context.ACTIVITY_SERVICE);

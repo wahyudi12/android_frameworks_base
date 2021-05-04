@@ -125,6 +125,7 @@ public class QuickStatusBarHeader extends RelativeLayout implements
     private static final int TOOLTIP_NOT_YET_SHOWN_COUNT = 0;
     public static final int MAX_TOOLTIP_SHOWN_COUNT = 2;
 
+    private final Handler mHandler = new Handler();
     private final NextAlarmController mAlarmController;
     private final ZenModeController mZenController;
     private final StatusBarIconController mStatusBarIconController;

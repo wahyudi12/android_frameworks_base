@@ -31,6 +31,7 @@ import android.annotation.CallSuper;
 import android.annotation.NonNull;
 import android.app.ActivityManager;
 import android.content.res.ColorUtils;
+import android.content.res.Configuration;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
@@ -546,9 +547,8 @@ public abstract class QSTileImpl<TState extends State> implements QSTile, Lifecy
                     return ColorUtils.genRandomAccentColor(isThemeDark(context));
                 } else if (setQsUseNewTint == 2) {
                     return Utils.getColorAttrDefaultColor(context, android.R.attr.colorAccent);
-                } else {
-                    return Utils.getColorAttrDefaultColor(context, android.R.attr.colorPrimary);
                 }
+
                 if (qsIconPrimary) {
                     return Utils.getColorAttrDefaultColor(context, android.R.attr.textColorPrimary);
                 } else {

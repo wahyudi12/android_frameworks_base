@@ -181,7 +181,7 @@ public class QSIconViewImpl extends QSIconView {
                     .setFinalImageTintList(ColorStateList.valueOf(toColor));
         }
         int setQsUseNewTint = Settings.System.getIntForUser(getContext().getContentResolver(),
-                Settings.System.QS_PANEL_BG_USE_NEW_TINT, 1, UserHandle.USER_CURRENT);
+                Settings.System.QS_PANEL_BG_USE_NEW_TINT, 0, UserHandle.USER_CURRENT);
         if (mAnimationEnabled && ValueAnimator.areAnimatorsEnabled()) {
             final float fromAlpha = Color.alpha(fromColor);
             final float toAlpha = Color.alpha(toColor);

@@ -126,7 +126,7 @@ public class QSTileView extends QSTileBaseView {
     protected void handleStateChanged(QSTile.State state) {
         super.handleStateChanged(state);
         setQsLabelUseNewTint = Settings.System.getIntForUser(getContext().getContentResolver(),
-                    Settings.System.QS_LABEL_USE_NEW_TINT, 1, UserHandle.USER_CURRENT);
+                    Settings.System.QS_LABEL_USE_NEW_TINT, 0, UserHandle.USER_CURRENT);
 
         if (!Objects.equals(mLabel.getText(), state.label) || mState != state.state) {
             mLabel.setTextColor(state.state == Tile.STATE_UNAVAILABLE ? mColorLabelUnavailable
@@ -190,6 +190,17 @@ public class QSTileView extends QSTileBaseView {
            mLabelContainer.setVisibility(View.VISIBLE);
         } else {
            mLabelContainer.setVisibility(View.GONE);
+        }
+    }
+
+    private static Boolean isThemeDark(Context context) {
+        switch (context.getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK) {
+            case Configuration.UI_MODE_NIGHT_YES:
+              return true;
+            case Configuration.UI_MODE_NIGHT_NO:
+              return false;
+            default:
+              return false;
         }
     }
 }

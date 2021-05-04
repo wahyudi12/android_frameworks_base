@@ -75,7 +75,7 @@ import dagger.Provides;
  * overridden by the System UI implementation.
  */
 @Module(includes = {DividerModule.class, QSModule.class})
-public abstract class SystemUIDefaultModule {
+public abstract class SystemUIGoogleModule {
 
     @Singleton
     @Provides
