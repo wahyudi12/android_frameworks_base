@@ -156,7 +156,7 @@ public class ScrimController implements ViewTreeObserver.OnPreDrawListener, OnCo
     private boolean mNeedsDrawableColorUpdate;
 
     private float mScrimBehindAlphaKeyguard = KEYGUARD_SCRIM_ALPHA;
-    private final float mDefaultScrimAlpha;
+    private float mScrimAlpha;
 
     // Assuming the shade is expanded during initialization
     private float mExpansionFraction = 1f;
@@ -197,6 +197,8 @@ public class ScrimController implements ViewTreeObserver.OnPreDrawListener, OnCo
     private boolean mWakeLockHeld;
     private boolean mKeyguardOccluded;
 
+    private final BlurUtils mBlurUtils;
+
     @Inject
     public ScrimController(LightBarController lightBarController, DozeParameters dozeParameters,
             AlarmManager alarmManager, KeyguardStateController keyguardStateController,
@@ -205,7 +207,8 @@ public class ScrimController implements ViewTreeObserver.OnPreDrawListener, OnCo
             DockManager dockManager, BlurUtils blurUtils) {
 
         mScrimStateListener = lightBarController::setScrimState;
-        mDefaultScrimAlpha = blurUtils.supportsBlursOnWindows()
+        mBlurUtils = blurUtils;
+        mScrimAlpha = mBlurUtils.supportsBlursOnWindows()
                 ? BLUR_SCRIM_ALPHA : BUSY_SCRIM_ALPHA;
 
         mKeyguardStateController = keyguardStateController;
@@ -249,7 +252,7 @@ public class ScrimController implements ViewTreeObserver.OnPreDrawListener, OnCo
             states[i].init(mScrimInFront, mScrimBehind, mScrimForBubble, mDozeParameters,
                     mDockManager);
             states[i].setScrimBehindAlphaKeyguard(mScrimBehindAlphaKeyguard);
-            states[i].setDefaultScrimAlpha(mDefaultScrimAlpha);
+            states[i].setDefaultScrimAlpha(mScrimAlpha);
         }
 
         mScrimBehind.setDefaultFocusHighlightEnabled(false);
@@ -265,6 +268,19 @@ public class ScrimController implements ViewTreeObserver.OnPreDrawListener, OnCo
 
     public void transitionTo(ScrimState state) {
         transitionTo(state, null);
+    }
+
+    public void updateScrimAlpha() {
+        mScrimAlpha = mBlurUtils.supportsBlursOnWindows()
+                ? BLUR_SCRIM_ALPHA : BUSY_SCRIM_ALPHA;
+        final ScrimState[] states = ScrimState.values();
+        for (int i = 0; i < states.length; i++) {
+            states[i].init(mScrimInFront, mScrimBehind, mScrimForBubble, mDozeParameters,
+                    mDockManager);
+            states[i].setScrimBehindAlphaKeyguard(mScrimBehindAlphaKeyguard);
+            states[i].setDefaultScrimAlpha(mScrimAlpha);
+        }
+        updateScrims();
     }
 
     public void transitionTo(ScrimState state, Callback callback) {
@@ -478,7 +494,7 @@ public class ScrimController implements ViewTreeObserver.OnPreDrawListener, OnCo
             // Darken scrim as you pull down the shade when unlocked
             float behindFraction = getInterpolatedFraction();
             behindFraction = (float) Math.pow(behindFraction, 0.8f);
-            mBehindAlpha = behindFraction * mDefaultScrimAlpha;
+            mBehindAlpha = behindFraction * mScrimAlpha;
             mInFrontAlpha = 0;
         } else if (mState == ScrimState.KEYGUARD || mState == ScrimState.PULSING) {
             // Either darken of make the scrim transparent when you
@@ -486,7 +502,7 @@ public class ScrimController implements ViewTreeObserver.OnPreDrawListener, OnCo
             float interpolatedFract = getInterpolatedFraction();
             float alphaBehind = mState.getBehindAlpha();
             if (mDarkenWhileDragging) {
-                mBehindAlpha = MathUtils.lerp(mDefaultScrimAlpha, alphaBehind,
+                mBehindAlpha = MathUtils.lerp(mScrimAlpha, alphaBehind,
                         interpolatedFract);
                 mInFrontAlpha = mState.getFrontAlpha();
             } else {
@@ -994,8 +1010,8 @@ public class ScrimController implements ViewTreeObserver.OnPreDrawListener, OnCo
 
         pw.print("  mTracking=");
         pw.println(mTracking);
-        pw.print("  mDefaultScrimAlpha=");
-        pw.println(mDefaultScrimAlpha);
+        pw.print("  mScrimAlpha=");
+        pw.println(mScrimAlpha);
         pw.print("  mExpansionFraction=");
         pw.println(mExpansionFraction);
     }

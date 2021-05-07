@@ -1688,6 +1688,7 @@ public class ActivityManagerService extends IActivityManager.Stub
     final SwipeToScreenshotObserver mSwipeToScreenshotObserver;
     private boolean mIsSwipeToScrenshotEnabled;
 
+    private boolean mIsUiBackgroundBlurEnabled;
     private GamingModeController mGamingModeController;
 
     /**
@@ -20435,12 +20436,18 @@ public class ActivityManagerService extends IActivityManager.Stub
             mContext.getContentResolver().registerContentObserver(
                     Settings.System.getUriFor(Settings.System.THREE_FINGER_GESTURE),
                     false, this, UserHandle.USER_ALL);
+
+            mContext.getContentResolver().registerContentObserver(
+                    Settings.System.getUriFor(Settings.System.UI_BACKGROUND_BLUR),
+                    false, this, UserHandle.USER_ALL);
             update();
         }
 
         private void update() {
             mIsSwipeToScrenshotEnabled = Settings.System.getIntForUser(mContext.getContentResolver(),
                     Settings.System.THREE_FINGER_GESTURE, 0, UserHandle.USER_CURRENT) == 1;
+            mIsUiBackgroundBlurEnabled = Settings.System.getIntForUser(mContext.getContentResolver(),
+                    Settings.System.UI_BACKGROUND_BLUR, 0, UserHandle.USER_CURRENT) == 1;
         }
 
         public void onChange(boolean selfChange) {
@@ -20455,6 +20462,14 @@ public class ActivityManagerService extends IActivityManager.Stub
         }
     }
 
+    public boolean isUiBackgroundBlurAvailable() {
+        synchronized (this) {
+            return mIsUiBackgroundBlurEnabled &&
+                     SystemProperties.getBoolean("ro.surface_flinger.supports_background_blur", false);
+        }
+    }
+
+    @Override
     public boolean shouldForceCutoutFullscreen(String packageName) {
         synchronized (this) {
             return mCutoutFullscreenController.shouldForceCutoutFullscreen(packageName);

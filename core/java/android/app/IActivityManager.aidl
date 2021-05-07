@@ -703,4 +703,9 @@ interface IActivityManager {
      *  Force full screen for devices with cutout
      */
     boolean shouldForceCutoutFullscreen(in String packageName);
+
+    /**
+     *  Is UI background blur aviable and enabled?
+     */
+    boolean isUiBackgroundBlurAvailable();
 }
