@@ -109,7 +109,6 @@ public class NotificationShadeWindowViewController {
     private RectF mTempRect = new RectF();
     private boolean mIsTrackingBarGesture = false;
 
-    private boolean mIsMusicTickerTap;
     private boolean mDoubleTapEnabledNative;
 
     @Inject
@@ -159,7 +158,6 @@ public class NotificationShadeWindowViewController {
 
         // This view is not part of the newly inflated expanded status bar.
         mBrightnessMirror = mView.findViewById(R.id.brightness_mirror);
-        mAmbientConfig = new AmbientDisplayConfiguration(mView.getContext());
     }
 
     /** Inflates the {@link R.layout#status_bar_expanded} layout and sets it up. */
@@ -200,12 +198,6 @@ public class NotificationShadeWindowViewController {
 
                     @Override
                     public boolean onDoubleTap(MotionEvent e) {
-                        if (mIsMusicTickerTap) {
-                            /* this gets called in pulsing Ambient screen,
-                            for double taps on screen OFF or AoD check DozeTriggers onSlpiTap*/
-                            LineageButtons.getAttachedInstance(mView.getContext()).skipTrack();
-                            return true;
-                        }
                         if (mDoubleTapEnabled || mSingleTapEnabled|| mDoubleTapEnabledNative) {
                             mService.wakeUpIfDozing(
                                     SystemClock.uptimeMillis(), mView, "DOUBLE_TAP");
@@ -303,15 +295,10 @@ public class NotificationShadeWindowViewController {
 
             @Override
             public boolean shouldInterceptTouchEvent(MotionEvent ev) {
-                mIsMusicTickerTap = false;
-                if (mStatusBarStateController.isDozing()) {
-                    if (mService.isDoubleTapOnMusicTicker(ev.getX(), ev.getY())) {
-                        mIsMusicTickerTap = true;
-                    }
-                    if (!mService.isPulsing()
+                if (mStatusBarStateController.isDozing() && !mService.isPulsing()
                         && !mDockManager.isDocked()) {
-                        // Capture all touch events in always-on.
-                        return true;
+                    // Capture all touch events in always-on.
+                    return true;
                     }
                 }
                 boolean intercept = false;

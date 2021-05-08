@@ -219,7 +219,7 @@ public class KeyguardSliceProvider extends SliceProvider implements
         return slice;
     }
 
-    public boolean needsMediaLocked() {
+    protected boolean needsMediaLocked() {
         boolean keepWhenAwake = mKeyguardBypassController != null
                 && mKeyguardBypassController.getBypassEnabled() && mDozeParameters.getAlwaysOn();
         boolean isCenterMusicTickerEnabled = Settings.System.getIntForUser(getContext().getContentResolver(),
