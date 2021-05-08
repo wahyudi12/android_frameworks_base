@@ -145,11 +145,6 @@ public class LockscreenLockIconController {
         private int mDensity;
 
         @Override
-        public void onOverlayChanged() {
-            onThemeChanged();
-        }
-
-        @Override
         public void onThemeChanged() {
             if (mLockIcon == null) {
                 return;

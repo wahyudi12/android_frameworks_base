@@ -806,7 +806,6 @@ public class NotificationPanelViewController extends PanelViewController {
             mKeyguardStatusBar.onThemeChanged();
         }*/
 
-        mKeyguardStatusBar.setVisibility(mKeyguardShowing ? View.VISIBLE : View.INVISIBLE);
         setKeyguardStatusViewVisibility(mBarState, false, false);
         setKeyguardBottomAreaVisibility(mBarState, false);
         if (mOnReinflationListener != null) {

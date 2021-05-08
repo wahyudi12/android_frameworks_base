@@ -49,6 +49,4 @@ interface IDeviceIdleController {
     void exitIdle(String reason);
     int setPreIdleTimeoutMode(int Mode);
     void resetPreIdleTimeoutMode();
-    int getIdleStateDetailed();
-    int getLightIdleStateDetailed();
 }
