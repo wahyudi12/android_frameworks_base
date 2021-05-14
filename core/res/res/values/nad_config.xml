@@ -125,13 +125,14 @@
     <bool name="config_button_brightness_support">false</bool>
     <integer name="config_button_brightness_default">128</integer>
 
-    <!-- Smart charging -->
-    <bool name="config_smartChargingAvailable">false</bool>
-    <integer name="config_smartChargingBatteryLevel">80</integer>
-    <integer name="config_smartChargingBatteryResumeLevel">60</integer>
-    <string name="config_smartChargingSysfsNode" translatable="false">/sys/class/power_supply/battery/charging_enabled</string>
-    <string name="config_smartChargingSuspendValue" translatable="false">0</string>
-    <string name="config_smartChargingResumeValue" translatable="false">1</string>
+    <!-- Adaptive charging -->
+    <integer name="config_adaptiveChargingCutoffLevel">80</integer>
+    <integer name="config_adaptiveChargingResumeLevel">60</integer>
+    <integer name="config_adaptiveChargingCutoffTemperature">40</integer>
+    <integer name="config_adaptiveChargingResumeTemperature">30</integer>
+    <string name="config_adaptiveChargingSysfsNode" translatable="false">/sys/class/power_supply/battery/charging_enabled</string>
+    <string name="config_adaptiveChargingSuspendValue" translatable="false">0</string>
+    <string name="config_adaptiveChargingResumeValue" translatable="false">1</string>
 
     <!-- Whether device has dash charging support -->
     <bool name="config_hasDashCharger">false</bool>
@@ -226,7 +227,4 @@
     <!-- -1 means use same as config_screenBrightnessDoze -->
     <integer name="config_screenBrightnessPulse">-1</integer>
 
-    <!-- Smart cutoff -->
-    <integer name="config_smartCutoffTemperature">30</integer>
-    <integer name="config_smartCutoffResumeTemperature">25</integer>
 </resources>

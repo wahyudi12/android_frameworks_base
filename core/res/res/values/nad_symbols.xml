@@ -96,13 +96,14 @@
   <java-symbol type="bool" name="config_button_brightness_support" />
   <java-symbol type="integer" name="config_button_brightness_default" />
 
-  <!-- Smart charging -->
-  <java-symbol type="bool" name="config_smartChargingAvailable" />
-  <java-symbol type="integer" name="config_smartChargingBatteryLevel" />
-  <java-symbol type="integer" name="config_smartChargingBatteryResumeLevel" />
-  <java-symbol type="string" name="config_smartChargingSysfsNode" />
-  <java-symbol type="string" name="config_smartChargingSuspendValue" />
-  <java-symbol type="string" name="config_smartChargingResumeValue" />
+  <!-- Adaptive charging -->
+  <java-symbol type="integer" name="config_adaptiveChargingCutoffLevel" />
+  <java-symbol type="integer" name="config_adaptiveChargingResumeLevel" />
+  <java-symbol type="integer" name="config_adaptiveChargingCutoffTemperature" />
+  <java-symbol type="integer" name="config_adaptiveChargingResumeTemperature" />
+  <java-symbol type="string" name="config_adaptiveChargingSysfsNode" />
+  <java-symbol type="string" name="config_adaptiveChargingSuspendValue" />
+  <java-symbol type="string" name="config_adaptiveChargingResumeValue" />
 
   <!-- Whether device has dash charging support -->
   <java-symbol type="bool" name="config_hasDashCharger" />
@@ -189,7 +190,4 @@
   <!-- Pulse brightness -->
   <java-symbol type="integer" name="config_screenBrightnessPulse" />
 
-  <!-- Smart cutoff temperature -->
-  <java-symbol type="integer" name="config_smartCutoffTemperature" />
-  <java-symbol type="integer" name="config_smartCutoffResumeTemperature" />
 </resources>

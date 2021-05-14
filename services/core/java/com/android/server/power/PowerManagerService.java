@@ -660,25 +660,22 @@ public final class PowerManagerService extends SystemService
     private boolean mButtonTimeoutEnabled;
     private int mEvent;
 
-    // Smart charging
-    private boolean mSmartChargingAvailable;
-    private boolean mSmartChargingEnabled;
-    private boolean mSmartChargingResetStats;
+    // Adaptive charging
+    private boolean mAdaptiveChargingEnabled;
+    private boolean mAdaptiveChargingResetStats;
     private boolean mPowerInputSuspended = false;
-    private int mSmartChargingLevel;
-    private int mSmartChargingResumeLevel;
-    private int mSmartChargingLevelDefaultConfig;
-    private int mSmartChargingResumeLevelDefaultConfig;
+    private int mAdaptiveChargingMode;
+    private int mAdaptiveChargingCutoffLevel;
+    private int mAdaptiveChargingResumeLevel;
+    private int mAdaptiveChargingCutoffTemperature;
+    private int mAdaptiveChargingResumeTemperature;
+    private int mAdaptiveChargingCutoffLevelConfig;
+    private int mAdaptiveChargingResumeLevelConfig;
+    private int mAdaptiveChargingCutoffTemperatureConfig;
+    private int mAdaptiveChargingResumeTemperatureConfig;
     private static String mPowerInputSuspendSysfsNode;
     private static String mPowerInputSuspendValue;
     private static String mPowerInputResumeValue;
-
-    // Smart Cutoff
-    private boolean mSmartCutoffEnabled;
-    private int mSmartCutoffResumeTemperature;
-    private int mSmartCutoffTemperature;
-    private int mSmartCutoffTemperatureDefaultConfig;
-    private int mSmartCutoffResumeTemperatureConfig;
 
     /**
      * All times are in milliseconds. These constants are kept synchronized with the system
@@ -1208,25 +1205,25 @@ public final class PowerManagerService extends SystemService
                 Settings.System.AOD_NOTIFICATION_PULSE),
                 false, mSettingsObserver, UserHandle.USER_ALL);
         resolver.registerContentObserver(Settings.System.getUriFor(
-                Settings.System.SMART_CHARGING),
+                Settings.System.ADAPTIVE_CHARGING),
+                false, mSettingsObserver, UserHandle.USER_SYSTEM);
+        resolver.registerContentObserver(Settings.System.getUriFor(
+                Settings.System.ADAPTIVE_CHARGING_MODE),
                 false, mSettingsObserver, UserHandle.USER_ALL);
         resolver.registerContentObserver(Settings.System.getUriFor(
-                Settings.System.SMART_CHARGING_LEVEL),
+                Settings.System.ADAPTIVE_CHARGING_CUTOFF_LEVEL),
                 false, mSettingsObserver, UserHandle.USER_ALL);
         resolver.registerContentObserver(Settings.System.getUriFor(
-                Settings.System.SMART_CHARGING_RESUME_LEVEL),
+                Settings.System.ADAPTIVE_CHARGING_RESUME_LEVEL),
                 false, mSettingsObserver, UserHandle.USER_ALL);
         resolver.registerContentObserver(Settings.System.getUriFor(
-                Settings.System.SMART_CHARGING_RESET_STATS),
+                Settings.System.ADAPTIVE_CHARGING_CUTOFF_TEMPERATURE),
                 false, mSettingsObserver, UserHandle.USER_ALL);
         resolver.registerContentObserver(Settings.System.getUriFor(
-                Settings.System.SMART_CUTOFF),
+                Settings.System.ADAPTIVE_CHARGING_RESUME_TEMPERATURE),
                 false, mSettingsObserver, UserHandle.USER_ALL);
         resolver.registerContentObserver(Settings.System.getUriFor(
-                Settings.System.SMART_CUTOFF_TEMPERATURE),
-                false, mSettingsObserver, UserHandle.USER_ALL);
-        resolver.registerContentObserver(Settings.System.getUriFor(
-                Settings.System.SMART_CUTOFF_RESUME_TEMPERATURE),
+                Settings.System.ADAPTIVE_CHARGING_RESET_STATS),
                 false, mSettingsObserver, UserHandle.USER_ALL);
 
         IVrManager vrManager = IVrManager.Stub.asInterface(getBinderService(Context.VR_SERVICE));
@@ -1335,27 +1332,21 @@ public final class PowerManagerService extends SystemService
         mCustomButtonBrightness = resources.getInteger(
                 com.android.internal.R.integer.config_button_brightness_default);
 
-        // Smart charging
-        mSmartChargingAvailable = resources.getBoolean(
-                com.android.internal.R.bool.config_smartChargingAvailable);
-        mSmartChargingLevelDefaultConfig = resources.getInteger(
-                com.android.internal.R.integer.config_smartChargingBatteryLevel);
-        mSmartChargingResumeLevelDefaultConfig = resources.getInteger(
-                com.android.internal.R.integer.config_smartChargingBatteryResumeLevel);
+        // Adaptive charging
+        mAdaptiveChargingCutoffLevelConfig = resources.getInteger(
+                com.android.internal.R.integer.config_adaptiveChargingCutoffLevel);
+        mAdaptiveChargingResumeLevelConfig = resources.getInteger(
+                com.android.internal.R.integer.config_adaptiveChargingResumeLevel);
+        mAdaptiveChargingCutoffTemperatureConfig = resources.getInteger(
+                com.android.internal.R.integer.config_adaptiveChargingCutoffTemperature);
+        mAdaptiveChargingResumeTemperatureConfig = resources.getInteger(
+                com.android.internal.R.integer.config_adaptiveChargingResumeTemperature);
         mPowerInputSuspendSysfsNode = resources.getString(
-                com.android.internal.R.string.config_smartChargingSysfsNode);
+                com.android.internal.R.string.config_adaptiveChargingSysfsNode);
         mPowerInputSuspendValue = resources.getString(
-                com.android.internal.R.string.config_smartChargingSuspendValue);
+                com.android.internal.R.string.config_adaptiveChargingSuspendValue);
         mPowerInputResumeValue = resources.getString(
-                com.android.internal.R.string.config_smartChargingResumeValue);
-        mSmartChargingResetStats = Settings.System.getIntForUser(mContext.getContentResolver(),
-                Settings.System.SMART_CHARGING_RESET_STATS, 0, UserHandle.USER_CURRENT) == 1;
-
-         // Smart Cutoff
-        mSmartCutoffTemperatureDefaultConfig = resources.getInteger(
-                com.android.internal.R.integer.config_smartCutoffTemperature);
-        mSmartCutoffResumeTemperatureConfig = resources.getInteger(
-                com.android.internal.R.integer.config_smartCutoffResumeTemperature);
+                com.android.internal.R.string.config_adaptiveChargingResumeValue);
     }
 
     private void updateSettingsLocked() {
@@ -1410,24 +1401,21 @@ public final class PowerManagerService extends SystemService
         // no need to call us again
         mAlwaysOnEnabled = mAmbientDisplayConfiguration.alwaysOnEnabled(UserHandle.USER_CURRENT);
 
-        mSmartChargingEnabled = Settings.System.getIntForUser(resolver,
-                Settings.System.SMART_CHARGING, 0, UserHandle.USER_CURRENT) == 1;
-        mSmartChargingLevel = Settings.System.getIntForUser(resolver,
-                Settings.System.SMART_CHARGING_LEVEL,
-                mSmartChargingLevelDefaultConfig, UserHandle.USER_CURRENT);
-        mSmartChargingResumeLevel = Settings.System.getIntForUser(resolver,
-                Settings.System.SMART_CHARGING_RESUME_LEVEL,
-                mSmartChargingResumeLevelDefaultConfig, UserHandle.USER_CURRENT);
-        mSmartChargingResetStats = Settings.System.getIntForUser(resolver,
-                Settings.System.SMART_CHARGING_RESET_STATS, 0, UserHandle.USER_CURRENT) == 1;
-        mSmartCutoffEnabled = Settings.System.getInt(resolver,
-                Settings.System.SMART_CUTOFF, 0) == 1;
-        mSmartCutoffTemperature = Settings.System.getInt(resolver,
-                Settings.System.SMART_CUTOFF_TEMPERATURE,
-                mSmartCutoffTemperatureDefaultConfig);
-        mSmartCutoffResumeTemperature = Settings.System.getInt(resolver,
-                Settings.System.SMART_CUTOFF_RESUME_TEMPERATURE,
-                mSmartCutoffResumeTemperatureConfig);
+        // Adaptive charging
+        mAdaptiveChargingEnabled = Settings.System.getInt(resolver,
+                Settings.System.ADAPTIVE_CHARGING, 0) == 1;
+        mAdaptiveChargingMode = Settings.System.getInt(resolver,
+                Settings.System.ADAPTIVE_CHARGING_MODE, 0);
+        mAdaptiveChargingCutoffLevel = Settings.System.getInt(resolver,
+                Settings.System.ADAPTIVE_CHARGING_CUTOFF_LEVEL, mAdaptiveChargingCutoffLevelConfig);
+        mAdaptiveChargingResumeLevel = Settings.System.getInt(resolver,
+                Settings.System.ADAPTIVE_CHARGING_RESUME_LEVEL, mAdaptiveChargingResumeLevelConfig);
+        mAdaptiveChargingCutoffTemperature = Settings.System.getInt(resolver,
+                Settings.System.ADAPTIVE_CHARGING_CUTOFF_TEMPERATURE, mAdaptiveChargingCutoffTemperatureConfig);
+        mAdaptiveChargingResumeTemperature = Settings.System.getInt(resolver,
+                Settings.System.ADAPTIVE_CHARGING_RESUME_TEMPERATURE, mAdaptiveChargingResumeTemperatureConfig);
+        mAdaptiveChargingResetStats = Settings.System.getInt(resolver,
+                Settings.System.ADAPTIVE_CHARGING_RESET_STATS, 0) == 1;
 
         if (mSupportsDoubleTapWakeConfig) {
             boolean doubleTapWakeEnabled = Settings.Secure.getIntForUser(resolver,
@@ -1457,8 +1445,7 @@ public final class PowerManagerService extends SystemService
     private void handleSettingsChangedLocked() {
         updateSettingsLocked();
         updatePowerStateLocked();
-        updateSmartChargingStatus();
-        updateSmartCutoffStatus();
+        updateAdaptiveChargingStatus();
     }
 
     private void acquireWakeLockInternal(IBinder lock, int flags, String tag, String packageName,
@@ -2240,62 +2227,47 @@ public final class PowerManagerService extends SystemService
             }
 
             mBatterySaverStateMachine.setBatteryStatus(mIsPowered, mBatteryLevel, mBatteryLevelLow);
-            updateSmartChargingStatus();
-            updateSmartCutoffStatus();
+            updateAdaptiveChargingStatus();
         }
     }
 
-    private void updateSmartChargingStatus() {
-        if (!mSmartChargingAvailable) return;
-        if (mPowerInputSuspended && (mBatteryLevel <= mSmartChargingResumeLevel) ||
-            (mPowerInputSuspended && !mSmartChargingEnabled)) {
-            try {
-                FileUtils.stringToFile(mPowerInputSuspendSysfsNode, mPowerInputResumeValue);
-                mPowerInputSuspended = false;
-            } catch (IOException e) {
-                Slog.e(TAG, "failed to write to " + mPowerInputSuspendSysfsNode);
+    private void updateAdaptiveChargingStatus() {
+        boolean levelCutoffEnabled = mAdaptiveChargingEnabled && mAdaptiveChargingMode != 1;
+        boolean temperatureCutoffEnabled = mAdaptiveChargingEnabled && mAdaptiveChargingMode != 0;
+        if (mPowerInputSuspended) {
+            if (temperatureCutoffEnabled && (mBatteryTemperature >= mAdaptiveChargingCutoffTemperature)) {
+                return;
+            } else if (!mAdaptiveChargingEnabled || (temperatureCutoffEnabled &&
+                    (mBatteryTemperature <= mAdaptiveChargingResumeTemperature)) || 
+                    (levelCutoffEnabled && (mBatteryLevel <= mAdaptiveChargingResumeLevel))) {
+                setChargingStatus(true);
+                return;
             }
-            return;
-        }
-
-        if (mSmartChargingEnabled && !mPowerInputSuspended && (mBatteryLevel >= mSmartChargingLevel)) {
-            Slog.i(TAG, "Smart charging reset stats: " + mSmartChargingResetStats);
-            if (mSmartChargingResetStats) {
-                try {
-                     mBatteryStats.resetStatistics();
-                } catch (Exception e) {
-                         Slog.e(TAG, "failed to reset battery statistics");
+        } else {
+            if (levelCutoffEnabled && (mBatteryLevel >= mAdaptiveChargingCutoffLevel)) {
+                if (mAdaptiveChargingResetStats) {
+                    try {
+                        mBatteryStats.resetStatistics();
+                    } catch (RemoteException e) {
+                        Slog.e(TAG, "failed to reset battery statistics");
+                    }
                 }
-            }
-
-            try {
-                FileUtils.stringToFile(mPowerInputSuspendSysfsNode, mPowerInputSuspendValue);
-                mPowerInputSuspended = true;
-            } catch (IOException e) {
-                    Slog.e(TAG, "failed to write to " + mPowerInputSuspendSysfsNode);
+                setChargingStatus(false);
+                return;
+            } else if (temperatureCutoffEnabled && (mBatteryTemperature >= mAdaptiveChargingCutoffTemperature)) {
+                setChargingStatus(false);
+                return;
             }
         }
     }
 
-    private void updateSmartCutoffStatus() {
-        if (mPowerInputSuspended && (mBatteryTemperature <= mSmartCutoffResumeTemperature) ||
-            (mPowerInputSuspended && !mSmartCutoffEnabled)) {
-            try {
-                FileUtils.stringToFile(mPowerInputSuspendSysfsNode, mPowerInputResumeValue);
-                mPowerInputSuspended = false;
-            } catch (IOException e) {
-                Slog.e(TAG, "failed to write to " + mPowerInputSuspendSysfsNode);
-            }
-            return;
-        }
-
-        if (mSmartCutoffEnabled && !mPowerInputSuspended && (mBatteryTemperature >= mSmartCutoffTemperature)) {
-            try {
-                FileUtils.stringToFile(mPowerInputSuspendSysfsNode, mPowerInputSuspendValue);
-                mPowerInputSuspended = true;
-            } catch (IOException e) {
-                    Slog.e(TAG, "failed to write to " + mPowerInputSuspendSysfsNode);
-            }
+    private void setChargingStatus(boolean enabled) {
+        try {
+            FileUtils.stringToFile(mPowerInputSuspendSysfsNode,
+                    enabled ? mPowerInputResumeValue : mPowerInputSuspendValue);
+            mPowerInputSuspended = !enabled;
+        } catch (IOException e) {
+            Slog.e(TAG, "failed to write to " + mPowerInputSuspendSysfsNode);
         }
     }
 
