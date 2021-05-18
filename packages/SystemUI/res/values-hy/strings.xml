@@ -1090,7 +1090,6 @@
     <string name="controls_added_tooltip" msgid="4842812921719153085">"Սեղմած պահեք սնուցման կոճակը՝ կառավարման նոր տարրերը տեսնելու համար։"</string>
     <string name="controls_menu_add" msgid="4447246119229920050">"Ավելացնել կառավարման տարրեր"</string>
     <string name="controls_menu_edit" msgid="890623986951347062">"Փոփոխել կառավարման տարրերը"</string>
-    <string name="media_output_title" msgid="115223550977351699">"Միացնել…"</string>
     <string name="media_output_dialog_add_output" msgid="5642703238877329518">"Ավելացրեք մուտքագրման սարքեր"</string>
     <string name="media_output_dialog_group" msgid="5571251347877452212">"Խումբ"</string>
     <string name="media_output_dialog_single_device" msgid="3102758980643351058">"Ընտրված է 1 սարք"</string>

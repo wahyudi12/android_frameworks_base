@@ -1090,7 +1090,6 @@
     <string name="controls_added_tooltip" msgid="4842812921719153085">"Шинэ хяналтыг харахын тулд асаах товчийг удаан дарна уу"</string>
     <string name="controls_menu_add" msgid="4447246119229920050">"Хяналт нэмэх"</string>
     <string name="controls_menu_edit" msgid="890623986951347062">"Хяналтыг өөрчлөх"</string>
-    <string name="media_output_title" msgid="115223550977351699">"Медиаг дараахад тоглуулна уу"</string>
     <string name="media_output_dialog_add_output" msgid="5642703238877329518">"Гаралт нэмэх"</string>
     <string name="media_output_dialog_group" msgid="5571251347877452212">"Бүлэг"</string>
     <string name="media_output_dialog_single_device" msgid="3102758980643351058">"1 төхөөрөмж сонгосон"</string>

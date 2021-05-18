@@ -1090,7 +1090,6 @@
     <string name="controls_added_tooltip" msgid="4842812921719153085">"نئے کنٹرولز دیکھنے کے لیے پاور بٹن کو دبائے رکھیں"</string>
     <string name="controls_menu_add" msgid="4447246119229920050">"کنٹرولز شامل کریں"</string>
     <string name="controls_menu_edit" msgid="890623986951347062">"کنٹرولز میں ترمیم کریں"</string>
-    <string name="media_output_title" msgid="115223550977351699">"اس پر میڈیا چلائیں"</string>
     <string name="media_output_dialog_add_output" msgid="5642703238877329518">"آؤٹ پٹس شامل کریں"</string>
     <string name="media_output_dialog_group" msgid="5571251347877452212">"گروپ"</string>
     <string name="media_output_dialog_single_device" msgid="3102758980643351058">"1 آلہ منتخب کیا گیا"</string>

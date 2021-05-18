@@ -1101,7 +1101,7 @@
     <string name="controls_in_progress" msgid="4421080500238215939">"Vyksta"</string>
     <string name="controls_added_tooltip" msgid="4842812921719153085">"Jei norite peržiūrėti naujus valdiklius, laikykite paspaudę maitinimo mygtuką"</string>
     <string name="controls_menu_add" msgid="4447246119229920050">"Pridėti valdiklių"</string>
-    <string name="media_output_title" msgid="115223550977351699">"Leisti mediją į"</string>
+    <string name="controls_menu_edit" msgid="890623986951347062">"Redaguoti valdiklius"</string>
     <string name="media_output_dialog_add_output" msgid="5642703238877329518">"Išvesčių pridėjimas"</string>
     <string name="media_output_dialog_group" msgid="5571251347877452212">"Grupė"</string>
     <string name="media_output_dialog_single_device" msgid="3102758980643351058">"Pasirinktas 1 įrenginys"</string>

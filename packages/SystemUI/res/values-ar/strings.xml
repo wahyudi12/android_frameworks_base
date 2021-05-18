@@ -1114,7 +1114,6 @@
     <string name="controls_added_tooltip" msgid="4842812921719153085">"اضغط مع الاستمرار على زر التشغيل لعرض عناصر التحكّم الجديدة."</string>
     <string name="controls_menu_add" msgid="4447246119229920050">"إضافة عناصر تحكّم"</string>
     <string name="controls_menu_edit" msgid="890623986951347062">"تعديل عناصر التحكّم"</string>
-    <string name="media_output_title" msgid="115223550977351699">"تشغيل الوسائط على"</string>
     <string name="media_output_dialog_add_output" msgid="5642703238877329518">"إضافة مخرجات"</string>
     <string name="media_output_dialog_group" msgid="5571251347877452212">"مجموعة"</string>
     <string name="media_output_dialog_single_device" msgid="3102758980643351058">"تم اختيار جهاز واحد."</string>

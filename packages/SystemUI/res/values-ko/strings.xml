@@ -1090,7 +1090,6 @@
     <string name="controls_added_tooltip" msgid="4842812921719153085">"새 컨트롤을 보려면 전원 버튼을 길게 누르세요."</string>
     <string name="controls_menu_add" msgid="4447246119229920050">"컨트롤 추가"</string>
     <string name="controls_menu_edit" msgid="890623986951347062">"컨트롤 수정"</string>
-    <string name="media_output_title" msgid="115223550977351699">"미디어 출력 대상"</string>
     <string name="media_output_dialog_add_output" msgid="5642703238877329518">"출력 추가"</string>
     <string name="media_output_dialog_group" msgid="5571251347877452212">"그룹"</string>
     <string name="media_output_dialog_single_device" msgid="3102758980643351058">"기기 1대 선택됨"</string>

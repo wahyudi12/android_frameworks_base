@@ -1090,7 +1090,6 @@
     <string name="controls_added_tooltip" msgid="4842812921719153085">"Mantenha o botão liga/desliga pressionado para ver os novos controles"</string>
     <string name="controls_menu_add" msgid="4447246119229920050">"Adicionar controles"</string>
     <string name="controls_menu_edit" msgid="890623986951347062">"Editar controles"</string>
-    <string name="media_output_title" msgid="115223550977351699">"Tocar mídia"</string>
     <string name="media_output_dialog_add_output" msgid="5642703238877329518">"Adicionar saídas"</string>
     <string name="media_output_dialog_group" msgid="5571251347877452212">"Grupo"</string>
     <string name="media_output_dialog_single_device" msgid="3102758980643351058">"1 dispositivo selecionado"</string>

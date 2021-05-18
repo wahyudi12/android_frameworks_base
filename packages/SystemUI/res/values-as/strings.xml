@@ -1090,7 +1090,6 @@
     <string name="controls_added_tooltip" msgid="4842812921719153085">"নতুন নিয়ন্ত্ৰণসমূহ চাবলৈ পাৱাৰৰ বুটামটো ধৰি ৰাখক"</string>
     <string name="controls_menu_add" msgid="4447246119229920050">"নিয়ন্ত্ৰণসমূহ যোগ দিয়ক"</string>
     <string name="controls_menu_edit" msgid="890623986951347062">"নিয়ন্ত্ৰণসমূহ সম্পাদনা কৰক"</string>
-    <string name="media_output_title" msgid="115223550977351699">"প্লে কৰিবলগীয়া মিডিয়া"</string>
     <string name="media_output_dialog_add_output" msgid="5642703238877329518">"আউটপুটসমূহ যোগ দিয়ক"</string>
     <string name="media_output_dialog_group" msgid="5571251347877452212">"গোট"</string>
     <string name="media_output_dialog_single_device" msgid="3102758980643351058">"১ টা ডিভাইচ বাছনি কৰা হৈছে"</string>

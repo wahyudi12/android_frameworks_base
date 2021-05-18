@@ -1090,7 +1090,6 @@
     <string name="controls_added_tooltip" msgid="4842812921719153085">"Uute juhtelementide vaatamiseks hoidke all toitenuppu"</string>
     <string name="controls_menu_add" msgid="4447246119229920050">"Lisa juhtelemente"</string>
     <string name="controls_menu_edit" msgid="890623986951347062">"Muuda juhtelemente"</string>
-    <string name="media_output_title" msgid="115223550977351699">"Esita meedia seadmes"</string>
     <string name="media_output_dialog_add_output" msgid="5642703238877329518">"Väljundite lisamine"</string>
     <string name="media_output_dialog_group" msgid="5571251347877452212">"Grupp"</string>
     <string name="media_output_dialog_single_device" msgid="3102758980643351058">"1 seade on valitud"</string>

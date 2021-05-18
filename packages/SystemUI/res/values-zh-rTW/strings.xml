@@ -1090,7 +1090,6 @@
     <string name="controls_added_tooltip" msgid="4842812921719153085">"按住電源按鈕即可查看新的控制項"</string>
     <string name="controls_menu_add" msgid="4447246119229920050">"新增控制項"</string>
     <string name="controls_menu_edit" msgid="890623986951347062">"編輯控制項"</string>
-    <string name="media_output_title" msgid="115223550977351699">"播放媒體"</string>
     <string name="media_output_dialog_add_output" msgid="5642703238877329518">"新增輸出裝置"</string>
     <string name="media_output_dialog_group" msgid="5571251347877452212">"群組"</string>
     <string name="media_output_dialog_single_device" msgid="3102758980643351058">"已選取 1 部裝置"</string>

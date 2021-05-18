@@ -3113,8 +3113,6 @@ public final class Settings {
 
             // At one time in System, then Global, but now back in Secure
             MOVED_TO_SECURE.add(Secure.INSTALL_NON_MARKET_APPS);
-
-            MOVED_TO_SECURE.add(Secure.VOLUME_LINK_NOTIFICATION);
         }
 
         @UnsupportedAppUsage
@@ -5014,11 +5012,6 @@ public final class Settings {
         public static final String QS_LABEL_USE_NEW_TINT = "qs_label_use_new_tint";
 
         /**
-         * @hide
-         */
-        public static final String AUDIO_PANEL_VIEW_POSITION = "audio_panel_view_position";
-
-        /**
          * The enabled mode for the theme tile.
          * - ACCENT
          * - STYLE
@@ -5898,9 +5891,6 @@ public final class Settings {
          * @hide
          */
         public static final String STATUS_BAR_CLOCK_FONT_STYLE = "status_bar_clock_font_style";
-
-        /** @hide */
-        public static final String AUDIO_PANEL_VIEW_TIMEOUT = "audio_panel_view_timeout";
 
         /**
          * @hide
@@ -10670,12 +10660,6 @@ public final class Settings {
          * @hide
          */
         public static final String AWARE_LOCK_ENABLED = "aware_lock_enabled";
-
-        /**
-         * Boolean value whether to link ringtone and notification volume
-         * @hide
-         */
-        public static final String VOLUME_LINK_NOTIFICATION = "volume_link_notification";
 
         /**
          * Enable hw buttons - actions, brightness, haptic feedback, overflow menu

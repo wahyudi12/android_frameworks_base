@@ -1090,7 +1090,6 @@
     <string name="controls_added_tooltip" msgid="4842812921719153085">"አዲስ መቆጣጠሪያዎችን ለማየት የኃይል አዝራር ይያዙ"</string>
     <string name="controls_menu_add" msgid="4447246119229920050">"መቆጣጠሪያዎችን አክል"</string>
     <string name="controls_menu_edit" msgid="890623986951347062">"መቆጣጠሪያዎችን ያርትዑ"</string>
-    <string name="media_output_title" msgid="115223550977351699">"ሚዲያ አጫወት ወደ"</string>
     <string name="media_output_dialog_add_output" msgid="5642703238877329518">"ውጽዓቶችን ያክሉ"</string>
     <string name="media_output_dialog_group" msgid="5571251347877452212">"ቡድን"</string>
     <string name="media_output_dialog_single_device" msgid="3102758980643351058">"1 መሣሪያ ተመርጧል"</string>
