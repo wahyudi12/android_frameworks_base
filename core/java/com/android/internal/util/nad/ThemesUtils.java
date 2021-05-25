@@ -143,8 +143,7 @@ public class ThemesUtils {
     public static final String[] PANEL_BG_STYLE = {
             "com.jrinfected.panel.batik",   // 1
             "com.jrinfected.panel.kece",    // 2
-            "com.jrinfected.panel.outline",  // 3
-            "com.jrinfected.panel.glassy"  // 4
+            "com.jrinfected.panel.outline"  // 3
     };
 
     public static final String[] QS_SHAPE = {
