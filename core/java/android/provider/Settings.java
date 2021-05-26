@@ -6309,12 +6309,6 @@ public final class Settings {
         public static final String STOCK_STATUSBAR_IN_HIDE = "stock_statusbar_in_hide";
 
         /**
-         * Toast icon
-         * @hide
-         */
-        public static final String TOAST_ICON = "toast_icon";
-
-        /**
          * Force full screen for devices with cutout
          * @hide
          */
