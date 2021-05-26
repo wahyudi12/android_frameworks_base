@@ -26,8 +26,6 @@ import android.os.Looper;
 import android.os.UserHandle;
 import android.provider.Settings;
 
-import com.android.internal.util.nad.NadUtils;
-
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
@@ -42,7 +40,7 @@ public class CutoutFullscreenController {
         mContext = context;
         final Resources resources = mContext.getResources();
 
-        isAvailable = NadUtils.hasNotch(context);
+        isAvailable = CutoutUtils.hasCutout(context);
 
         if (!isAvailable) {
             return;
