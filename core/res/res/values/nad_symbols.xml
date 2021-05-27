@@ -97,6 +97,7 @@
   <java-symbol type="integer" name="config_button_brightness_default" />
 
   <!-- Adaptive charging -->
+  <java-symbol type="bool" name="config_adaptiveChargingAvailable" />
   <java-symbol type="integer" name="config_adaptiveChargingCutoffLevel" />
   <java-symbol type="integer" name="config_adaptiveChargingResumeLevel" />
   <java-symbol type="integer" name="config_adaptiveChargingCutoffTemperature" />

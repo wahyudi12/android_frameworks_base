@@ -126,6 +126,7 @@
     <integer name="config_button_brightness_default">128</integer>
 
     <!-- Adaptive charging -->
+    <bool name="config_adaptiveChargingAvailable">false</bool>
     <integer name="config_adaptiveChargingCutoffLevel">80</integer>
     <integer name="config_adaptiveChargingResumeLevel">60</integer>
     <integer name="config_adaptiveChargingCutoffTemperature">40</integer>

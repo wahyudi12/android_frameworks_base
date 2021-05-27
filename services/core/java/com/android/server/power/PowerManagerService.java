@@ -660,6 +660,7 @@ public final class PowerManagerService extends SystemService
     private int mEvent;
 
     // Adaptive charging
+    private boolean mAdaptiveChargingAvailable;
     private boolean mAdaptiveChargingEnabled;
     private boolean mAdaptiveChargingResetStats;
     private boolean mPowerInputSuspended = false;
@@ -1326,6 +1327,8 @@ public final class PowerManagerService extends SystemService
                 com.android.internal.R.integer.config_button_brightness_default);
 
         // Adaptive charging
+        mAdaptiveChargingAvailable = resources.getBoolean(
+                com.android.internal.R.bool.config_adaptiveChargingAvailable);
         mAdaptiveChargingCutoffLevelConfig = resources.getInteger(
                 com.android.internal.R.integer.config_adaptiveChargingCutoffLevel);
         mAdaptiveChargingResumeLevelConfig = resources.getInteger(
@@ -2220,6 +2223,7 @@ public final class PowerManagerService extends SystemService
     private void updateAdaptiveChargingStatus() {
         boolean levelCutoffEnabled = mAdaptiveChargingEnabled && mAdaptiveChargingMode != 1;
         boolean temperatureCutoffEnabled = mAdaptiveChargingEnabled && mAdaptiveChargingMode != 0;
+        if (!mAdaptiveChargingAvailable) return;
         if (mPowerInputSuspended) {
             if (temperatureCutoffEnabled && (mBatteryTemperature >= mAdaptiveChargingCutoffTemperature)) {
                 return;
