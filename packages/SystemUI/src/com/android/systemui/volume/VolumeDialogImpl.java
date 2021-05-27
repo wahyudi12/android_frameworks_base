@@ -569,7 +569,7 @@ public class VolumeDialogImpl implements VolumeDialog,
 
     @SuppressLint("InflateParams")
     private void initAppRow(final VolumeRow row, final AppTrackData data) {
-        row.view = LayoutInflater.from(mContext).inflate(R.layout.volume_dialog_row, null);
+        row.view = mDialog.getLayoutInflater().from(mContext).inflate(R.layout.volume_dialog_row, null);
 
         row.packageName = data.getPackageName();
         row.isAppVolumeRow = true;
