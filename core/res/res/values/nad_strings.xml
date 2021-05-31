@@ -65,5 +65,11 @@
     <!-- Clipboard access toast -->
     <string name="app_clipboard_access_denied">%1$s was denied access to the clipboard</string>
     <string name="app_clipboard_access_granted">%1$s was granted access to the clipboard</string>
-    
+
+    <!-- Sleep Mode -->
+    <string name="notification_channel_sleep">Sleep Mode</string>
+    <string name="sleep_mode_notification_title">Sleep mode enabled</string>
+    <string name="sleep_mode_notification_content">Tap to turn off sleep mode</string>
+    <string name="sleep_mode_enabled_toast">Sleep mode turned on</string>
+    <string name="sleep_mode_disabled_toast">Sleep mode turned off</string>
 </resources>
