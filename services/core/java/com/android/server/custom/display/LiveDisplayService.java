@@ -527,8 +527,8 @@ public class LiveDisplayService extends SystemService {
         if (counter == 0) {
             //show the notification and don't come back here
             final Intent intent = new Intent("com.android.settings.LIVEDISPLAY_SETTINGS");
-            PendingIntent result = PendingIntent.getActivity(
-                    mContext, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+            PendingIntent result = PendingIntent.getActivity(mContext, 0, intent,
+                    PendingIntent.FLAG_IMMUTABLE | PendingIntent.FLAG_UPDATE_CURRENT);
             Notification.Builder builder = new Notification.Builder(mContext)
                     .setContentTitle(mContext.getResources().getString(
                             com.android.internal.R.string.live_display_title))
