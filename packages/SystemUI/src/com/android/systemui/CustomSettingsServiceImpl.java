@@ -30,30 +30,29 @@ import android.provider.Settings.Secure;
 import android.text.TextUtils;
 import android.util.ArrayMap;
 import android.util.ArraySet;
+import android.util.Log;
 
 import com.android.internal.util.ArrayUtils;
-import com.android.systemui.dagger.qualifiers.Background;
+import com.android.systemui.broadcast.BroadcastDispatcher;
+import com.android.systemui.dagger.qualifiers.Main;
 import com.android.systemui.DemoMode;
 import com.android.systemui.qs.QSTileHost;
 import com.android.systemui.settings.CurrentUserTracker;
 import com.android.systemui.statusbar.phone.StatusBarIconController;
-import com.android.systemui.util.leak.LeakDetector;
-
-import com.android.systemui.broadcast.BroadcastDispatcher;
 
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 
 import javax.inject.Inject;
+import javax.inject.Named;
 import javax.inject.Singleton;
-
 
 /**
  */
 @Singleton
 public class CustomSettingsServiceImpl extends CustomSettingsService {
-
+    private static final String TAG = "CustomSettingsService";
     private final Observer mObserver = new Observer();
     // Map of Uris we listen on to their settings keys.
     private final ArrayMap<Uri, String> mListeningUris = new ArrayMap<>();
@@ -69,10 +68,10 @@ public class CustomSettingsServiceImpl extends CustomSettingsService {
     /**
      */
     @Inject
-    public CustomSettingsServiceImpl(Context context, @Background Handler bgHandler) {
+    public CustomSettingsServiceImpl(Context context, @Main Handler mainHandler,
+            BroadcastDispatcher broadcastDispatcher) {
         mContext = context;
         mContentResolver = mContext.getContentResolver();
-        BroadcastDispatcher broadcastDispatcher = Dependency.get(BroadcastDispatcher.class);
 
         mCurrentUser = ActivityManager.getCurrentUser();
         mUserTracker = new CurrentUserTracker(broadcastDispatcher) {
@@ -112,7 +111,6 @@ public class CustomSettingsServiceImpl extends CustomSettingsService {
         if (!mObserverLookup.get(key).contains(observer)) {
             mObserverLookup.get(key).add(observer);
         }
-
         Uri uri = Settings.System.getUriFor(key);
         if (!mListeningUris.containsKey(uri)) {
             mListeningUris.put(uri, key);
@@ -205,9 +203,12 @@ public class CustomSettingsServiceImpl extends CustomSettingsService {
         }
 
         @Override
-        public void onChange(boolean selfChange, Uri uri, int userId) {
+        public void onChange(boolean selfChange, java.util.Collection<Uri> uris,
+                int flags, int userId) {
             if (userId == ActivityManager.getCurrentUser()) {
-                reloadSetting(uri);
+                for (Uri u : uris) {
+                    reloadSetting(u);
+                }
             }
         }
     }

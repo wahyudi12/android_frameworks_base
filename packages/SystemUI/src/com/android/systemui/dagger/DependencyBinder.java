@@ -271,5 +271,6 @@ public abstract class DependencyBinder {
     /**
      */
     @Binds
-    public abstract CustomSettingsService provideCustomSettingsService(CustomSettingsServiceImpl controllerImpl);
+    public abstract CustomSettingsService provideCustomSettingsService(
+            CustomSettingsServiceImpl controllerImpl);
 }
