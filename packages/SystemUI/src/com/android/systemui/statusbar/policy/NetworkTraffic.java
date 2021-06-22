@@ -52,6 +52,8 @@ public class NetworkTraffic extends TextView {
     private static final int GB = MB * KB;
     private static final String symbol = "/S";
 
+    public static final String FONT_FAMILY = "sans-serif";
+
     protected boolean mIsEnabled;
     protected boolean mAttached;
     private long totalRxBytes;
@@ -70,7 +72,6 @@ public class NetworkTraffic extends TextView {
     protected boolean mVisible = true;
     private ConnectivityManager mConnectivityManager;
     protected boolean mTrafficInHeaderView;
-    protected String txtFont;
 
     private Handler mTrafficHandler = new Handler() {
         @Override
@@ -286,7 +287,6 @@ public class NetworkTraffic extends TextView {
         super(context, attrs, defStyle);
         final Resources resources = getResources();
         txtImgPadding = resources.getDimensionPixelSize(R.dimen.net_traffic_txt_img_padding);
-        txtFont = getResources().getString(com.android.internal.R.string.config_headlineFontFamilyMedium);
         mTintColor = resources.getColor(android.R.color.white);
         Handler mHandler = new Handler();
         mConnectivityManager =
@@ -493,10 +493,11 @@ public class NetworkTraffic extends TextView {
 
     private void updateTextSize() {
         final Resources resources = getResources();
+        Typeface tf = Typeface.create(FONT_FAMILY, Typeface.BOLD);
         setTextSize(TypedValue.COMPLEX_UNIT_PX, mTrafficType == BOTH
                 ? (float)resources.getDimensionPixelSize(R.dimen.net_traffic_multi_text_size)
                 : (float)resources.getDimensionPixelSize(R.dimen.net_traffic_single_text_size));
-        setTypeface(Typeface.create(txtFont, Typeface.BOLD));
+        setTypeface(tf);
         setLineSpacing(0.85f, 0.85f);
     }
 

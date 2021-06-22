@@ -68,7 +68,8 @@ public class NetworkTrafficSB extends NetworkTraffic implements DarkReceiver, St
     @Override
     protected void setSpacingAndFonts() {
         super.setSpacingAndFonts();
-        setTypeface(Typeface.create(txtFont, Typeface.BOLD));
+        Typeface tf = Typeface.create(FONT_FAMILY, Typeface.BOLD);
+        setTypeface(tf);
         setLineSpacing(0.80f, 0.80f);
     }
 
