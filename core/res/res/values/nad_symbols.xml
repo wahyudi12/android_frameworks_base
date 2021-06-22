@@ -39,10 +39,6 @@
   <!-- Themes -->
   <java-symbol type="color" name="theme_generic_semi_transparent_color" />
 
-  <!-- Light / Regular style fonts -->
-  <java-symbol type="string" name="config_lightFontFamily" />
-  <java-symbol type="string" name="config_regularFontFamily" />
-
   <!-- Input policy constants  -->
   <java-symbol type="integer" name="config_deviceHardwareKeys" />
   <java-symbol type="integer" name="config_doubleTapOnHomeKeyBehavior" />

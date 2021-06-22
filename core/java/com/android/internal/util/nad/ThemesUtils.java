@@ -86,22 +86,6 @@ public class ThemesUtils {
             "com.android.theme.color.ocean.systemui"
     };
 
-    public static final String[] FONTS = {
-            "com.android.theme.font.notoserifsource",
-            "com.android.theme.font.cagliostrosource",
-            "com.android.theme.font.lgsmartgothicsource",
-            "com.android.theme.font.rosemarysource",
-            "com.android.theme.font.sonysketchsource",
-            "com.android.theme.font.googlesans",
-            "com.android.theme.font.oneplusslate",
-            "com.android.theme.font.samsungone",
-            "com.android.theme.font.firasans",
-            "com.android.theme.font.ubuntu",
-            "com.android.theme.font.titilliumweb",
-            "com.android.theme.font.caviardreamssource",
-            "com.android.theme.font.linotte"
-    };
-
     public static final String[] NAVBAR_STYLES = {
             "com.android.theme.navbar.android",
             "com.android.theme.navbar.asus",
