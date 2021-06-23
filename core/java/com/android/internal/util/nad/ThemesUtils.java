@@ -159,7 +159,9 @@ public class ThemesUtils {
             "com.android.system.switch.narrow",    // 4
             "com.android.system.switch.contained", // 5
             "com.android.system.switch.retro",     // 6
-            "com.android.system.switch.stockish"   // 7
+            "com.android.system.switch.stockish",  // 7
+            "com.android.system.switch.sa",        // 8
+            "com.android.system.switch.sb"         // 9
     };
 
     // Statusbar Signal icons
