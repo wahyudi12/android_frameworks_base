@@ -140,7 +140,7 @@ public class ScreenMediaRecorder {
         wm.getDefaultDisplay().getRealMetrics(metrics);
         int screenWidth = metrics.widthPixels;
         int screenHeight = metrics.heightPixels;
-        int refereshRate = mLowQuality? VIDEO_FRAME_RATE : (int) wm.getDefaultDisplay().getRefreshRate();
+        int refereshRate = mLowQuality ? VIDEO_FRAME_RATE : (int) wm.getDefaultDisplay().getRefreshRate();
         int maxRefreshRate = mContext.getResources().getInteger(
                 com.android.internal.R.integer.config_screenRecorderMaxFramerate);
         if (maxRefreshRate != 0 && refereshRate > maxRefreshRate) refereshRate = maxRefreshRate;
@@ -153,9 +153,8 @@ public class ScreenMediaRecorder {
         but at the same time the cpu load is 8-10 times higher and some devices don't support it yet */
         mMediaRecorder.setVideoEncoder(MediaRecorder.VideoEncoder.H264);
         mMediaRecorder.setVideoEncodingProfileLevel(
-                MediaCodecInfo.CodecProfileLevel.AVCProfileMain,/*actually the common used high level profile*/
-                mLowQuality ? MediaCodecInfo.CodecProfileLevel.AVCLevel3/*level 3*/
-                : MediaCodecInfo.CodecProfileLevel.AVCLevel42/*level 4.2*/);
+                MediaCodecInfo.CodecProfileLevel.AVCProfileMain,
+                MediaCodecInfo.CodecProfileLevel.AVCLevel3);
         mMediaRecorder.setVideoSize(screenWidth, screenHeight);
         mMediaRecorder.setVideoFrameRate(refereshRate);
         mMediaRecorder.setVideoEncodingBitRate(vidBitRate);
