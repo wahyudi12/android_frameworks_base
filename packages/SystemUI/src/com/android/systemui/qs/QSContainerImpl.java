@@ -141,6 +141,10 @@ public class QSContainerImpl extends FrameLayout implements
                 mAnimateBottomOnNextLayout = true;
             }
         });
+        mQSPanel.setDragHandle(mDragHandle);
+        mHeader.getHeaderQsPanel().setDragHandle(mDragHandle);
+        mQSPanel.setOtherPanel(mHeader.getHeaderQsPanel());
+        mHeader.getHeaderQsPanel().setOtherPanel(mQSPanel);
 
         updateSettings();
         updateResources();

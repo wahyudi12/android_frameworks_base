@@ -26,7 +26,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.content.res.Resources;
-import android.graphics.PointF;
 import android.metrics.LogMaker;
 import android.os.Bundle;
 import android.os.Handler;
@@ -36,6 +35,7 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.android.internal.logging.MetricsLogger;
@@ -90,7 +90,7 @@ public class QSPanel extends LinearLayout implements Tunable, Callback, Brightne
     protected final ArrayList<TileRecord> mRecords = new ArrayList<>();
     private final BroadcastDispatcher mBroadcastDispatcher;
     protected final MediaHost mMediaHost;
-    private OPQSFooter mOPFooterView;
+    protected OPQSFooter mOPFooterView;
 
     /**
      * The index where the content starts that needs to be moved between parents
@@ -128,6 +128,9 @@ public class QSPanel extends LinearLayout implements Tunable, Callback, Brightne
     @Nullable
     protected View mDivider;
 
+    protected View mDragHandle;
+    private View mOtherPanel;
+
     @Nullable
     private ViewGroup mHeaderContainer;
     private PageIndicator mFooterPageIndicator;
@@ -154,7 +157,7 @@ public class QSPanel extends LinearLayout implements Tunable, Callback, Brightne
     private int mFooterMarginStartHorizontal;
     private Consumer<Boolean> mMediaVisibilityChangedListener;
 
-    private boolean mIsLandscape;
+    protected boolean mIsLandscape;
 
     @Inject
     public QSPanel(
@@ -407,6 +410,8 @@ public class QSPanel extends LinearLayout implements Tunable, Callback, Brightne
         if (mBrightnessMirrorController != null) {
             mBrightnessMirrorController.removeCallback(this);
         }
+        mBrightnessController.unregisterCallbacks();
+        setOtherPanelSlider(false);
         mDumpManager.unregisterDumpable(getDumpableTag());
         super.onDetachedFromWindow();
     }
@@ -467,6 +472,11 @@ public class QSPanel extends LinearLayout implements Tunable, Callback, Brightne
 
     @Nullable
     View getBrightnessView() {
+        return mBrightnessView.findViewById(R.id.brightness_view);
+    }
+
+    @Nullable
+    View getFooterView() {
         return mBrightnessView;
     }
 
@@ -559,6 +569,7 @@ public class QSPanel extends LinearLayout implements Tunable, Callback, Brightne
 
         updateBrightnessMirror();
 
+        mIsLandscape = newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE;
         if (newConfig.orientation != mLastOrientation) {
             mLastOrientation = newConfig.orientation;
             switchTileLayout();
@@ -571,6 +582,14 @@ public class QSPanel extends LinearLayout implements Tunable, Callback, Brightne
         mFooter = findViewById(R.id.qs_footer);
         mDivider = findViewById(R.id.divider);
         switchTileLayout(true /* force */);
+    }
+
+    void setDragHandle(View v) {
+        mDragHandle = v;
+    }
+
+    void setOtherPanel(View qs) {
+        mOtherPanel = qs;
     }
 
     boolean switchTileLayout() {
@@ -686,9 +705,27 @@ public class QSPanel extends LinearLayout implements Tunable, Callback, Brightne
             index++;
         }
 
-        if (mOPFooterView != null) {
+        if (mBrightnessView != null) {
             // Then the OPFooter with the brightness bar and settings
-            switchToParent(mOPFooterView, parent, index);
+            if (mUsingHorizontalLayout) {
+                ViewGroup currentParent = (ViewGroup) mBrightnessView.getParent();
+                if (currentParent != null) {
+                    currentParent.removeView(mBrightnessView);
+                }
+                addView(mBrightnessView, indexOfChild(mHorizontalLinearLayout) + 1);
+            } else {
+                switchToParent(mBrightnessView, parent, index);
+            }
+        }
+    }
+
+    public void setBrightnessSliderVisible(boolean vis) {
+        setOtherPanelSlider(vis);
+    }
+
+    public void notifyExpansion() {
+        if (mBrightnessMirrorController != null) {
+            mBrightnessMirrorController.hideMirrorImmediately();
         }
     }
 
@@ -703,9 +740,18 @@ public class QSPanel extends LinearLayout implements Tunable, Callback, Brightne
     }
 
     boolean shouldUseHorizontalLayout() {
-        return mUsingMediaPlayer && mMediaHost.getVisible()
-                && getResources().getConfiguration().orientation
-                == Configuration.ORIENTATION_LANDSCAPE;
+        return mUsingMediaPlayer && mMediaHost.getVisible() && isLandscape();
+    }
+
+    boolean isLandscape() {
+        return mIsLandscape;
+    }
+
+    int getFooterHeight() {
+        View footerActions = mOPFooterView.getFooterActions();
+        MarginLayoutParams lp = (MarginLayoutParams) footerActions.getLayoutParams();
+        return lp.topMargin + lp.bottomMargin + footerActions.getMeasuredHeight()
+                - ((mIsLandscape && mDragHandle != null) ? mDragHandle.getHeight() : 0);
     }
 
     boolean isMediaHostVisible() {
@@ -718,13 +764,17 @@ public class QSPanel extends LinearLayout implements Tunable, Callback, Brightne
         }
         boolean horizontal = shouldUseHorizontalLayout();
         ViewGroup host = mMediaHost.getHostView();
-        ViewGroup newParent = horizontal ? mHorizontalLinearLayout : this;
+        ViewGroup newParent = horizontal ? mHorizontalLinearLayout : mOPFooterView;
         ViewGroup currentParent = (ViewGroup) host.getParent();
         if (currentParent != newParent) {
             if (currentParent != null) {
                 currentParent.removeView(host);
             }
-            newParent.addView(host);
+            if (newParent == mOPFooterView) {
+                newParent.addView(host, newParent.indexOfChild(newParent.findViewById(R.id.op_qs_footer_actions)));
+            } else {
+                newParent.addView(host);
+            }
             LinearLayout.LayoutParams layoutParams = (LayoutParams) host.getLayoutParams();
             layoutParams.height = ViewGroup.LayoutParams.WRAP_CONTENT;
             layoutParams.width = horizontal ? 0 : ViewGroup.LayoutParams.MATCH_PARENT;
@@ -734,7 +784,7 @@ public class QSPanel extends LinearLayout implements Tunable, Callback, Brightne
             // carried in the parent of this view (to ensure correct vertical alignment)
             layoutParams.bottomMargin = !horizontal || displayMediaMarginsOnMedia()
                     ? mMediaTotalBottomMargin - getPaddingBottom() : 0;
-            layoutParams.topMargin = 0;
+            layoutParams.topMargin = horizontal ? mMediaTotalTopMargin * 5 : mMediaTotalTopMargin;
         }
     }
 
@@ -745,7 +795,17 @@ public class QSPanel extends LinearLayout implements Tunable, Callback, Brightne
                     .findViewById(R.id.brightness_slider);
             brightnessSlider.setMirror(mirrorSlider);
             brightnessSlider.setMirrorController(mBrightnessMirrorController);
+            mBrightnessController.setMirrorView(mBrightnessMirrorController.getMirror());
         }
+    }
+
+    public void setOtherPanelSlider(boolean set) {
+        // We have 2 sliders (1 for QS and 1 for QQS), when 1 is visible we have to
+        // send the touch events to the other slider so that it exactly mimics the first
+        // slider instead of animating to the user set value
+        ToggleSliderView brightnessSlider = findViewById(R.id.brightness_slider);
+        // Setting it to null means this slider is not visible
+        brightnessSlider.setOtherSlider(set ? mOtherPanel.findViewById(R.id.brightness_slider) : null);
     }
 
     public void onCollapse() {
@@ -789,7 +849,6 @@ public class QSPanel extends LinearLayout implements Tunable, Callback, Brightne
             int visibility = (mExpanded && mOPFooterView.isDataUsageEnabled()) ? View.VISIBLE : View.GONE;
             mOPFooterView.getDataUsageView().setVisibility(visibility);
         }
-        mIsLandscape = getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE;
         if (mIsLandscape && mUsingMediaPlayer) {
             LinearLayout.LayoutParams layoutParams = (LayoutParams) mMediaHost.getHostView().getLayoutParams();
             layoutParams.topMargin = mExpanded ? mMediaTotalTopMargin : 0;
@@ -1161,7 +1220,7 @@ public class QSPanel extends LinearLayout implements Tunable, Callback, Brightne
                 footerMargin = mFooterMarginStartHorizontal;
                 indicatorMargin = footerMargin - mVisualMarginEnd;
             }
-            updateMargins(mFooter, footerMargin, 0);
+            //updateMargins(mFooter, footerMargin, 0);
             // The page indicator isn't centered anymore because of the visual positioning.
             // Let's fix it by adding some margin
             if (mFooterPageIndicator != null) {
