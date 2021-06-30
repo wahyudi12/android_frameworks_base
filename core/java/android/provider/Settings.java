@@ -5910,6 +5910,11 @@ public final class Settings {
         public static final String CATEGORY_NUSANTARA = "cat_nusantara";
 
         /**
+         * @hide
+         */
+        public static final String DASHBOARD_ICONS = "dashboard_icons";
+
+        /**
          * Screen off fod
          * @hide
          */
@@ -6656,6 +6661,7 @@ public final class Settings {
             PRIVATE_SETTINGS.add(STATUSBAR_CLOCK_DATE_POSITION);
             PRIVATE_SETTINGS.add(NOTIFICATION_HEADERS);
             PRIVATE_SETTINGS.add(CENTER_NOTIFICATION_HEADERS);
+            PRIVATE_SETTINGS.add(DASHBOARD_ICONS);
             PRIVATE_SETTINGS.add(HEADS_UP_STOPLIST_VALUES);
             PRIVATE_SETTINGS.add(HEADS_UP_BLACKLIST_VALUES);
             PRIVATE_SETTINGS.add(SCREEN_OFF_ANIMATION);
