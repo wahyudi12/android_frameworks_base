@@ -274,7 +274,8 @@ public class NadUtils {
         return NadUtils.isThemeEnabled("com.android.internal.systemui.navbar.gestural_narrow_back")
                 || NadUtils.isThemeEnabled("com.android.internal.systemui.navbar.gestural")
                 || NadUtils.isThemeEnabled("com.android.internal.systemui.navbar.gestural_wide_back")
-                || NadUtils.isThemeEnabled("com.android.internal.systemui.navbar.gestural_extra_wide_back");
+                || NadUtils.isThemeEnabled("com.android.internal.systemui.navbar.gestural_extra_wide_back")
+                || NadUtils.isThemeEnabled("com.custom.overlay.systemui.gestural.hidden");
     }
 
     public static String batteryTemperature(Context context, Boolean ForC) {
