@@ -157,6 +157,4 @@ interface IOverlayManager {
      * Returns the list of default overlay packages, or an empty array if there are none.
      */
     String[] getDefaultOverlayPackages();
-
-    void reloadAssets(in String packageName, in int userId);
 }
