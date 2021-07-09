@@ -41,9 +41,9 @@ public class QSAnimator implements Callback, PageListener, Listener, OnLayoutCha
 
     private static final String ALLOW_FANCY_ANIMATION = "sysui_qs_fancy_anim";
     private static final String MOVE_FULL_ROWS = "sysui_qs_move_whole_rows";
-    public static final String QQS_SHOW_BRIGHTNESS_SLIDER = "qqs_show_brightness_slider";
 
     public static final float EXPANDED_TILE_DELAY = .86f;
+
 
     private final ArrayList<View> mAllViews = new ArrayList<>();
     /**
@@ -77,8 +77,6 @@ public class QSAnimator implements Callback, PageListener, Listener, OnLayoutCha
     private float mLastPosition;
     private QSTileHost mHost;
     private boolean mShowCollapsedOnKeyguard;
-
-    private boolean mIsQuickQsBrightnessEnabled;
 
     public QSAnimator(QS qs, QuickQSPanel quickPanel, QSPanel panel) {
         mQs = qs;
@@ -146,7 +144,6 @@ public class QSAnimator implements Callback, PageListener, Listener, OnLayoutCha
     public void onViewAttachedToWindow(View v) {
         Dependency.get(TunerService.class).addTunable(this, ALLOW_FANCY_ANIMATION,
                 MOVE_FULL_ROWS, QuickQSPanel.NUM_QUICK_TILES);
-        Dependency.get(TunerService.class).addTunable(this, QQS_SHOW_BRIGHTNESS_SLIDER);
     }
 
     @Override
@@ -169,8 +166,6 @@ public class QSAnimator implements Callback, PageListener, Listener, OnLayoutCha
         } else if (QuickQSPanel.NUM_QUICK_TILES.equals(key)) {
             mNumQuickTiles = QuickQSPanel.parseNumTiles(newValue);
             clearAnimationState();
-        } else if (QQS_SHOW_BRIGHTNESS_SLIDER.equals(key)) {
-            mIsQuickQsBrightnessEnabled = TunerService.parseInteger(newValue, 0) > 1;
         }
         updateAnimators();
     }
@@ -283,16 +278,26 @@ public class QSAnimator implements Callback, PageListener, Listener, OnLayoutCha
             count++;
         }
 
-        View brightness = mQsPanel.getBrightnessView();
-
         if (mAllowFancy) {
+            // Make brightness appear static position and alpha in through second half.
+            View brightness = mQsPanel.getBrightnessView();
+            if (brightness != null) {
+                firstPageBuilder.addFloat(brightness, "translationY", heightDiff, 0);
+                mBrightnessAnimator = new TouchAnimator.Builder()
+                        .addFloat(brightness, "alpha", 0, 1)
+                        .setStartDelay(.5f)
+                        .build();
+                mAllViews.add(brightness);
+            } else {
+                mBrightnessAnimator = null;
+            }
+            mFirstPageAnimator = firstPageBuilder
+                    .setListener(this)
+                    .build();
             // Fade in the tiles/labels as we reach the final position.
             Builder builder = new Builder()
                     .setStartDelay(EXPANDED_TILE_DELAY)
                     .addFloat(tileLayout, "alpha", 0, 1);
-            if (brightness != null) {
-                builder.addFloat(brightness, "alpha", 0, 1);
-            }
             mFirstPageDelayedAnimator = builder.build();
 
             // Fade in the security footer and the divider as we reach the final position
@@ -308,26 +313,8 @@ public class QSAnimator implements Callback, PageListener, Listener, OnLayoutCha
                 mAllViews.add(mQsPanel.getSecurityFooter().getView());
             }
             if (mQsPanel.getDivider() != null) {
-                mAllViews.add(brightness);
+                mAllViews.add(mQsPanel.getDivider());
             }
-            if (brightness != null) {
-                mAllViews.add(mQsPanel);
-            }
-            // Make brightness appear static position and alpha in through second half.
-            // If brightness is showing at the bottom fade in as we reach the final position
-            if (brightness != null) {
-                firstPageBuilder.addFloat(brightness, "translationY", heightDiff, 0);
-                mBrightnessAnimator = new TouchAnimator.Builder()
-                        .addFloat(brightness, "alpha", mIsQuickQsBrightnessEnabled ? 1 : 0, 1)
-                        .setStartDelay(.5f)
-                        .build();
-                mAllViews.add(brightness);
-            } else {
-                mBrightnessAnimator = null;
-            }
-            mFirstPageAnimator = firstPageBuilder
-                    .setListener(this)
-                    .build();
 
             float px = 0;
             float py = 1;
@@ -342,14 +329,11 @@ public class QSAnimator implements Callback, PageListener, Listener, OnLayoutCha
             mTranslationXAnimator = translationXBuilder.build();
             mTranslationYAnimator = translationYBuilder.build();
         }
-        TouchAnimator.Builder builder = new TouchAnimator.Builder()
+        mNonfirstPageAnimator = new TouchAnimator.Builder()
                 .addFloat(mQuickQsPanel, "alpha", 1, 0)
                 .setListener(mNonFirstPageListener)
-                .setEndDelay(.5f);
-        if (brightness != null) {
-            builder.addFloat(mQsPanel.getBrightnessView(), "alpha", 0, 1);
-        }
-        mNonfirstPageAnimator = builder.build();
+                .setEndDelay(.5f)
+                .build();
         mNonfirstPageDelayedAnimator = new TouchAnimator.Builder()
                 .setStartDelay(.14f)
                 .addFloat(tileLayout, "alpha", 0, 1).build();

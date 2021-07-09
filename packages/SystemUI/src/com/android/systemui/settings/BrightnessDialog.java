@@ -16,46 +16,26 @@
 
 package com.android.systemui.settings;
 
-import static com.android.settingslib.display.BrightnessUtils.GAMMA_SPACE_MAX;
-
-import android.annotation.Nullable;
 import android.app.Activity;
 import android.os.Bundle;
-import android.os.UserHandle;
-import android.os.VibrationEffect;
-import android.os.Vibrator;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.ImageView;
-
-import android.content.ContentResolver;
-import android.content.Context;
-import android.provider.Settings;
 
 import com.android.internal.logging.MetricsLogger;
 import com.android.internal.logging.nano.MetricsProto.MetricsEvent;
-import com.android.systemui.Dependency;
-import com.android.systemui.qs.QSPanel;
 import com.android.systemui.R;
-import com.android.systemui.tuner.TunerService;
-import com.android.systemui.tuner.TunerService.Tunable;
 import com.android.systemui.broadcast.BroadcastDispatcher;
 
 import javax.inject.Inject;
 
 /** A dialog that provides controls for adjusting the screen brightness. */
-public class BrightnessDialog extends Activity implements Tunable {
+public class BrightnessDialog extends Activity {
 
     private BrightnessController mBrightnessController;
-    private ImageView mMinBrightness;
-    private ImageView mMaxBrightness;
-    private ImageView mAdaptiveBrightness;
-    private boolean mAutoBrightnessEnabled;
-
     private final BroadcastDispatcher mBroadcastDispatcher;
 
     @Inject
@@ -63,80 +43,23 @@ public class BrightnessDialog extends Activity implements Tunable {
         mBroadcastDispatcher = broadcastDispatcher;
     }
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        final Context mContext = this;
-
-        final ContentResolver resolver = mContext.getContentResolver();
-
         final Window window = getWindow();
-        final Vibrator mVibrator = (Vibrator) mContext.getSystemService(Context.VIBRATOR_SERVICE);
 
         window.setGravity(Gravity.TOP);
         window.clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
         window.requestFeature(Window.FEATURE_NO_TITLE);
 
-        View mBrightnessView = LayoutInflater.from(this).inflate(
+        View v = LayoutInflater.from(this).inflate(
                 R.layout.quick_settings_brightness_dialog, null);
-        setContentView(mBrightnessView);
+        setContentView(v);
 
-        mAdaptiveBrightness = findViewById(R.id.brightness_icon);
         final ToggleSliderView slider = findViewById(R.id.brightness_slider);
-        mBrightnessController = new BrightnessController(this, mAdaptiveBrightness, slider, mBroadcastDispatcher);
-
-        mMinBrightness = mBrightnessView.findViewById(R.id.brightness_left);
-        mMinBrightness.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                int currentValue = Settings.System.getIntForUser(resolver,
-                        Settings.System.SCREEN_BRIGHTNESS, 0, UserHandle.USER_CURRENT);
-                int brightness = currentValue - 2;
-                if (currentValue != 0) {
-                    int math = Math.max(0, brightness);
-                    Settings.System.putIntForUser(resolver,
-                            Settings.System.SCREEN_BRIGHTNESS, math, UserHandle.USER_CURRENT);
-                }
-            }
-        });
-
-        mMinBrightness.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-                setBrightnessMinMax(true);
-                mVibrator.vibrate(VibrationEffect.createOneShot(50, VibrationEffect.DEFAULT_AMPLITUDE));
-                return true;
-            }
-        });
-
-        mMaxBrightness = mBrightnessView.findViewById(R.id.brightness_right);
-        mMaxBrightness.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                int currentValue = Settings.System.getIntForUser(resolver,
-                        Settings.System.SCREEN_BRIGHTNESS, 0, UserHandle.USER_CURRENT);
-                int brightness = currentValue + 2;
-                if (currentValue != 255) {
-                    int math = Math.min(255, brightness);
-                    Settings.System.putIntForUser(resolver,
-                            Settings.System.SCREEN_BRIGHTNESS, math, UserHandle.USER_CURRENT);
-                }
-            }
-        });
-
-        mMaxBrightness.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-                setBrightnessMinMax(false);
-                mVibrator.vibrate(VibrationEffect.createOneShot(50, VibrationEffect.DEFAULT_AMPLITUDE));
-                return true;
-            }
-        });
-    }
-
-    private void setBrightnessMinMax(boolean min) {
-        mBrightnessController.setBrightnessFromSliderButtons(min ? 0 : GAMMA_SPACE_MAX);
+        mBrightnessController = new BrightnessController(this, slider, mBroadcastDispatcher);
     }
 
     @Override
@@ -144,9 +67,6 @@ public class BrightnessDialog extends Activity implements Tunable {
         super.onStart();
         mBrightnessController.registerCallbacks();
         MetricsLogger.visible(this, MetricsEvent.BRIGHTNESS_DIALOG);
-        final TunerService tunerService = Dependency.get(TunerService.class);
-        tunerService.addTunable(this, QSPanel.QS_SHOW_AUTO_BRIGHTNESS);
-        tunerService.addTunable(this, QSPanel.QS_SHOW_BRIGHTNESS_BUTTONS);
     }
 
     @Override
@@ -154,7 +74,6 @@ public class BrightnessDialog extends Activity implements Tunable {
         super.onStop();
         MetricsLogger.hidden(this, MetricsEvent.BRIGHTNESS_DIALOG);
         mBrightnessController.unregisterCallbacks();
-        Dependency.get(TunerService.class).removeTunable(this);
     }
 
     @Override
@@ -166,33 +85,5 @@ public class BrightnessDialog extends Activity implements Tunable {
         }
 
         return super.onKeyDown(keyCode, event);
-    }
-
-    public void onWindowFocusChanged(boolean hasFocus) {
-        super.onWindowFocusChanged(hasFocus);
-        // If the BrightnessDialog loses focus, dismiss it.
-        if (!hasFocus) {
-            finish();
-        }
-    }
-
-    @Override
-    public void onTuningChanged(String key, String newValue) {
-        if (QSPanel.QS_SHOW_AUTO_BRIGHTNESS.equals(key)) {
-            mAutoBrightnessEnabled = newValue == null || Integer.parseInt(newValue) != 0;
-            updateAutoBrightnessVisibility();
-        } else if (QSPanel.QS_SHOW_BRIGHTNESS_BUTTONS.equals(key)) {
-            updateViewVisibilityForTuningValue(mMinBrightness, newValue);
-            updateViewVisibilityForTuningValue(mMaxBrightness, newValue);
-        }
-    }
-
-    private void updateAutoBrightnessVisibility() {
-        mAdaptiveBrightness.setVisibility(mAutoBrightnessEnabled ? View.VISIBLE : View.GONE);
-    }
-
-    private void updateViewVisibilityForTuningValue(View view, @Nullable String newValue) {
-        view.setVisibility(newValue == null || Integer.parseInt(newValue) != 0
-                ? View.VISIBLE : View.GONE);
     }
 }

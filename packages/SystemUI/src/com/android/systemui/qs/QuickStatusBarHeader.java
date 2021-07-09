@@ -17,7 +17,6 @@ package com.android.systemui.qs;
 import static android.app.StatusBarManager.DISABLE2_QUICK_SETTINGS;
 import static android.provider.Settings.System.QS_SHOW_BATTERY_PERCENT;
 import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
-import static android.provider.Settings.System.SCREEN_BRIGHTNESS_MODE_MANUAL;
 
 import static com.android.systemui.util.InjectionInflationController.VIEW_CONTEXT;
 
@@ -67,12 +66,10 @@ import androidx.lifecycle.LifecycleRegistry;
 import com.android.internal.logging.UiEventLogger;
 import com.android.internal.util.nad.NadUtils;
 import com.android.settingslib.Utils;
-import com.android.systemui.Dependency;
 import com.android.systemui.BatteryMeterView;
 import com.android.systemui.DualToneHandler;
 import com.android.systemui.Interpolators;
 import com.android.systemui.R;
-import com.android.systemui.broadcast.BroadcastDispatcher;
 import com.android.systemui.plugins.ActivityStarter;
 import com.android.systemui.plugins.DarkIconDispatcher;
 import com.android.systemui.plugins.DarkIconDispatcher.DarkReceiver;
@@ -84,7 +81,6 @@ import com.android.systemui.privacy.PrivacyItemController;
 import com.android.systemui.qs.QSDetail.Callback;
 import com.android.systemui.statusbar.info.DataUsageView;
 import com.android.systemui.qs.carrier.QSCarrierGroup;
-import com.android.systemui.settings.BrightnessController;
 import com.android.systemui.statusbar.CommandQueue;
 import com.android.systemui.statusbar.phone.StatusBarIconController;
 import com.android.systemui.statusbar.phone.StatusBarIconController.TintedIconManager;
@@ -95,7 +91,6 @@ import com.android.systemui.statusbar.policy.DateView;
 import com.android.systemui.statusbar.policy.NextAlarmController;
 import com.android.systemui.statusbar.policy.ZenModeController;
 import com.android.systemui.util.RingerModeTracker;
-import com.android.systemui.tuner.TunerService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -112,12 +107,9 @@ import javax.inject.Named;
  */
 public class QuickStatusBarHeader extends RelativeLayout implements
         View.OnClickListener, NextAlarmController.NextAlarmChangeCallback,
-        ZenModeController.Callback, LifecycleOwner, TunerService.Tunable {
+        ZenModeController.Callback, LifecycleOwner {
     private static final String TAG = "QuickStatusBarHeader";
     private static final boolean DEBUG = false;
-
-    public static final String QS_SHOW_AUTO_BRIGHTNESS = "qs_show_auto_brightness";
-    public static final String QQS_SHOW_BRIGHTNESS_SLIDER = "qqs_show_brightness_slider";
 
     /** Delay for auto fading out the long press tooltip after it's fully visible (in ms). */
     private static final long AUTO_FADE_OUT_DELAY_MS = DateUtils.SECOND_IN_MILLIS * 6;
@@ -175,8 +167,6 @@ public class QuickStatusBarHeader extends RelativeLayout implements
     private PrivacyItemController mPrivacyItemController;
     private final UiEventLogger mUiEventLogger;
 
-    private BroadcastDispatcher mBroadcastDispatcher;
-
     // Data Usage - QQS
     private View mDataUsageLayout;
     private ImageView mDataUsageImage;
@@ -208,15 +198,6 @@ public class QuickStatusBarHeader extends RelativeLayout implements
     private float mExpandedHeaderAlpha = 1.0f;
     private float mKeyguardExpansionFraction;
     private boolean mPrivacyChipLogged = false;
-
-    private View mQuickQsBrightness;
-    private BrightnessController mBrightnessController;
-    private boolean mIsQsAutoBrightnessEnabled;
-    private boolean mBrightnessButton;
-    private ImageView mAutoBrightnessView;
-    private ImageView mMinBrightness;
-    private ImageView mMaxBrightness;
-    private int mBrightnessSlider = 2;
 
     private SettingsObserver mSettingsObserver = new SettingsObserver(mHandler);
 
@@ -256,7 +237,7 @@ public class QuickStatusBarHeader extends RelativeLayout implements
             StatusBarIconController statusBarIconController,
             ActivityStarter activityStarter, PrivacyItemController privacyItemController,
             CommandQueue commandQueue, RingerModeTracker ringerModeTracker,
-            UiEventLogger uiEventLogger, BroadcastDispatcher broadcastDispatcher) {
+            UiEventLogger uiEventLogger) {
         super(context, attrs);
         mAlarmController = nextAlarmController;
         mZenController = zenModeController;
@@ -269,7 +250,6 @@ public class QuickStatusBarHeader extends RelativeLayout implements
         mRingerModeTracker = ringerModeTracker;
         mUiEventLogger = uiEventLogger;
         mSettingsObserver.observe();
-        mBroadcastDispatcher = broadcastDispatcher;
     }
 
     @Override
@@ -288,17 +268,6 @@ public class QuickStatusBarHeader extends RelativeLayout implements
         iconContainer.addIgnoredSlots(getIgnoredIconSlots());
         iconContainer.setShouldRestrictIcons(false);
         mIconManager = new TintedIconManager(iconContainer, mCommandQueue);
-
-        mQuickQsBrightness = findViewById(R.id.quick_qs_brightness_bar);
-        mMinBrightness = mQuickQsBrightness.findViewById(R.id.brightness_left);
-        mMaxBrightness = mQuickQsBrightness.findViewById(R.id.brightness_right);
-        mMinBrightness.setOnClickListener(this::onClick);
-        mMaxBrightness.setOnClickListener(this::onClick);
-        mAutoBrightnessView = (ImageView) mQuickQsBrightness.findViewById(R.id.brightness_icon);
-        mBrightnessController = new BrightnessController(getContext(),
-                mAutoBrightnessView,
-                mQuickQsBrightness.findViewById(R.id.brightness_slider),
-                mBroadcastDispatcher);
 
         // Views corresponding to the header info section (e.g. ringer and next alarm).
         mHeaderTextContainerView = findViewById(R.id.header_text_container);
@@ -361,10 +330,6 @@ public class QuickStatusBarHeader extends RelativeLayout implements
         mBatteryMeterView.setOnClickListener(this);
         mBatteryMeterView.setPercentShowMode(getBatteryPercentMode());
 
-        Dependency.get(TunerService.class).addTunable(this,
-                StatusBarIconController.ICON_BLACKLIST,
-                QS_SHOW_AUTO_BRIGHTNESS, QQS_SHOW_BRIGHTNESS_SLIDER,
-                QSPanel.QS_SHOW_BRIGHTNESS_BUTTONS);
         mNextAlarmTextView.setSelected(true);
         updateSettings();
     }
@@ -487,19 +452,6 @@ public class QuickStatusBarHeader extends RelativeLayout implements
         int qqsHeight = mContext.getResources().getDimensionPixelSize(
                 R.dimen.qs_quick_header_panel_height);
 
-        if (mBrightnessSlider != 0) {
-            if (!mHeaderImageEnabled) {
-                qqsHeight += mContext.getResources().getDimensionPixelSize(
-                        R.dimen.brightness_mirror_height)
-                        + mContext.getResources().getDimensionPixelSize(
-                        R.dimen.qs_tile_margin_top);
-            } else {
-                qqsHeight += mContext.getResources().getDimensionPixelSize(
-                        R.dimen.brightness_mirror_height)
-                        + mContext.getResources().getDimensionPixelSize(
-                        R.dimen.qs_tile_margin_top) + mHeaderImageHeight;
-            }
-        }
         setMinimumHeight(sbHeight + qqsHeight);
     }
 
@@ -522,37 +474,6 @@ public class QuickStatusBarHeader extends RelativeLayout implements
 
         mSystemIconsView.getLayoutParams().height = topMargin;
         mSystemIconsView.setLayoutParams(mSystemIconsView.getLayoutParams());
-
-        RelativeLayout.LayoutParams headerPanel = (RelativeLayout.LayoutParams)
-                mHeaderQsPanel.getLayoutParams();
-        headerPanel.addRule(RelativeLayout.BELOW, R.id.quick_qs_status_icons);
-
-        RelativeLayout.LayoutParams lpQuickQsBrightness = (RelativeLayout.LayoutParams)
-                mQuickQsBrightness.getLayoutParams();
-        lpQuickQsBrightness.addRule(RelativeLayout.BELOW, R.id.header_text_container);
-
-        if (mBrightnessSlider != 0) {
-            if (mBrightnessSlider == 1) {
-                headerPanel.addRule(RelativeLayout.BELOW, R.id.quick_qs_brightness_bar);
-            } else if (mBrightnessSlider == 2) {
-                lpQuickQsBrightness.addRule(RelativeLayout.BELOW, R.id.quick_qs_panel);
-            }
-            if (mIsQsAutoBrightnessEnabled && resources.getBoolean(
-                    com.android.internal.R.bool.config_automatic_brightness_available)) {
-               mAutoBrightnessView = (ImageView) mQuickQsBrightness.findViewById(R.id.brightness_icon);
-               mAutoBrightnessView.setVisibility(View.VISIBLE);
-            } else {
-               mAutoBrightnessView = (ImageView) mQuickQsBrightness.findViewById(R.id.brightness_icon);
-               mAutoBrightnessView.setVisibility(View.GONE);
-            }
-            mMinBrightness.setVisibility(mBrightnessButton ? VISIBLE : GONE);
-            mMaxBrightness.setVisibility(mBrightnessButton ? VISIBLE : GONE);
-        } else {
-            mQuickQsBrightness.setVisibility(View.GONE);
-        }
-
-        mHeaderQsPanel.setLayoutParams(headerPanel);
-        mQuickQsBrightness.setLayoutParams(lpQuickQsBrightness);
 
         ViewGroup.LayoutParams lp = getLayoutParams();
         if (mQsDisabled) {
@@ -708,14 +629,6 @@ public class QuickStatusBarHeader extends RelativeLayout implements
             mPrivacyChip.setExpanded(expansionFraction > 0.5);
             mPrivacyChipAlphaAnimator.setPosition(keyguardExpansionFraction);
         }
-
-        if (mBrightnessSlider != 0) {
-            if (keyguardExpansionFraction > 0) {
-                mQuickQsBrightness.setVisibility(INVISIBLE);
-            } else {
-                mQuickQsBrightness.setVisibility(VISIBLE);
-            }
-        }
         if (expansionFraction < 1 && expansionFraction > 0.99) {
             if (mHeaderQsPanel.switchTileLayout()) {
                 updateResources();
@@ -731,7 +644,6 @@ public class QuickStatusBarHeader extends RelativeLayout implements
         mHeaderQsPanel.setDisabledByPolicy(disabled);
         mHeaderTextContainerView.setVisibility(mQsDisabled ? View.GONE : View.VISIBLE);
         mQuickQsStatusIcons.setVisibility(mQsDisabled ? View.GONE : View.VISIBLE);
-        mQuickQsBrightness.setVisibility(mQsDisabled ? View.GONE : View.VISIBLE);
         updateResources();
     }
 
@@ -839,7 +751,6 @@ public class QuickStatusBarHeader extends RelativeLayout implements
         if (listening) {
             mZenController.addCallback(this);
             mAlarmController.addCallback(this);
-            mBrightnessController.registerCallbacks();
             mLifecycle.setCurrentState(Lifecycle.State.RESUMED);
             // Get the most up to date info
             mAllIndicatorsEnabled = mPrivacyItemController.getAllIndicatorsAvailable();
@@ -848,7 +759,6 @@ public class QuickStatusBarHeader extends RelativeLayout implements
         } else {
             mZenController.removeCallback(this);
             mAlarmController.removeCallback(this);
-            mBrightnessController.unregisterCallbacks();
             mLifecycle.setCurrentState(Lifecycle.State.CREATED);
             mPrivacyItemController.removeCallback(mPICCallback);
             mPrivacyChipLogged = false;
@@ -892,26 +802,6 @@ public class QuickStatusBarHeader extends RelativeLayout implements
         } else if (v == mQsbDataUsageView) {
             mActivityStarter.postStartActivityDismissingKeyguard(new Intent(
                     Settings.Panel.ACTION_MOBILE_DATA), 0);
-        } else if (v == mMinBrightness) {
-            final ContentResolver resolver = getContext().getContentResolver();
-            int currentValue = Settings.System.getIntForUser(resolver,
-                    Settings.System.SCREEN_BRIGHTNESS, 0, UserHandle.USER_CURRENT);
-            int brightness = currentValue - 2;
-            if (currentValue != 0) {
-                int math = Math.max(0, brightness);
-                Settings.System.putIntForUser(resolver,
-                        Settings.System.SCREEN_BRIGHTNESS, math, UserHandle.USER_CURRENT);
-            }
-        } else if (v == mMaxBrightness) {
-            final ContentResolver resolver = getContext().getContentResolver();
-            int currentValue = Settings.System.getIntForUser(resolver,
-                    Settings.System.SCREEN_BRIGHTNESS, 0, UserHandle.USER_CURRENT);
-            int brightness = currentValue + 2;
-            if (currentValue != 255) {
-                int math = Math.min(255, brightness);
-                Settings.System.putIntForUser(resolver,
-                        Settings.System.SCREEN_BRIGHTNESS, math, UserHandle.USER_CURRENT);
-            }
         }
     }
 
@@ -991,7 +881,7 @@ public class QuickStatusBarHeader extends RelativeLayout implements
             if (view == mHeaderQsPanel) {
                 // QS panel doesn't lays out some of its content full width
                 mHeaderQsPanel.setContentMargins(marginStart, marginEnd);
-            } else if (view != mQuickQsBrightness) {
+            } else {
                 MarginLayoutParams lp = (MarginLayoutParams) view.getLayoutParams();
                 lp.setMarginStart(marginStart);
                 lp.setMarginEnd(marginEnd);
@@ -1059,25 +949,5 @@ public class QuickStatusBarHeader extends RelativeLayout implements
         mBatteryMeterView.useWallpaperTextColor(shouldUseWallpaperTextColor);
         mClockView.useWallpaperTextColor(shouldUseWallpaperTextColor);
         updateBatteryInQs();
-    }
-
-    @Override
-    public void onTuningChanged(String key, String newValue) {
-        switch (key) {
-            case QQS_SHOW_BRIGHTNESS_SLIDER:
-                mBrightnessSlider = TunerService.parseInteger(newValue, 2);
-                updateResources();
-                break;
-            case QS_SHOW_AUTO_BRIGHTNESS:
-                mIsQsAutoBrightnessEnabled = TunerService.parseIntegerSwitch(newValue, true);
-                updateResources();
-                break;
-            case QSPanel.QS_SHOW_BRIGHTNESS_BUTTONS:
-                mBrightnessButton = TunerService.parseIntegerSwitch(newValue, true);
-                updateResources();
-                break;
-            default:
-                break;
-        }
     }
 }
