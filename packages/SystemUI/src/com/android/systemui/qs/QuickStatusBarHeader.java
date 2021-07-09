@@ -64,7 +64,6 @@ import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.LifecycleRegistry;
 
 import com.android.internal.logging.UiEventLogger;
-import com.android.internal.util.nad.NadUtils;
 import com.android.settingslib.Utils;
 import com.android.systemui.BatteryMeterView;
 import com.android.systemui.DualToneHandler;
@@ -79,7 +78,6 @@ import com.android.systemui.privacy.PrivacyChipEvent;
 import com.android.systemui.privacy.PrivacyItem;
 import com.android.systemui.privacy.PrivacyItemController;
 import com.android.systemui.qs.QSDetail.Callback;
-import com.android.systemui.statusbar.info.DataUsageView;
 import com.android.systemui.qs.carrier.QSCarrierGroup;
 import com.android.systemui.statusbar.CommandQueue;
 import com.android.systemui.statusbar.phone.StatusBarIconController;
@@ -167,18 +165,7 @@ public class QuickStatusBarHeader extends RelativeLayout implements
     private PrivacyItemController mPrivacyItemController;
     private final UiEventLogger mUiEventLogger;
 
-    // Data Usage - QQS
-    private View mDataUsageLayout;
-    private ImageView mDataUsageImage;
-    private DataUsageView mDataUsageView;
-
-    // Data Usage - QSB
-    private View mQsbDataUsageLayout;
-    private ImageView mQsbDataUsageImage;
-    private DataUsageView mQsbDataUsageView;
-
     private boolean mLandscape;
-    private boolean mDataUsageLocation;
 
     private boolean mHeaderImageEnabled;
     private boolean mForceHideQsStatusBar;
@@ -285,16 +272,6 @@ public class QuickStatusBarHeader extends RelativeLayout implements
         mCarrierGroup = findViewById(R.id.carrier_group);
         mForceHideQsStatusBar = mContext.getResources().getBoolean(R.bool.qs_status_bar_hidden);
         mHeaderImageHeight = (float) 25;
-        mDataUsageView = findViewById(R.id.data_sim_usage);
-        mDataUsageLayout = findViewById(R.id.daily_data_usage_layout);
-        mDataUsageImage = findViewById(R.id.daily_data_usage_icon);
-        mQsbDataUsageLayout = findViewById(R.id.qsb_daily_data_usage_layout);
-        mQsbDataUsageImage = findViewById(R.id.qsb_daily_data_usage_icon);
-        mQsbDataUsageView = findViewById(R.id.qsb_data_sim_usage);
-        if (mDataUsageView != null)
-            mDataUsageView.setOnClickListener(this);
-        if (mQsbDataUsageView != null)
-            mQsbDataUsageView.setOnClickListener(this);
         updateResources();
 
         Rect tintArea = new Rect(0, 0, 0, 0);
@@ -310,7 +287,6 @@ public class QuickStatusBarHeader extends RelativeLayout implements
         mIconManager.setTint(fillColor);
         mNextAlarmIcon.setImageTintList(ColorStateList.valueOf(fillColor));
         mRingerModeIcon.setImageTintList(ColorStateList.valueOf(fillColor));
-        mDataUsageImage.setImageTintList(ColorStateList.valueOf(fillColor));
 
         mClockView = findViewById(R.id.clock);
         mClockView.setOnClickListener(this);
@@ -499,7 +475,6 @@ public class QuickStatusBarHeader extends RelativeLayout implements
         updateHeaderImage();
         updateBatteryInQs();
         updateStatusbarProperties();
-        updateDataUsageDialy();
     }
 
     private void updateStatusIconAlphaAnimator() {
@@ -536,39 +511,6 @@ public class QuickStatusBarHeader extends RelativeLayout implements
         mBatteryRemainingIcon.setVisibility(showBatteryInQs ? View.GONE : View.VISIBLE);
     }
 
-    private void updateDataUsageDialy() {
-        mDataUsageLocation = Settings.System.getIntForUser(mContext.getContentResolver(),
-                Settings.System.QS_DATAUSAGE_LOCATION, 1,
-                UserHandle.USER_CURRENT) == 1;
-
-        if (mDataUsageView.isDataUsageEnabled() != 0) {
-            if (NadUtils.isConnected(mContext)) {
-                if (mDataUsageLocation) {
-                    mDataUsageLayout.setVisibility(View.VISIBLE);
-                    mDataUsageImage.setVisibility(View.VISIBLE);
-                    mDataUsageView.setVisibility(View.VISIBLE);
-                    mQsbDataUsageLayout.setVisibility(View.GONE);
-                    mQsbDataUsageImage.setVisibility(View.GONE);
-                    mQsbDataUsageView.setVisibility(View.GONE);
-                } else {
-                    mQsbDataUsageLayout.setVisibility(View.VISIBLE);
-                    mQsbDataUsageImage.setVisibility(View.VISIBLE);
-                    mQsbDataUsageView.setVisibility(View.VISIBLE);
-                    mDataUsageLayout.setVisibility(View.GONE);
-                    mDataUsageImage.setVisibility(View.GONE);
-                    mDataUsageView.setVisibility(View.GONE);
-                }
-            } else {
-                mQsbDataUsageLayout.setVisibility(View.GONE);
-                mQsbDataUsageImage.setVisibility(View.GONE);
-                mQsbDataUsageView.setVisibility(View.GONE);
-                mDataUsageLayout.setVisibility(View.GONE);
-                mDataUsageImage.setVisibility(View.GONE);
-                mDataUsageView.setVisibility(View.GONE);
-            }
-        }
-    }
-
     public void setBatteryPercentMode() {
         mBatteryMeterView.setPercentShowMode(getBatteryPercentMode());
         mBatteryRemainingIcon.setPercentShowMode(getBatteryPercentMode());
@@ -591,7 +533,6 @@ public class QuickStatusBarHeader extends RelativeLayout implements
         mExpanded = expanded;
         mHeaderQsPanel.setExpanded(expanded);
         updateEverything();
-        updateDataUsageDialy();
     }
 
     /**
@@ -796,12 +737,6 @@ public class QuickStatusBarHeader extends RelativeLayout implements
         } else if (v == mBatteryRemainingIcon || v == mBatteryMeterView) {
             mActivityStarter.postStartActivityDismissingKeyguard(new Intent(
                 Intent.ACTION_POWER_USAGE_SUMMARY), 0);
-        } else if (v == mDataUsageView) {
-            mActivityStarter.postStartActivityDismissingKeyguard(new Intent(
-                    Settings.Panel.ACTION_MOBILE_DATA), 0);
-        } else if (v == mQsbDataUsageView) {
-            mActivityStarter.postStartActivityDismissingKeyguard(new Intent(
-                    Settings.Panel.ACTION_MOBILE_DATA), 0);
         }
     }
 
@@ -922,12 +857,6 @@ public class QuickStatusBarHeader extends RelativeLayout implements
             ContentResolver resolver = getContext().getContentResolver();
             resolver.registerContentObserver(Settings.System.getUriFor(
                     Settings.System.QS_BATTERY_LOCATION_BAR), false,
-                    this, UserHandle.USER_ALL);
-            resolver.registerContentObserver(Settings.System
-                    .getUriFor(Settings.System.QS_DATAUSAGE), false,
-                    this, UserHandle.USER_ALL);
-            resolver.registerContentObserver(Settings.System
-                    .getUriFor(Settings.System.QS_DATAUSAGE_LOCATION), false,
                     this, UserHandle.USER_ALL);
             resolver.registerContentObserver(Settings.System.getUriFor(
                     Settings.System.STATUS_BAR_CUSTOM_HEADER), false,

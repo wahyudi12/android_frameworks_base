@@ -5285,18 +5285,6 @@ public final class Settings {
         public static final String FORCE_SHOW_NAVBAR = "navigation_bar_show_new";
 
         /**
-         * Show data usage in QS header
-         * @hide
-         */
-        public static final String QS_DATAUSAGE = "qs_datausage";
-
-       /**
-         * toggle QS data usage location
-         * @hide
-         */
-        public static final String QS_DATAUSAGE_LOCATION = "qs_datausage_location";
-
-        /**
          * Whether to vibrate on notifications
          * @hide
          */

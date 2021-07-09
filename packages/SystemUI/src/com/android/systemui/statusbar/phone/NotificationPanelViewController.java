@@ -2253,7 +2253,6 @@ public class NotificationPanelViewController extends PanelViewController {
             alpha *= mClockPositionResult.clockAlpha;
         }
         mNotificationStackScroller.setAlpha(alpha);
-        mStatusBar.updateQSDataUsageInfo();
         mStatusBar.updateDismissAllVisibility(true);
     }
 
