@@ -23,6 +23,7 @@ import android.annotation.NonNull;
 import android.annotation.Nullable;
 import android.content.ComponentName;
 import android.content.Context;
+import android.content.ContentResolver;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.content.res.Resources;
@@ -30,6 +31,8 @@ import android.metrics.LogMaker;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.os.UserHandle;
+import android.provider.Settings;
 import android.util.AttributeSet;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -139,9 +142,12 @@ public class QSPanel extends LinearLayout implements Tunable, Callback, Brightne
     private int mContentMarginEnd;
     private int mVisualTilePadding;
     private boolean mUsingHorizontalLayout;
+    private boolean mClockLocation;
 
     private QSCustomizer mCustomizePanel;
     private Record mDetailRecord;
+
+    private int padding;
 
     private BrightnessMirrorController mBrightnessMirrorController;
     private LinearLayout mHorizontalLinearLayout;
@@ -188,6 +194,7 @@ public class QSPanel extends LinearLayout implements Tunable, Callback, Brightne
 
         setOrientation(VERTICAL);
 
+        updatePadding();
         addViewsAboveTiles();
         mMovableContentStartIndex = getChildCount();
         mRegularTileLayout = createRegularTileLayout();
@@ -392,6 +399,7 @@ public class QSPanel extends LinearLayout implements Tunable, Callback, Brightne
         super.onAttachedToWindow();
         final TunerService tunerService = Dependency.get(TunerService.class);
         tunerService.addTunable(this, QS_SHOW_BRIGHTNESS);
+        updatePadding();
 
         if (mHost != null) {
             setTiles(mHost.getTiles());
@@ -421,6 +429,7 @@ public class QSPanel extends LinearLayout implements Tunable, Callback, Brightne
         mBrightnessController.unregisterCallbacks();
         setOtherPanelSlider(false);
         mDumpManager.unregisterDumpable(getDumpableTag());
+        updatePadding();
         super.onDetachedFromWindow();
     }
 
@@ -553,8 +562,17 @@ public class QSPanel extends LinearLayout implements Tunable, Callback, Brightne
     }
 
     protected void updatePadding() {
+        final ContentResolver resolver = mContext.getContentResolver();
+        mClockLocation = Settings.System.getIntForUser(resolver,
+                Settings.System.QS_CLOCK_LOCATION, 0,
+                UserHandle.USER_CURRENT) == 1;
         final Resources res = mContext.getResources();
-        int padding = res.getDimensionPixelSize(R.dimen.qs_panel_padding_top);
+        if (!mClockLocation) {
+                padding = res.getDimensionPixelSize(R.dimen.qs_panel_padding_top);
+            } else {
+                padding = res.getDimensionPixelSize(R.dimen.qs_header_tooltip_height);
+            }
+
         if (mUsingHorizontalLayout) {
             // When using the horizontal layout, our space is quite constrained. We therefore
             // reduce some of the padding on the top, which makes the brightness bar overlapp,
@@ -576,6 +594,7 @@ public class QSPanel extends LinearLayout implements Tunable, Callback, Brightne
         updateResources();
 
         updateBrightnessMirror();
+        updatePadding();
 
         mIsLandscape = newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE;
         if (newConfig.orientation != mLastOrientation) {
@@ -861,6 +880,8 @@ public class QSPanel extends LinearLayout implements Tunable, Callback, Brightne
             LinearLayout.LayoutParams layoutParams = (LayoutParams) mMediaHost.getHostView().getLayoutParams();
             layoutParams.topMargin = mExpanded ? mMediaTotalTopMargin : 0;
         }
+
+        updatePadding();
     }
 
     public void setPageListener(final PagedTileLayout.PageListener pageListener) {

@@ -56,6 +56,8 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Space;
 import android.widget.TextView;
+import android.widget.TextClock;
+import android.view.Gravity;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.VisibleForTesting;
@@ -171,6 +173,10 @@ public class QuickStatusBarHeader extends RelativeLayout implements
     private boolean mForceHideQsStatusBar;
     private float mHeaderImageHeight;
 
+    private boolean mClockLocation;
+    private boolean showBatteryInQs;
+    private boolean mHeaderVisibility;
+
     // Used for RingerModeTracker
     private final LifecycleRegistry mLifecycle = new LifecycleRegistry(this);
 
@@ -185,6 +191,12 @@ public class QuickStatusBarHeader extends RelativeLayout implements
     private float mExpandedHeaderAlpha = 1.0f;
     private float mKeyguardExpansionFraction;
     private boolean mPrivacyChipLogged = false;
+
+    private LinearLayout mClockLayout;
+    private LinearLayout mBigClockLayout;
+    private RelativeLayout mBigClock;
+    private int mClockGravity;
+    private TextClock mQsDate;
 
     private SettingsObserver mSettingsObserver = new SettingsObserver(mHandler);
 
@@ -288,8 +300,12 @@ public class QuickStatusBarHeader extends RelativeLayout implements
         mNextAlarmIcon.setImageTintList(ColorStateList.valueOf(fillColor));
         mRingerModeIcon.setImageTintList(ColorStateList.valueOf(fillColor));
 
+        mClockLayout = findViewById(R.id.clock_layout);
+        mBigClockLayout = findViewById(R.id.big_clock_layout);
+        mBigClock = findViewById(R.id.big_clock);
         mClockView = findViewById(R.id.clock);
         mClockView.setOnClickListener(this);
+        mQsDate = findViewById(R.id.qs_date);
         mClockView.setQsHeader();
         mDateView = findViewById(R.id.date);
         mSpace = findViewById(R.id.space);
@@ -440,9 +456,9 @@ public class QuickStatusBarHeader extends RelativeLayout implements
         mStatusBarPaddingTop = resources.getDimensionPixelSize(R.dimen.status_bar_padding_top);
 
         // Update height for a few views, especially due to landscape mode restricting space.
-        mHeaderTextContainerView.getLayoutParams().height =
-                resources.getDimensionPixelSize(R.dimen.qs_header_tooltip_height);
-        mHeaderTextContainerView.setLayoutParams(mHeaderTextContainerView.getLayoutParams());
+        //mHeaderTextContainerView.getLayoutParams().height =
+                //resources.getDimensionPixelSize(R.dimen.qs_header_tooltip_height);
+        //mHeaderTextContainerView.setLayoutParams(mHeaderTextContainerView.getLayoutParams());
 
         int topMargin = resources.getDimensionPixelSize(
                 com.android.internal.R.dimen.quick_qs_offset_height) + (mHeaderImageEnabled ?
@@ -474,6 +490,7 @@ public class QuickStatusBarHeader extends RelativeLayout implements
     private void updateSettings() {
         updateHeaderImage();
         updateBatteryInQs();
+        updateClockLocation();
         updateStatusbarProperties();
     }
 
@@ -528,11 +545,50 @@ public class QuickStatusBarHeader extends RelativeLayout implements
                 getResources().getDisplayMetrics()));
     }
 
+    private void updateClockLocation() {
+        boolean mClockLocation = Settings.System.getIntForUser(mContext.getContentResolver(),
+                Settings.System.QS_CLOCK_LOCATION, 0,
+                UserHandle.USER_CURRENT) == 1;
+        mClockGravity = Settings.System.getIntForUser(mContext.getContentResolver(),
+                Settings.System.QS_CLOCK_GRAVITY, 0,
+                UserHandle.USER_CURRENT);
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.MATCH_PARENT);
+        params.setMargins(0, -20 ,0 ,0);
+
+        if (mClockGravity == 0) {
+                mBigClockLayout.setOrientation(LinearLayout.HORIZONTAL);
+                mBigClockLayout.setGravity(Gravity.LEFT);
+                mBigClock.setGravity(Gravity.LEFT);
+                mQsDate.setGravity(Gravity.LEFT|Gravity.BOTTOM);
+                params.gravity = Gravity.BOTTOM;
+                params.setMargins(10, 0 ,0 ,0);
+            } else if (mClockGravity == 1) {
+                mBigClockLayout.setOrientation(LinearLayout.VERTICAL);
+                mBigClockLayout.setGravity(Gravity.CENTER);
+                mBigClock.setGravity(Gravity.CENTER);
+                mQsDate.setGravity(Gravity.CENTER|Gravity.BOTTOM);
+                mQsDate.setLayoutParams(params);
+            } else if (mClockGravity == 2) {
+                mBigClockLayout.setOrientation(LinearLayout.VERTICAL);
+                mBigClockLayout.setGravity(Gravity.RIGHT);
+                mBigClock.setGravity(Gravity.RIGHT);
+                mQsDate.setGravity(Gravity.RIGHT|Gravity.BOTTOM);
+                mQsDate.setLayoutParams(params);
+            }
+
+        mClockLayout.setVisibility(mClockLocation ? View.VISIBLE : View.GONE);
+        mBigClockLayout.setVisibility(mClockLocation ? View.VISIBLE : View.GONE);
+        mClockView.setVisibility(mClockLocation ? View.GONE : View.VISIBLE);
+    }
+
+
     public void setExpanded(boolean expanded) {
         if (mExpanded == expanded) return;
         mExpanded = expanded;
         mHeaderQsPanel.setExpanded(expanded);
         updateEverything();
+        updateClockLocation();
+        updateHeaderImage();
     }
 
     /**
@@ -863,6 +919,9 @@ public class QuickStatusBarHeader extends RelativeLayout implements
                     this, UserHandle.USER_ALL);
             resolver.registerContentObserver(Settings.System.getUriFor(
                     Settings.System.STATUS_BAR_CUSTOM_HEADER_HEIGHT), false,
+                    this, UserHandle.USER_ALL);
+            resolver.registerContentObserver(Settings.System
+                    .getUriFor(Settings.System.QS_CLOCK_LOCATION), false,
                     this, UserHandle.USER_ALL);
         }
 
