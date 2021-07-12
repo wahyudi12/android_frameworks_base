@@ -259,6 +259,14 @@ public class QSPanel extends LinearLayout implements Tunable, Callback, Brightne
                 }
             });
         }
+        if (mOPFooterView.getSettingsButton() != null) {
+            mOPFooterView.getSettingsButton().setOnLongClickListener(new View.OnLongClickListener() {
+                public boolean onLongClick(View v) {
+                   startNusantaraWingsActivity();
+                   return true;
+                }
+            });
+        }
         if (mOPFooterView.getEditButton() != null) {
             mOPFooterView.getEditButton().setOnClickListener(view ->
                 Dependency.get(ActivityStarter.class).postQSRunnableDismissingKeyguard(() ->
@@ -1051,6 +1059,13 @@ public class QSPanel extends LinearLayout implements Tunable, Callback, Brightne
         Intent intent = new Intent();
         intent.setClassName("com.android.settings",
                 "com.android.settings.Settings$DataUsageSummaryActivity");
+        Dependency.get(ActivityStarter.class).startActivity(intent, true /* dismissShade */);
+    }
+
+    private void startNusantaraWingsActivity() {
+        Intent intent = new Intent(Intent.ACTION_MAIN);
+        intent.setClassName("com.android.settings",
+            "com.android.settings.Settings$NusantaraWingsActivity");
         Dependency.get(ActivityStarter.class).startActivity(intent, true /* dismissShade */);
     }
 
