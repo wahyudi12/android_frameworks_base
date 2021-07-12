@@ -493,7 +493,7 @@ public class StatusBar extends SystemUI implements DemoMode,
    // status bar notification ticker
     public boolean mTickerEnabled;
     public int mTickerMode;
-    private Ticker mTicker;
+    public Ticker mTicker;
     private boolean mTicking;
     private int mTickerAnimationMode;
     private int mTickerTickDuration;
@@ -3443,18 +3443,6 @@ public class StatusBar extends SystemUI implements DemoMode,
             anim.setAnimationListener(listener);
         }
         return anim;
-    }
-
-    public Ticker getTicker() {
-        return mTicker;
-    }
-
-    public boolean isTickerEnabled() {
-        return mTicker != null && mTickerEnabled;
-    }
-
-    public boolean isMusicTickerEnabled() {
-        return mTicker != null && mTickerEnabled && mTickerMode == 1;
     }
 
     public void resetTrackInfo() {

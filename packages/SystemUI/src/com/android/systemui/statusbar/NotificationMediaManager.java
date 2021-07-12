@@ -520,7 +520,7 @@ public class NotificationMediaManager implements Dumpable, TunerService.Tunable,
             mEntryManager.updateNotifications("NotificationMediaManager - metaDataChanged");
             if (PlaybackState.STATE_PLAYING ==
                     getMediaControllerPlaybackState(mMediaController) &&
-                    mStatusBarLazy.get().isMusicTickerEnabled() &&
+                    mStatusBarLazy.get().mTickerMode == 1 &&
                     mediaNotification != null && mMediaMetadata != null) {
                 StatusBarNotification entry = mediaNotification.getSbn();
                 mMainExecutor.executeDelayed(() -> {
