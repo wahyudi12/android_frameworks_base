@@ -31,7 +31,6 @@
         <LinearLayout 
             android:id="@+id/big_clock_layout"
             android:layout_gravity="center"
-            android:layout_marginBottom="-5dip"
             android:layout_marginStart="8.0dip" 
             android:layout_marginEnd="8.0dip" 
             android:layout_width="match_parent" 
@@ -85,7 +84,7 @@
             android:layout_width="match_parent" 
             android:layout_height="wrap_content" 
             android:layout_marginStart="5.0dip" 
-            android:paddingTop="8.0dp">
+            android:paddingTop="4.0dp">
 
             <LinearLayout
                 android:id="@+id/status_container"
@@ -155,7 +154,7 @@
 
             <include layout="@layout/qs_carrier_group"
                 android:id="@+id/carrier_group"
-                android:layout_height="wrap_content"
+                android:layout_height="20.0dp"
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:layout_marginStart="@dimen/qs_status_separator"

@@ -193,6 +193,7 @@ public class QuickStatusBarHeader extends RelativeLayout implements
     private boolean mPrivacyChipLogged = false;
 
     private LinearLayout mClockLayout;
+    private LinearLayout mRightLayout;
     private LinearLayout mBigClockLayout;
     private RelativeLayout mBigClock;
     private int mClockGravity;
@@ -301,6 +302,7 @@ public class QuickStatusBarHeader extends RelativeLayout implements
         mRingerModeIcon.setImageTintList(ColorStateList.valueOf(fillColor));
 
         mClockLayout = findViewById(R.id.clock_layout);
+        mRightLayout = findViewById(R.id.right_side);
         mBigClockLayout = findViewById(R.id.big_clock_layout);
         mBigClock = findViewById(R.id.big_clock);
         mClockView = findViewById(R.id.clock);
@@ -576,6 +578,7 @@ public class QuickStatusBarHeader extends RelativeLayout implements
                 mQsDate.setLayoutParams(params);
             }
 
+        mRightLayout.setOrientation(mClockLocation ? LinearLayout.VERTICAL : LinearLayout.HORIZONTAL);
         mClockLayout.setVisibility(mClockLocation ? View.VISIBLE : View.GONE);
         mBigClockLayout.setVisibility(mClockLocation ? View.VISIBLE : View.GONE);
         mClockView.setVisibility(mClockLocation ? View.GONE : View.VISIBLE);

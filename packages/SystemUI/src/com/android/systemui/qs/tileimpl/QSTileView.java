@@ -28,6 +28,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.graphics.Color;
 
 import com.android.settingslib.Utils;
 import com.android.systemui.FontSizeUtils;
@@ -148,15 +149,33 @@ public class QSTileView extends QSTileBaseView {
                 mLabel.setTextColor(mColorLabelActive);
                 mSecondLine.setTextColor(mColorLabelActive);
                 mExpandIndicator.setImageTintList(mColorLabelActive);
+            } else if (setQsLabelUseNewTint == 3) {
+                mLabel.setTextColor(Color.WHITE);
+                mSecondLine.setTextColor(Color.WHITE);
+                mExpandIndicator.setImageTintList(mColorLabelActive);
             } else {
                 mLabel.setTextColor(mColorLabelDefault);
                 mSecondLine.setTextColor(mColorLabelDefault);
                 mExpandIndicator.setImageTintList(mColorLabelDefault);
             }
         } else if (state.state == Tile.STATE_INACTIVE) {
-            mLabel.setTextColor(mColorLabelDefault);
-            mSecondLine.setTextColor(mColorLabelDefault);
-            mExpandIndicator.setImageTintList(mColorLabelDefault);
+            if (setQsLabelUseNewTint == 1) {
+                mLabel.setTextColor(mColorLabelActiveRandom);
+                mSecondLine.setTextColor(mColorLabelActiveRandom);
+                mExpandIndicator.setImageTintList(mColorLabelDefault);
+            } else if (setQsLabelUseNewTint == 2) {
+                mLabel.setTextColor(mColorLabelActive);
+                mSecondLine.setTextColor(mColorLabelActive);
+                mExpandIndicator.setImageTintList(mColorLabelActive);
+            } else if (setQsLabelUseNewTint == 3) {
+                mLabel.setTextColor(Color.WHITE);
+                mSecondLine.setTextColor(Color.WHITE);
+                mExpandIndicator.setImageTintList(mColorLabelActive);
+            } else {
+                mLabel.setTextColor(mColorLabelDefault);
+                mSecondLine.setTextColor(mColorLabelDefault);
+                mExpandIndicator.setImageTintList(mColorLabelDefault);
+            }
         }
         boolean dualTarget = DUAL_TARGET_ALLOWED && state.dualTarget;
         mExpandIndicator.setVisibility(View.GONE);
