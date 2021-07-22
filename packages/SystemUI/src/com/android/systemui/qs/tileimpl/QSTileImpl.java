@@ -539,8 +539,10 @@ public abstract class QSTileImpl<TState extends State> implements QSTile, Lifecy
             case Tile.STATE_INACTIVE:
                 if (setQsUseNewTint == 1) {
                     return Utils.getColorAttrDefaultColor(context, android.R.attr.textColorPrimary);
-                } else {
+                } else if (qsIconPrimary) {
                     return Utils.getColorAttrDefaultColor(context, android.R.attr.textColorSecondary);
+                } else {
+                    return Utils.getColorAttrDefaultColor(context, android.R.attr.colorPrimary);
                 }
             case Tile.STATE_ACTIVE:
                 if (setQsUseNewTint == 1) {
