@@ -4085,6 +4085,19 @@
         M9,10l-2,0l0,-2l-2,0l0,2l-2,0l0,2l2,0l0,2l2,0l0,-2l2,0z
     </string>
 
+    <string name="config_batterymeterLandPerimeterPath" translatable="false">
+		M3.76,1.17L18.79,1.17A2.89 2.89 0 0 1 21.68,4.06L21.68,9.84A2.89 2.89 0 0 1 18.79,12.74L3.76,12.74A2.89 2.89 0 0 1 0.87,9.84L0.87,4.06A2.89 2.89 0 0 1 3.76,1.17zM1.81,4.30L1.81,9.61A2.47 2.47 0 0 0 4.28,12.08L18.27,12.08A2.47 2.47 0 0 0 20.74,9.61L20.74,4.30A2.47 2.47 0 0 0 18.27,1.83L4.28,1.83A2.47 2.47 0 0 0 1.81,4.30zM22.28,8.73C24.04,7.59,24.05,5.93,22.27,4.92
+    </string>
+    <string name="config_batterymeterLandFillMask" translatable="false">
+        M2.11,4.42L2.11,9.49A2.36 2.36 0 0 0 4.47,11.85L18.08,11.85A2.36 2.36 0 0 0 20.44,9.49L20.44,4.42A2.36 2.36 0 0 0 18.08,2.06L4.47,2.06A2.36 2.36 0 0 0 2.11,4.42z
+    </string>
+    <string name="config_batterymeterLandBoltPath" translatable="false">
+        M11.14,7.27L8.00,5.81L12.95,1.30L11.54,5.39L14.64,6.93L9.69,12.61z
+    </string>
+    <string name="config_batterymeterLandPowersavePath" translatable="false">
+        M7.28,5.85L10.23,6.02L10.11,2.85L12.20,2.49L12.23,5.80L14.82,5.49L15.20,7.60L12.18,7.66L12.09,11.41L10.17,11.25L10.37,7.74L7.45,7.66z
+    </string>
+
     <!-- X path for SignalDrawable as defined on a 24x24 canvas. -->
     <string name="config_signalXPath" translatable="false">
         M22,16.41L20.59,15l-2.09,2.09L16.41,15L15,16.41l2.09,2.09L15,20.59L16.41,22l2.09-2.08L20.59,22L22,20.59l-2.08-2.09   L22,16.41z
