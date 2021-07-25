@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (C) 2019 2020 Nusantara Project
+     Licensed under the Apache License, Version 2.0 (the "License");
+     you may not use this file except in compliance with the License.
+     You may obtain a copy of the License at
+          http://www.apache.org/licenses/LICENSE-2.0
+     Unless required by applicable law or agreed to in writing, software
+     distributed under the License is distributed on an "AS IS" BASIS,
+     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+     See the License for the specific language governing permissions and
+     limitations under the License.
+-->
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <!-- App error dialog -->
+    <string name="aerr_copy">Salin URL crash log</string>
+    <string name="url_copy_success">URL berhasil disalin</string>
+    <string name="url_copy_failed">Terjadi kesalahan saat mengunggah log ke dogbin</string>
+    <!-- Button to disable the crashed application -->
+    <string name="aerr_disable">Nonaktifkan aplikasi</string>
+    <!-- Gaming mode -->
+    <string name="notification_channel_gaming">Mode Permainan</string>
+    <string name="gaming_mode_notification_title">Mode Permainan aktif</string>
+    <string name="gaming_mode_notification_content">Ketuk untuk mematikan Mode Permainan</string>
+    <string name="gaming_mode_enabled_toast">Mode Permainan diaktifkan</string>
+    <string name="gaming_mode_disabled_toast">Mode Permainan dimatikan</string>
+    <!-- Advanced Reboot -->
+    <string name="reboot_title">Mulai Ulang</string>
+    <string name="reboot_message">Muat Ulang ke Sistem</string>
+    <!-- LiveDisplay strings -->
+    <string name="live_display_auto">Otomatis</string>
+    <string name="live_display_auto_summary">Otomatis sesuaikan temperatur warna layar setelah matahari terbenam dan matahari terbit</string>
+    <string name="live_display_off">Mati</string>
+    <string name="live_display_off_summary">Nonaktifkan semua penyesuaian</string>
+    <string name="live_display_day">Siang</string>
+    <string name="live_display_day_summary">Gunakan setelan siang saja</string>
+    <string name="live_display_night">Malam</string>
+    <string name="live_display_night_summary">Gunakan setelan malam saja</string>
+    <string name="live_display_outdoor">Luar ruangan (matahari terang)</string>
+    <string name="live_display_outdoor_summary">Gunakan pengaturan luar ruangan saja</string>
+    <string name="live_display_hint">LiveDisplay dapat membantu mengurangi kelelahan mata dan membantu Anda tidur di malam hari. Klik di sini untuk mencobanya!</string>
+    <string name="accessibility_quick_settings_live_display_off">LiveDisplay mati.</string>
+    <string name="accessibility_quick_settings_live_display_auto">LiveDisplay: modus otomatis.</string>
+    <string name="accessibility_quick_settings_live_display_day">LiveDisplay: modus siang.</string>
+    <string name="accessibility_quick_settings_live_display_night">LiveDisplay: modus malam.</string>
+    <string name="accessibility_quick_settings_live_display_outdoor">LiveDisplay: modus luar ruangan.</string>
+    <string name="accessibility_quick_settings_live_display_changed_off">LiveDisplay dimatikan.</string>
+    <string name="accessibility_quick_settings_live_display_changed_auto">LiveDisplay diubah menjadi modus otomatis.</string>
+    <string name="accessibility_quick_settings_live_display_changed_day">LiveDisplay diubah menjadi modus siang hari.</string>
+    <string name="accessibility_quick_settings_live_display_changed_night">LiveDisplay diubah menjadi modus malam hari.</string>
+    <string name="accessibility_quick_settings_live_display_changed_outdoor">LiveDisplay diubah menjadi modus luar ruangan.</string>
+    <!-- Pocket Lock -->
+    <string name="pocket_lock_message_long_press">Tekan dan tahan tombol daya untuk membuka kunci</string>
+    <!-- [CHAR LIMIT=NONE] Title of an application permission, listed so the user can choose whether they want to allow the application to do this. -->
+    <string name="permlab_accessFontManager">akses pengelola font</string>
+    <!-- [CHAR LIMIT=NONE] Description of an application permission, listed so the user can choose whether they want to allow the application to do this. -->
+    <string name="permdesc_accessFontManager">Izinkan aplikasi untuk mengakses manajer font.</string>
+    <!-- [CHAR LIMIT=NONE] Error when a package is installed but got the missing fonts.xml file, notifying the user why it isn't showing up. -->
+    <string name="fontservice_incompatible_font">Paket font yang anda instal tidak kompatibel karena tidak ada fonts.xml pada berkas tersebut. Silakan hubungi pengembang paket font untuk dukungan.</string>
+</resources>

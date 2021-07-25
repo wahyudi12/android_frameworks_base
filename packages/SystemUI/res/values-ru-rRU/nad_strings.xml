@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (C) 2019 2020 Nusantara Project
+     Licensed under the Apache License, Version 2.0 (the "License");
+     you may not use this file except in compliance with the License.
+     You may obtain a copy of the License at
+          http://www.apache.org/licenses/LICENSE-2.0
+     Unless required by applicable law or agreed to in writing, software
+     distributed under the License is distributed on an "AS IS" BASIS,
+     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+     See the License for the specific language governing permissions and
+     limitations under the License.
+-->
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <!-- Lockscreen Tuner -->
+    <string name="lockscreen_default">По умолчанию</string>
+    <string name="lockscreen_hidden">Ничего</string>
+    <!-- Shows when people have clicked on the custom lockscreen shortcut [CHAR LIMIT=60] -->
+    <string name="custom_hint">Проведите от иконки для запуска</string>
+    <!-- Theme tile -->
+    <string name="system_theme_style_title">Тема</string>
+    <string name="system_theme_style_light">Светлая</string>
+    <string name="system_theme_style_dark">Темная от Google</string>
+    <string name="system_theme_style_pitchblack">Абсолютно черная</string>
+    <string name="system_theme_style_solarizeddark">Соляризованный тёмный</string>
+    <string name="system_theme_style_nadclear">Прозрачная от Nusantara</string>
+    <string name="system_theme_style_materialocean">Темно-синяя</string>
+    <string name="quick_settings_theme_tile_style_detail_title">Выбрать тему</string>
+    <!-- Reboot/Recovery QS tile -->
+    <string name="quick_settings_reboot_label">Перезагрузка</string>
+    <string name="quick_settings_reboot_recovery_label">Recovery</string>
+    <string name="quick_settings_poweroff_label">Выключить</string>
+    <!-- Navbar -->
+    <string name="systemui_tuner_navbar_title">Компоновка</string>
+    <string name="navigation_bar_format_title">Формат панели навигации</string>
+    <string name="navigation_bar_inverse_title">Поменять кнопки местами</string>
+    <string name="navigation_bar_inverse_summary">Поменять местами кнопки «Недавние» и «Назад»</string>
+    <string name="navigation_bar_accessibility_dpad_left">Курсор влево</string>
+    <string name="navigation_bar_accessibility_dpad_right">Курсор вправо</string>
+    <!-- Screen pinning -->
+    <string name="screen_pinning_description_custom">Приложение останется активным, пока вы не отмените блокировку. Нажмите &amp; удерживайте кнопку \"Назад\", чтобы открепить его.</string>
+    <string name="screen_pinning_description_recents_invisible_custom">Приложение останется активным, пока вы не отмените блокировку. Нажмите &amp; удерживайте кнопку \"Назад\", чтобы открепить его.</string>
+    <string name="screen_pinning_description_accessible_custom">Приложение останется активным, пока вы не отмените блокировку. Нажмите &amp; удерживайте кнопку \"Назад\", чтобы открепить его.</string>
+    <string name="screen_pinning_description_recents_invisible_accessible_custom">Приложение останется активным, пока вы не отмените блокировку. Нажмите &amp; удерживайте кнопку \"Назад\", чтобы открепить его.</string>
+    <string name="screen_pinning_toast_custom">Чтобы открепить этот экран, нажмите &amp; и удерживайте кнопку \"Назад\"</string>
+    <string name="screen_pinning_toast_recents_invisible_custom">Чтобы открепить этот экран, нажмите &amp; и удерживайте кнопку \"Назад\"</string>
+    <!-- Daily data usage -->
+    <string name="daily_data_usage_title">Использовано за сегодня</string>
+    <!-- accessibility label for button to open running apps prefscreen [CHAR LIMIT=NONE] -->
+    <string name="accessibility_quick_settings_running_services">Открыть запущенные службы.</string>
+    <!-- Advance location quick setting tile -->
+    <string name="quick_settings_secondary_location_off"></string>
+    <string name="quick_settings_location_secondary_battery_saving">Экономия батареи</string>
+    <string name="accessibility_quick_settings_location_battery_saving">Местоположение: режим энергосбережения.</string>
+    <string name="quick_settings_location_secondary_gps_only">Только GPS</string>
+    <string name="accessibility_quick_settings_location_gps_only">Местоположение: только GPS.</string>
+    <string name="quick_settings_location_secondary_high_accuracy">Высокая точность</string>
+    <string name="accessibility_quick_settings_location_high_accuracy">Местоположение: режим высокой точности.</string>
+    <string name="status_bar_vpn">VPN</string>
+    <!-- Heads Up QS Tile -->
+    <string name="quick_settings_heads_up_label">Всплывающие уведомления</string>
+    <string name="accessibility_quick_settings_heads_up_off">Всплывающие уведомления отключены.</string>
+    <string name="accessibility_quick_settings_heads_up_on">Всплывающие уведомления включены.</string>
+    <string name="accessibility_quick_settings_heads_up_changed_off">Всплывающие уведомления отключены.</string>
+    <string name="accessibility_quick_settings_heads_up_changed_on">Всплывающие уведомления включены.</string>
+    <!-- Heads up snooze toast -->
+    <string name="heads_up_snooze_message_one_minute"><xliff:g id="string">%s</xliff:g> - Всплывающее уведомление отложено на 1 минуту.</string>
+    <string name="heads_up_snooze_message"><xliff:g id="string">%1$s</xliff:g> - Всплывающие уведомления отложены на <xliff:g id="number">%2$d</xliff:g> мин.</string>
+    <!-- Gaming mode -->
+    <string name="gaming_mode_not_enabled">Игровой режим отключен в настройках</string>
+    <string name="quick_settings_gaming_mode_label">Игровой режим</string>
+    <!-- DataSwitch Tile -->
+    <string name="qs_data_switch_label">Сменить SIM-карту для передачи данных</string>
+    <string name="qs_data_switch_toast_0">В настоящее время SIM-карта не вставлена</string>
+    <string name="qs_data_switch_toast_1">В настоящее время вставлена ​​только одна SIM-карта</string>
+    <string name="qs_data_switch_changed_1">Используется SIM 1 для передачи данных</string>
+    <string name="qs_data_switch_changed_2">Используется SIM 2 для передачи данных</string>
+    <!-- Analog clock -->
+    <!-- USB Tethering tile -->
+    <string name="accessibility_quick_settings_usb_tether_off">USB-модем выключен</string>
+    <string name="accessibility_quick_settings_usb_tether_on">USB-модем включен</string>
+    <string name="accessibility_quick_settings_usb_tether_changed_off">USB-модем выключен</string>
+    <string name="accessibility_quick_settings_usb_tether_changed_on">USB-модем включен</string>
+    <string name="quick_settings_usb_tether_label">USB-модем</string>
+    <!-- Advanced Reboot -->
+    <string name="global_action_restart_advanced">Расширенные</string>
+    <string name="global_action_restart_recovery">Режим Recovery</string>
+    <string name="global_action_restart_bootloader">Режим Fastboot</string>
+    <string name="global_action_restart_ui">Перезагрузка SystemUI</string>
+    <!-- Partial screenshot -->
+    <string name="global_screenshot_selector_capture_description">Скриншот выбранной области</string>
+    <string name="global_screenshot_selector_cancel_description">Отменить скриншот выбранной области</string>
+    <!-- Screenshot QS tile -->
+    <string name="quick_settings_screenshot_off">ВЫКЛ</string>
+    <string name="quick_settings_screenshot_label">Скриншот</string>
+    <string name="quick_settings_region_screenshot_label">Скриншот области экрана</string>
+    <string name="quick_settings_long_screenshot_label">Длинный скриншот</string>
+    <!-- Screen Record -->
+    <string name="screenrecord_stopdot_label">Показать точку для остановки записи</string>
+    <string name="screenrecord_lowquality_label">Меньшее качество записи</string>
+    <string name="screenrecord_longer_timeout_switch_label">Максимальный размер файла\nОграничить размер записи до 15 Гб</string>
+    <string name="task_helper_app_killed">%1$s принудительно остановлено</string>
+    <string name="empty_app_killed">Приложение</string>
+    <string name="app_picker_dialog_title">Выберите приложение</string>
+    <!-- CPUInfo tile -->
+    <string name="quick_settings_cpuinfo_label">Информация о ЦП</string>
+    <!-- Caffeine QS tile -->
+    <string name="quick_settings_caffeine_label">Спящий режим</string>
+    <string name="accessibility_quick_settings_caffeine_off">Переход в спящий режим разрешен.</string>
+    <string name="accessibility_quick_settings_caffeine_on">Переход в спящий режим запрещен.</string>
+    <!-- Indication on the keyguard that is shown when the device is charging with a dash charger. Should match keyguard_plugged_in_dash_charging [CHAR LIMIT=40]-->
+    <string name="keyguard_indication_dash_charging_time"><xliff:g id="percentage">%2$s</xliff:g> • Быстрая зарядка (<xliff:g id="charging_time_left" example="4 часа и 2 минуты">%1$s</xliff:g> до полной)</string>
+    <string name="keyguard_plugged_in_dash_charging"><xliff:g id="percentage">%s</xliff:g> • Быстрая зарядка</string>
+    <!-- Indication on the keyguard that is shown when the device is charging with a warp charger. Should match keyguard_plugged_in_warp_charging [CHAR LIMIT=40]-->
+    <string name="keyguard_indication_warp_charging_time"><xliff:g id="percentage">%2$s</xliff:g> • Warp зарядка (<xliff:g id="charging_time_left" example="4 часа и 2 минуты">%1$s</xliff:g> до полной зарядки)</string>
+    <string name="keyguard_plugged_in_warp_charging"><xliff:g id="percentage">%s</xliff:g> • Warp зарядка</string>
+    <!-- Indication on the keyguard that is shown when the device is charging with a VOOC charger. Should match keyguard_plugged_in_vooc_charging [CHAR LIMIT=40]-->
+    <string name="keyguard_indication_vooc_charging_time"><xliff:g id="percentage">%2$s</xliff:g> • VOOC зарядка (<xliff:g id="charging_time_left" example="4 hours and 2 minutes">%1$s</xliff:g> до полной зарядки)</string>
+    <string name="keyguard_plugged_in_vooc_charging"><xliff:g id="percentage">%s</xliff:g> • VOOC зарядка</string>
+    <!-- FPS Info tile -->
+    <string name="quick_settings_fpsinfo_label">Отображать FPS</string>
+    <!-- Kill button in notification guts -->
+    <string name="force_stop_dlg_title">Остановить принудительно?</string>
+    <string name="force_stop_dlg_text">Принудительное закрытие приложения может отразиться на его функциональности.</string>
+    <string name="guts_force_close_app">Закрыть приложение</string>
+    <!-- Power menu item for taking a Screen record [CHAR LIMIT=20]-->
+    <string name="global_action_screenrecord">Запись экрана</string>
+    <string name="screenrecord_delete_label">Удалить</string>
+    <string name="screenrecord_delete_description">Запись видео с экрана удалена</string>
+    <!-- Text to use when the number in a notification info is too large
+         (greater than status_bar_notification_info_maxnum, defined in
+         values/config.xml) and must be truncated.
+         [CHAR LIMIT=4] -->
+    <!-- DC Dimming -->
+    <string name="quick_settings_dc_dimming_label">Уменьшение мерцания</string>
+    <string name="quick_settings_dc_brightness_mode">Режим яркости</string>
+    <string name="quick_settings_dc_full_auto">Автоматический режим</string>
+    <!-- App Lock -->
+    <string name="applock_unlock">Разблокировать приложение</string>
+    <!-- Reader mode QS tile -->
+    <string name="quick_settings_reading_mode">Режим чтения</string>
+    <string name="accessibility_quick_settings_reading_mode_on">Режим чтения включен.</string>
+    <string name="accessibility_quick_settings_reading_mode_off">Режим чтения выключен.</string>
+    <string name="accessibility_quick_settings_reading_mode_changed_on">Режим чтения включен</string>
+    <string name="accessibility_quick_settings_reading_mode_changed_off">Режим чтения выключен.</string>
+    <!-- Biometric Dialog - Use Face -->
+    <string name="biometric_dialog_button_use_face">Использовать Face ID</string>
+    <!-- Ambient Music Ticker -->
+    <string name="ambientmusic_songinfo" formatted="false">%s - %s</string>
+    <!-- Sync QS tile -->
+    <string name="quick_settings_sync_label">Синхронизация</string>
+    <string name="accessibility_quick_settings_sync_off">Синхронизация выключена.</string>
+    <string name="accessibility_quick_settings_sync_on">Синхронизация включена.</string>
+    <string name="accessibility_quick_settings_sync_changed_off">Синхронизация отключена.</string>
+    <string name="accessibility_quick_settings_sync_changed_on">Синхронизация включена.</string>
+    <!-- VPN QS tile -->
+    <string name="quick_settings_vpn_label">VPN</string>
+    <string name="quick_settings_vpn_connect_dialog_title">Подключено к\u2026</string>
+    <string name="vpn_credentials_hint">Пожалуйста, введите ваши учетные данные для подключения к <xliff:g id="name">%s</xliff:g></string>
+    <string name="vpn_credentials_username">Имя пользователя</string>
+    <string name="vpn_credentials_password">Пароль</string>
+    <string name="vpn_credentials_dialog_connect">Подключится</string>
+    <!-- Sound QS Tile -->
+    <string name="quick_settings_sound_label">Звук</string>
+    <string name="quick_settings_sound_ring">Звонок</string>
+    <string name="quick_settings_sound_vibrate">Вибрация</string>
+    <string name="quick_settings_sound_mute">Без звука</string>
+    <!-- LTE QS Tile -->
+    <string name="qs_lte_label">LTE</string>
+    <string name="lte_on">LTE вкл.</string>
+    <string name="lte_off">LTE выкл.</string>
+    <!-- Name of the nfc status bar icon. -->
+    <string name="status_bar_nfc">NFC</string>
+    <!-- Accessibility label for nfc icon (not shown on screen) [CHAR LIMIT=NONE] -->
+    <string name="accessibility_status_bar_nfc">Nfc</string>
+</resources>

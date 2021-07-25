@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (C) 2019 2020 Nusantara Project
+     Licensed under the Apache License, Version 2.0 (the "License");
+     you may not use this file except in compliance with the License.
+     You may obtain a copy of the License at
+          http://www.apache.org/licenses/LICENSE-2.0
+     Unless required by applicable law or agreed to in writing, software
+     distributed under the License is distributed on an "AS IS" BASIS,
+     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+     See the License for the specific language governing permissions and
+     limitations under the License.
+-->
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <!-- App error dialog -->
+    <string name="aerr_copy">Капіяваць URL журнала памылкі</string>
+    <string name="url_copy_success">Спасылка паспяхова скапіяваная</string>
+    <string name="url_copy_failed">Падчас загрузкі лога на сэрвіс dogbin адбылася памылка</string>
+    <!-- Button to disable the crashed application -->
+    <string name="aerr_disable">Адключыць праграму</string>
+    <!-- Gaming mode -->
+    <string name="notification_channel_gaming">Гульнявы рэжым</string>
+    <string name="gaming_mode_notification_title">Гульнявы рэжым уключаны</string>
+    <string name="gaming_mode_notification_content">Націсніце, каб пераключыць рэжым гульні</string>
+    <string name="gaming_mode_enabled_toast">Гульнявы рэжым уключаны</string>
+    <string name="gaming_mode_disabled_toast">Гульнявы рэжым адключаны</string>
+    <!-- Advanced Reboot -->
+    <string name="reboot_title">Перазагрузіць</string>
+    <string name="reboot_message">Перазагрузка сістэмы</string>
+    <!-- LiveDisplay strings -->
+    <string name="live_display_auto">Аўтаматычна</string>
+    <string name="live_display_auto_summary">Аўтаматычна рэгуляваць тэмпературу колеру экрана пасля заходу і ўсходу сонца</string>
+    <string name="live_display_off">Выключана</string>
+    <string name="live_display_off_summary">Адключыць усе налады</string>
+    <string name="live_display_day">Дзень</string>
+    <string name="live_display_day_summary">Толькі дзённыя налады</string>
+    <string name="live_display_night">Ноч</string>
+    <string name="live_display_night_summary">Толькі начныя налады</string>
+    <string name="live_display_outdoor">На вуліцы (яскравае сонца)</string>
+    <string name="live_display_outdoor_summary">Толькі вулічны рэжым</string>
+    <string name="live_display_hint">LiveDisplay дапамагае знізіць напружанне вачэй і паляпшае начны сон. Націсніце тут, каб паспрабаваць!</string>
+    <string name="accessibility_quick_settings_live_display_off">LiveDisplay адкл.</string>
+    <string name="accessibility_quick_settings_live_display_auto">LiveDisplay: аўтаматычны рэжым.</string>
+    <string name="accessibility_quick_settings_live_display_day">LiveDisplay: дзень.</string>
+    <string name="accessibility_quick_settings_live_display_night">LiveDisplay: начны рэжым.</string>
+    <string name="accessibility_quick_settings_live_display_outdoor">LiveDisplay: рэжым вуліцы.</string>
+    <string name="accessibility_quick_settings_live_display_changed_off">LiveDisplay выключаны.</string>
+    <string name="accessibility_quick_settings_live_display_changed_auto">LiveDisplay зменены на аўтаматычны рэжым.</string>
+    <string name="accessibility_quick_settings_live_display_changed_day">LiveDisplay пераключаны ў дзённы рэжым.</string>
+    <string name="accessibility_quick_settings_live_display_changed_night">LiveDisplay зменены на начны рэжым.</string>
+    <string name="accessibility_quick_settings_live_display_changed_outdoor">LiveDisplay пераключаны ў вулiчны рэжым.</string>
+    <!-- Pocket Lock -->
+    <string name="pocket_lock_message_long_press">Націсніце і ўтрымлівайце кнопку сілкавання, каб разблакаваць</string>
+    <!-- [CHAR LIMIT=NONE] Title of an application permission, listed so the user can choose whether they want to allow the application to do this. -->
+    <string name="permlab_accessFontManager">доступ да мэнэджэра шрыфтоў</string>
+    <!-- [CHAR LIMIT=NONE] Description of an application permission, listed so the user can choose whether they want to allow the application to do this. -->
+    <string name="permdesc_accessFontManager">Дазваляе праграме атрымаць доступ да мэнэджэра шрыфтоў.</string>
+    <!-- [CHAR LIMIT=NONE] Error when a package is installed but got the missing fonts.xml file, notifying the user why it isn't showing up. -->
+    <string name="fontservice_incompatible_font">Набор шрыфтоў, які вы ўсталявалі, несумяшчальны з-за адсутнасці файла fonts.xml. Калі ласка, звярніцеся да распрацоўшчыка набору для атрымання падтрымкі.</string>
+</resources>
