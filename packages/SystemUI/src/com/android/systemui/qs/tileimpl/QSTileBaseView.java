@@ -75,6 +75,7 @@ public class QSTileBaseView extends com.android.systemui.plugins.qs.QSTileView {
     private final ImageView mBg;
     private int mColorActive;
     private int mColorActiveAlpha;
+    private int mColorTwelveAlpha;
     private int mColorDisabledAlpha;
     private final int mColorInactive;
     private int mColorDisabled;
@@ -93,8 +94,6 @@ public class QSTileBaseView extends com.android.systemui.plugins.qs.QSTileView {
         mIcon = icon;
         mColorActive = Utils.getColorAttrDefaultColor(context, android.R.attr.colorAccent);
         mColorInactive = Utils.getColorAttrDefaultColor(context, android.R.attr.textColorSecondary);
-        mColorDisabled = Utils.getDisabled(context,
-                Utils.getColorAttrDefaultColor(context, android.R.attr.textColorTertiary));
 
         // Default to Quick Tile padding, and QSTileView will specify its own padding.
         int padding = context.getResources().getDimensionPixelSize(R.dimen.qs_quick_tile_padding);
@@ -158,19 +157,31 @@ public class QSTileBaseView extends com.android.systemui.plugins.qs.QSTileView {
     private void setActiveColor(Context context) {
         if (setQsUseNewTint == 3) {
             mColorActive = randomColor();
+            mColorDisabled = Utils.getDisabled(context,
+                   Utils.getColorAttrDefaultColor(context, android.R.attr.textColorTertiary));
         } else if (setQsUseNewTint == 1) {
             mColorActive = ColorUtils.genRandomAccentColor(isThemeDark(context));
             mColorActiveAlpha = adjustAlpha(mColorActive, 0.2f);
             mColorActive = mColorActiveAlpha;
+            mColorDisabled = Utils.getDisabled(context,
+                   Utils.getColorAttrDefaultColor(context, android.R.attr.textColorTertiary));
         } else if (setQsUseNewTint == 2) {
             mColorActive = Utils.getColorAttrDefaultColor(context, android.R.attr.colorAccent);
             mColorActiveAlpha = adjustAlpha(mColorActive, 0.2f);
             mColorActive = mColorActiveAlpha;
+            mColorDisabled = Utils.getDisabled(context,
+                   Utils.getColorAttrDefaultColor(context, android.R.attr.textColorTertiary));
         } else if (setQsUseNewTint == 4) {
             mColorActive = context.getResources().getColor(R.color.qs_tile_oos_background);
             mColorDisabled = context.getResources().getColor(R.color.op_qs_tile_background_color_disabled);
+        } else if (setQsUseNewTint == 5) {
+            mColorActive = Utils.getColorAttrDefaultColor(context, android.R.attr.colorAccent);
+            mColorActiveAlpha = adjustAlpha(mColorActive, 0.15f);
+            mColorDisabled = mColorActiveAlpha;
         } else {
             mColorActive = Utils.getColorAttrDefaultColor(context, android.R.attr.colorAccent);
+            mColorDisabled = Utils.getDisabled(context,
+                   Utils.getColorAttrDefaultColor(context, android.R.attr.textColorTertiary));
         }
     }
 
