@@ -45,6 +45,7 @@ import com.android.systemui.SystemUI;
 import com.android.systemui.broadcast.BroadcastDispatcher;
 import com.android.systemui.dagger.qualifiers.Background;
 import com.android.systemui.statusbar.policy.ConfigurationController;
+import com.android.systemui.settings.CurrentUserTracker;
 
 import com.google.android.collect.Sets;
 
@@ -79,6 +80,8 @@ public class ThemeOverlayController extends SystemUI {
 
     private final ConfigurationController mConfigurationController;
 
+    private CurrentUserTracker mUserTracker;
+
     @Inject
     public ThemeOverlayController(Context context, BroadcastDispatcher broadcastDispatcher,
             @Background Handler bgHandler, ConfigurationController configurationController) {
@@ -98,7 +101,6 @@ public class ThemeOverlayController extends SystemUI {
                 mContext.getString(R.string.launcher_overlayable_package),
                 mContext.getString(R.string.themepicker_overlayable_package));
         final IntentFilter filter = new IntentFilter();
-        filter.addAction(Intent.ACTION_USER_SWITCHED);
         filter.addAction(Intent.ACTION_MANAGED_PROFILE_ADDED);
         mBroadcastDispatcher.registerReceiverWithHandler(new BroadcastReceiver() {
             @Override
@@ -161,6 +163,15 @@ public class ThemeOverlayController extends SystemUI {
         mContext.getContentResolver().registerContentObserver(
                 Settings.System.getUriFor(Settings.System.SYSUI_COLORS_ACTIVE),
                 false, observer, UserHandle.USER_ALL);
+
+        mUserTracker = new CurrentUserTracker(mBroadcastDispatcher) {
+            @Override
+            public void onUserSwitched(int newUserId) {
+                if (DEBUG) Log.d(TAG, "onUserSwitched");
+                updateThemeOverlays();
+            }
+        };
+        mUserTracker.startTracking();
     }
 
     private void updateThemeOverlays() {
