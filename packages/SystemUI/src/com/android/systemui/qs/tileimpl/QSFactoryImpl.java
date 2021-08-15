@@ -41,7 +41,6 @@ import com.android.systemui.qs.tiles.DcDimmingTile;
 import com.android.systemui.qs.tiles.DndTile;
 import com.android.systemui.qs.tiles.FlashlightTile;
 import com.android.systemui.qs.tiles.FPSInfoTile;
-import com.android.systemui.qs.tiles.GamingModeTile;
 import com.android.systemui.qs.tiles.HeadsUpTile;
 import com.android.systemui.qs.tiles.HotspotTile;
 import com.android.systemui.qs.tiles.LiveDisplayTile;
@@ -100,7 +99,6 @@ public class QSFactoryImpl implements QSFactory {
     private final Provider<ThemeTile> mThemeTileProvider;
     private final Provider<RebootTile> mRebootTileProvider;
     private final Provider<HeadsUpTile> mHeadsUpTileProvider;
-    private final Provider<GamingModeTile> mGamingModeTileProvider;
     private final Provider<DataSwitchTile> mDataSwitchTileProvider;
     private final Provider<UsbTetherTile> mUsbTetherTileProvider;
     private final Provider<ScreenshotTile> mScreenshotTileProvider;
@@ -143,7 +141,6 @@ public class QSFactoryImpl implements QSFactory {
             Provider<ThemeTile> themeTileProvider,
             Provider<RebootTile> rebootTileProvider,
             Provider<HeadsUpTile> headsUpTileProvider,
-            Provider<GamingModeTile> gamingModeTileProvider,
             Provider<DataSwitchTile> dataSwitchTileProvider,
             Provider<UsbTetherTile> usbTetherTileProvider,
             Provider<ScreenshotTile> screenshotTileProvider,
@@ -182,7 +179,6 @@ public class QSFactoryImpl implements QSFactory {
         mThemeTileProvider = themeTileProvider;
         mRebootTileProvider = rebootTileProvider;
         mHeadsUpTileProvider = headsUpTileProvider;
-        mGamingModeTileProvider = gamingModeTileProvider;
         mDataSwitchTileProvider = dataSwitchTileProvider;
         mUsbTetherTileProvider = usbTetherTileProvider;
         mScreenshotTileProvider = screenshotTileProvider;
@@ -253,8 +249,6 @@ public class QSFactoryImpl implements QSFactory {
                 return mRebootTileProvider.get();
             case "heads_up":
                 return mHeadsUpTileProvider.get();
-            case "gaming":
-                return mGamingModeTileProvider.get();
             case "dataswitch":
                 return mDataSwitchTileProvider.get();
             case "usb_tether":
