@@ -5446,6 +5446,18 @@ public final class Settings {
         public static final String NOTIFICATION_BG_ALPHA = "notification_bg_alpha";
 
         /**
+         * Whether to add the padding off statusbar
+         * @hide
+         */
+        public static final String LEFT_PADDING = "statusbar_left_padding";
+
+        /**
+         * Whether to add the padding off statusbar
+         * @hide
+         */
+        public static final String RIGHT_PADDING = "statusbar_right_padding";
+
+        /**
          * Whether to use the custom status bar header or not
          * @hide
          */
