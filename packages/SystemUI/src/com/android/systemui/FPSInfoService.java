@@ -68,12 +68,16 @@ public class FPSInfoService extends Service {
 
         private Handler mCurFPSHandler = new Handler() {
             public void handleMessage(Message msg) {
-                if(msg.obj == null || msg.what != 1)
+                if(msg.obj==null){
                     return;
-
-                mFps = parseMeasuredFps((String) msg.obj);
-                mDataAvail = true;
-                updateDisplay();
+                }
+                if(msg.what==1){
+                    String msgData = (String) msg.obj;
+                    msgData = msgData.substring(0, Math.min(msgData.length(), 9));
+                    mFps = msgData;
+                    mDataAvail = true;
+                    updateDisplay();
+                }
             }
         };
 
@@ -96,7 +100,7 @@ public class FPSInfoService extends Service {
             float descent = mOnlinePaint.descent();
             mFH = (int)(descent - mAscent + .5f);
 
-            final String maxWidthStr = "FPS: XYZ";
+            final String maxWidthStr="fps: 60.1";
             mMaxWidth = (int)mOnlinePaint.measureText(maxWidthStr);
 
             updateDisplay();
@@ -145,17 +149,6 @@ public class FPSInfoService extends Service {
             y += mFH;
         }
 
-        private String parseMeasuredFps(String data) {
-            String result = "err";
-            try {
-                float fps = Float.parseFloat(data.trim().split("\\s+")[1]);
-                result = String.valueOf(Math.round(fps));
-            } catch (NumberFormatException e) {
-                Log.e(TAG, "NumberFormatException occured at parsing FPS data");
-            }
-            return "FPS: " + result;
-        }
-
         void updateDisplay() {
             if (!mDataAvail) {
                 return;
@@ -193,7 +186,7 @@ public class FPSInfoService extends Service {
         public void run() {
             try {
                 while (!mInterrupt) {
-                    sleep(1000);
+                    sleep(500);
                     StringBuffer sb=new StringBuffer();
                     String fpsVal = FPSInfoService.readOneLine(MEASURED_FPS);
                     mHandler.sendMessage(mHandler.obtainMessage(1, fpsVal));
@@ -294,3 +287,4 @@ public class FPSInfoService extends Service {
         mCurFPSThread = null;
     }
 }
+
