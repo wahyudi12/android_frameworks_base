@@ -224,4 +224,9 @@
     <string name="quick_settings_navbar_title">Navigation Bar</string>
     <string name="accessibility_quick_settings_navbar_changed_off">Navigation bar turned off</string>
     <string name="accessibility_quick_settings_navbar_changed_on">Navigation bar turned on</string>
+
+    <!-- Gaming Tile -->
+    <string name="quick_settings_gaming_title">Gaming Mode</string>
+    <string name="accessibility_quick_settings_gaming_changed_off">Gaming mode off</string>
+    <string name="accessibility_quick_settings_gaming_changed_on">Gaming mode on</string>
 </resources>
