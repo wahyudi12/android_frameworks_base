@@ -6550,6 +6550,11 @@ public final class Settings {
         /**
           * @hide
           */
+        public static final String GAMING_MODE_DISABLE_NAVBAR = "gaming_mode_disable_navbar";
+
+        /**
+          * @hide
+          */
         public static final String GAMING_MODE_DISABLE_AUTO_BRIGHTNESS = "gaming_mode_disable_auto_brightness";
 
         /**
