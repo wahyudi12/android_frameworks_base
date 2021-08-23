@@ -430,16 +430,16 @@ public class PhoneStatusBarView extends PanelBar implements Callbacks, TunerServ
         return mHeadsUpVisible || super.shouldPanelBeVisible();
     }
     
-      @Override
+    @Override
     public void onTuningChanged(String key, String newValue) {
         if (LEFT_PADDING.equals(key)) {
-            int mLPadding = TunerService.parseInteger(newValue, 0);
+            int mLPadding = TunerService.parseInteger(newValue, 7);
             mLeftPad = Math.round(TypedValue.applyDimension(
                 TypedValue.COMPLEX_UNIT_DIP, mLPadding,
                 getResources().getDisplayMetrics()));        
             updateStatusBarHeight();
         } else if (RIGHT_PADDING.equals(key)) {
-            int mRPadding = TunerService.parseInteger(newValue, 0);
+            int mRPadding = TunerService.parseInteger(newValue, 7);
             mRightPad = Math.round(TypedValue.applyDimension(
                 TypedValue.COMPLEX_UNIT_DIP, mRPadding,
                 getResources().getDisplayMetrics()));   
