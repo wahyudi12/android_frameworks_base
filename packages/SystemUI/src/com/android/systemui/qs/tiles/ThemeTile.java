@@ -71,6 +71,8 @@ public class ThemeTile extends QSTileImpl<BooleanState> {
                 R.string.system_theme_style_nadclear, "nad_clear"));
         sStyleItems.add(new ThemeTileItem(UiModeManager.MODE_NIGHT_YES, -1,
                 R.string.system_theme_style_materialocean, "material_ocean"));
+        sStyleItems.add(new ThemeTileItem(UiModeManager.MODE_NIGHT_NO, -1,
+                R.string.system_theme_style_nadnew, "nad_new"));
     }
 
     private enum Mode {
@@ -235,6 +237,15 @@ public class ThemeTile extends QSTileImpl<BooleanState> {
                     try {
                         mOverlayManager.setEnabled(nad_clear,
                                 themeItem.uri.equals("nad_clear"), USER_SYSTEM);
+                    } catch (RemoteException e) {
+                        e.printStackTrace();
+                    }
+                }
+                for (int i = 0; i < ThemesUtils.NAD_NEW.length; i++) {
+                    String nad_new = ThemesUtils.NAD_NEW[i];
+                    try {
+                        mOverlayManager.setEnabled(nad_new,
+                                themeItem.uri.equals("nad_new"), USER_SYSTEM);
                     } catch (RemoteException e) {
                         e.printStackTrace();
                     }

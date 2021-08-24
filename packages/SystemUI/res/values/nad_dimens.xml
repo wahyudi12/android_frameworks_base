@@ -102,4 +102,9 @@
     <!-- Height of the battery icon in the status bar. -->
     <dimen name="status_bar_battery_icon_height_landscape">12.5dp</dimen>
     <dimen name="status_bar_battery_icon_width_landscape">24dp</dimen>
+    
+    <!-- Nad margin  -->
+    <dimen name="nad_margin">0dp</dimen>
+    <dimen name="qs_drag_handle_width">46dp</dimen>
+    <dimen name="elevation_on_qs">4dp</dimen>
 </resources>

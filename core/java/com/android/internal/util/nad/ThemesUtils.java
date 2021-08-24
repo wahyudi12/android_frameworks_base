@@ -81,6 +81,11 @@ public class ThemesUtils {
             "com.android.theme.color.nadclear.systemui"
     };
 
+    public static final String[] NAD_NEW = {
+            "com.android.theme.jrmod.nadnew.system",
+            "com.android.theme.jrmod.nadnew.systemui"
+    };
+
     public static final String[] MATERIAL_OCEAN = {
             "com.android.theme.color.ocean.system",
             "com.android.theme.color.ocean.systemui"

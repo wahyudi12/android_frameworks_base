@@ -26,7 +26,7 @@
         android:id="@+id/quick_settings_background"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:elevation="4dp"
+        android:elevation="@dimen/elevation_on_qs"
         android:background="@drawable/qs_background_primary" />
 
     <!-- Gradient view behind QS -->
@@ -59,7 +59,7 @@
         android:id="@+id/expanded_qs_scroll_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:elevation="4dp"
+        android:elevation="@dimen/elevation_on_qs"
         android:importantForAccessibility="no"
         android:layout_weight="1">
         <com.android.systemui.qs.QSPanel
@@ -87,10 +87,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:elevation="4dp"
+        android:elevation="@dimen/elevation_on_qs"
         android:paddingBottom="5dp">
         <View
-            android:layout_width="46dp"
+            android:layout_width="@dimen/qs_drag_handle_width"
             android:layout_height="3dp"
             android:background="@drawable/qs_footer_drag_handle" />
     </FrameLayout>
