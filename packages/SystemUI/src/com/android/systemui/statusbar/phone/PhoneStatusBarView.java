@@ -359,20 +359,16 @@ public class PhoneStatusBarView extends PanelBar implements Callbacks, TunerServ
 
         int statusBarPaddingTop = getResources().getDimensionPixelSize(
                 R.dimen.status_bar_padding_top);
-        int statusBarPaddingStart = getResources().getDimensionPixelSize(
-                R.dimen.status_bar_padding_start);
-        int statusBarPaddingEnd = getResources().getDimensionPixelSize(
-                R.dimen.status_bar_padding_end);
 
         View sbContents = findViewById(R.id.status_bar_contents);
         sbContents.setPaddingRelative(
-                (int) mLeftPad,
+                mLeftPad,
                 statusBarPaddingTop,
-                (int) mRightPad,
+                mRightPad,
                 0);
 
         findViewById(R.id.notification_lights_out)
-                .setPaddingRelative(0, (int) mLeftPad, 0, 0);
+                .setPaddingRelative(0, mLeftPad, 0, 0);
 
         setLayoutParams(layoutParams);
     }
@@ -433,15 +429,17 @@ public class PhoneStatusBarView extends PanelBar implements Callbacks, TunerServ
     @Override
     public void onTuningChanged(String key, String newValue) {
         if (LEFT_PADDING.equals(key)) {
-            int mLPadding = TunerService.parseInteger(newValue, 7);
+            int startPadding = TunerService.parseInteger(newValue, getResources().getDimensionPixelSize(
+                R.dimen.status_bar_padding_start));
             mLeftPad = Math.round(TypedValue.applyDimension(
-                TypedValue.COMPLEX_UNIT_DIP, mLPadding,
+                TypedValue.COMPLEX_UNIT_DIP, startPadding,
                 getResources().getDisplayMetrics()));        
             updateStatusBarHeight();
         } else if (RIGHT_PADDING.equals(key)) {
-            int mRPadding = TunerService.parseInteger(newValue, 7);
+            int endPadding = TunerService.parseInteger(newValue, getResources().getDimensionPixelSize(
+                R.dimen.status_bar_padding_end));
             mRightPad = Math.round(TypedValue.applyDimension(
-                TypedValue.COMPLEX_UNIT_DIP, mRPadding,
+                TypedValue.COMPLEX_UNIT_DIP, endPadding,
                 getResources().getDisplayMetrics()));   
             updateStatusBarHeight();
         }
