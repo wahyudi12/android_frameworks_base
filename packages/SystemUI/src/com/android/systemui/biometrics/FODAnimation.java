@@ -44,6 +44,7 @@ public class FODAnimation extends ImageView {
 
     private int mSelectedAnim;
     private String[] ANIMATION_STYLES_NAMES = {
+        "fod_nad_scanning_recognizing_anim",
         "fod_miui_aurora_recognizing_anim",
         "fod_miui_aurora_cas_recognizing_anim",
         "fod_miui_star_cas_recognizing_anim",
