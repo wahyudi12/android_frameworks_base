@@ -11057,16 +11057,6 @@ public final class Settings {
         public static final String TETHERING_ALLOW_VPN_UPSTREAMS = "tethering_allow_vpn_upstreams";
 
         /**
-         * @hide
-         */
-        public static final String SCREENSHOT_IN_POWER_MENU = "screenshot_in_power_menu";
-
-        /**
-         * @hide
-         */
-        public static final String SCREENRECORD_IN_POWER_MENU = "screenrecord_in_power_menu";
-
-        /**
          * RGB Accent Color
          * @hide
          */
