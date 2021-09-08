@@ -85,6 +85,7 @@ public class NotificationInterruptStateProviderImpl implements NotificationInter
     protected boolean mUseHeadsUp = false;
 
     private boolean mLessBoringHeadsUp = false;
+    private boolean mSkipHeadsUp = false;
 
     @Inject
     public NotificationInterruptStateProviderImpl(
@@ -224,6 +225,13 @@ public class NotificationInterruptStateProviderImpl implements NotificationInter
         }
 
          if(isPackageBlacklisted(sbn.getPackageName())) {
+            return false;
+        }
+
+        if (shouldSkipHeadsUp(sbn)) {
+            if (DEBUG_HEADS_UP) {
+                Log.d(TAG, "No alerting: boring apps");
+            }
             return false;
         }
 
@@ -389,6 +397,12 @@ public class NotificationInterruptStateProviderImpl implements NotificationInter
 
     public boolean shouldSkipHeadsUp(StatusBarNotification sbn) {
         String notificationPackageName = sbn.getPackageName();
+
+        if (mSkipHeadsUp) {
+            boolean isNonInstrusive = notificationPackageName.equals(getDefaultDialerPackage(mTm))
+                    || notificationPackageName.toLowerCase().contains("clock");
+            return !mStatusBarStateController.isDozing() && mSkipHeadsUp && !isNonInstrusive;
+        }
 
         boolean isLessBoring = notificationPackageName.equals(getDefaultDialerPackage(mTm))
                 || notificationPackageName.equals(getDefaultSmsPackage(mContext))
