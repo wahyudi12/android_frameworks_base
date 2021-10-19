@@ -24,17 +24,39 @@
     android:gravity="start|center_vertical"
     android:orientation="horizontal"
     android:paddingLeft="0dp"
+    android:layout_marginEnd="8dp"
     android:paddingStart="0dp"
     android:paddingRight="8dp"
     android:paddingEnd="8dp"
     android:paddingTop="4dp"
     android:paddingBottom="4dp">
 
-    <androidx.preference.internal.PreferenceImageView
-        android:id="@android:id/icon"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:maxWidth="48dp"
-        app:maxHeight="48dp"/>
+            <FrameLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:minWidth="58dp"
+                android:layout_marginStart="0dp"
+                android:layout_marginEnd="6dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:paddingLeft="4dp"
+                android:paddingRight="4dp"
+                android:paddingEnd="4dp"
+                android:paddingStart="4dp"
+                android:paddingTop="4dp"
+                android:paddingBottom="4dp"
+                android:backgroundTint="@android:color/system_accent1_200"
+                android:background="@drawable/nad_top_bg">
+
+                <androidx.preference.internal.PreferenceImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                    android:id="@android:id/icon"
+            app:maxWidth="48dp"
+            app:maxHeight="48dp"
+            android:tint="@android:color/system_neutral1_10"
+                    android:padding="4dp"
+                    android:layout_gravity="center" />
+            </FrameLayout>
 
 </LinearLayout>
