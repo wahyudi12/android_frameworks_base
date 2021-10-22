@@ -784,6 +784,7 @@ public class PhoneWindowManager implements WindowManagerPolicy {
             resolver.registerContentObserver(Settings.System.getUriFor(
                     Settings.System.THREE_FINGER_GESTURE), false, this,
                     UserHandle.USER_ALL);
+            resolver.registerContentObserver(Settings.System.getUriFor(
                     Settings.System.KEY_HOME_LONG_PRESS_ACTION), false, this,
                     UserHandle.USER_ALL);
             resolver.registerContentObserver(Settings.System.getUriFor(
@@ -2792,7 +2793,6 @@ public class PhoneWindowManager implements WindowManagerPolicy {
     @Override
     public long interceptKeyBeforeDispatching(IBinder focusedToken, KeyEvent event,
             int policyFlags) {
-        final boolean keyguardOn = keyguardOn();
         final int action = event.getAction();
         final int flags = event.getFlags();
         final int keyCode = event.getKeyCode();
@@ -3844,7 +3844,6 @@ public class PhoneWindowManager implements WindowManagerPolicy {
         }
 
         final boolean interactive = (policyFlags & FLAG_INTERACTIVE) != 0;
-        final boolean canceled = event.isCanceled();
         final int displayId = event.getDisplayId();
         final boolean isInjected = (policyFlags & WindowManagerPolicy.FLAG_INJECTED) != 0;
         // Request haptic feedback for hw keys finger down events.
@@ -6238,7 +6237,7 @@ public class PhoneWindowManager implements WindowManagerPolicy {
                 toggleRecentApps();
                 break;
             case NavbarUtilities.KEY_ACTION_SEARCH:
-                launchAssistAction(null, -1, KeyEvent.getEventTime(), AssistUtils.INVOCATION_TYPE_UNKNOWN);
+                launchAssistAction(null, -1, -1, AssistUtils.INVOCATION_TYPE_UNKNOWN);
                 break;
             case NavbarUtilities.KEY_ACTION_VOICE_SEARCH:
                 launchAssistLongPressAction(false, false);
@@ -6330,7 +6329,7 @@ public class PhoneWindowManager implements WindowManagerPolicy {
                 toggleRecentApps();
                 break;
             case NavbarUtilities.KEY_ACTION_SEARCH:
-                launchAssistAction(null, -1, KeyEvent.getEventTime(), AssistUtils.INVOCATION_TYPE_UNKNOWN);
+                launchAssistAction(null, -1, -1, AssistUtils.INVOCATION_TYPE_UNKNOWN);
                 break;
             case NavbarUtilities.KEY_ACTION_VOICE_SEARCH:
                 launchAssistLongPressAction(false, false);
@@ -6394,7 +6393,7 @@ public class PhoneWindowManager implements WindowManagerPolicy {
                 ActionUtils.toggleRingerModes(mContext);
                 break;
             case NavbarUtilities.KEY_ACTION_KILL_APP:
-                ActionUtils.killForegroundApp();
+                NadUtils.killForegroundApp();
                 break;
         }
     }
@@ -6413,7 +6412,7 @@ public class PhoneWindowManager implements WindowManagerPolicy {
                 triggerVirtualKeypress(keyCode, false, false);
                 break;
             case KeyEvent.KEYCODE_ASSIST:
-                launchAssistAction(null, -1, event.getEventTime(), AssistUtils.INVOCATION_TYPE_UNKNOWN);
+                launchAssistAction(null, -1, -1, AssistUtils.INVOCATION_TYPE_UNKNOWN);
                 break;
             case KeyEvent.KEYCODE_APP_SWITCH:
                 toggleRecentApps();
