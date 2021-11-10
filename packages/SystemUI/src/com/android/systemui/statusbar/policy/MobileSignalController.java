@@ -674,7 +674,7 @@ public class MobileSignalController extends SignalController<MobileState, Mobile
                     && !mCurrentState.carrierNetworkChangeMode
                     && mCurrentState.activityOut;
             showDataIcon &= mCurrentState.isDefault || dataDisabled;
-            int typeIcon = (showDataIcon || mConfig.alwaysShowDataRatIcon) ? icons.dataType : 0;
+            int typeIcon = ((showDataIcon || mConfig.alwaysShowDataRatIcon) && getVolteResId() == 0) ? icons.dataType : 0;
             boolean showTriangle = mCurrentState.enabled && !mCurrentState.airplaneMode;
             MobileDataIndicators mobileDataIndicators = new MobileDataIndicators(
                     statusIcon, qsIcon, typeIcon, qsTypeIcon,
