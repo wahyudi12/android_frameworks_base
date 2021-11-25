@@ -250,14 +250,14 @@ public class StatusBarSignalPolicy implements NetworkControllerImpl.SignalCallba
             state.callStrengthResId = statusIcon.icon;
             state.callStrengthDescription = statusIcon.contentDescription;
         }
-        boolean hideCallStrength = mTunerService.getValue(HIDE_QS_CALL_STRENGTH, 0) == 1;
-        if (mCarrierConfigTracker.getCallStrengthConfig(subId) && !hideCallStrength) {
+        boolean hideCallStrength = mTunerService.getValue(HIDE_QS_CALL_STRENGTH, 1) == 1;
+        if (mCarrierConfigTracker.getCallStrengthConfig(subId) && hideCallStrength) {
             mIconController.setCallStrengthIcons(mSlotCallStrength,
                     CallIndicatorIconState.copyStates(mCallIndicatorStates));
         } else {
             mIconController.removeIcon(mSlotCallStrength, subId);
         }
-        if (!hideCallStrength) {
+        if (hideCallStrength) {
             mIconController.setNoCallingIcons(mSlotNoCalling,
                 CallIndicatorIconState.copyStates(mCallIndicatorStates));
         } else {
