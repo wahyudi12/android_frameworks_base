@@ -5160,17 +5160,6 @@ public final class Settings {
         public static final String MULTI_AUDIO_FOCUS_ENABLED = "multi_audio_focus_enabled";
 
         /**
-         * Nusantara wings style
-         * @hide
-         */
-        public static final String NUSANTARA_WINGS_STYLE = "nusantara_wings_style";
-
-        /**
-         * @hide
-         */
-        public static final String CATEGORY_NUSANTARA = "cat_nusantara";
-
-        /**
          * Whether user can swap navigation lateral keys.
          * <p>
          * Type: int (0 for false, 1 for true)
