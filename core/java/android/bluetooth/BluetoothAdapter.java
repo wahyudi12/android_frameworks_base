@@ -3340,6 +3340,7 @@ public final class BluetoothAdapter {
             }
         }
     }
+
     private static final IBluetoothManagerCallback sManagerCallback =
             new IBluetoothManagerCallback.Stub() {
                 public void onBluetoothServiceUp(IBluetooth bluetoothService) {

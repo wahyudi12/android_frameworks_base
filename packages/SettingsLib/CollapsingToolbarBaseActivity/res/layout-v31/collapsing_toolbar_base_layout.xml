@@ -16,7 +16,6 @@
   -->
 <androidx.coordinatorlayout.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:androidprv="http://schemas.android.com/apk/prv/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/content_parent"
     android:layout_width="match_parent"
@@ -30,7 +29,7 @@
         android:fitsSystemWindows="true"
         android:outlineAmbientShadowColor="@android:color/transparent"
         android:outlineSpotShadowColor="@android:color/transparent"
-        android:background="?androidprv:attr/colorSurfaceHeader"
+        android:background="@color/settingslib_colorSurfaceHeader"
         android:theme="@style/Theme.CollapsingToolbar.Settings">
 
         <com.google.android.material.appbar.CollapsingToolbarLayout
@@ -40,7 +39,7 @@
             android:clipToPadding="false"
             app:forceApplySystemWindowInsetTop="true"
             app:extraMultilineHeightEnabled="true"
-            app:contentScrim="?androidprv:attr/colorSurfaceHeader"
+            app:contentScrim="@color/settingslib_colorSurfaceHeader"
             app:maxLines="3"
             app:layout_scrollFlags="scroll|exitUntilCollapsed|snap"
             app:scrimAnimationDuration="50"
@@ -75,7 +74,7 @@
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="20.0dp"
-        android:backgroundTint="?androidprv:attr/colorSurfaceHeader"
+        android:backgroundTint="@color/settingslib_colorSurfaceHeader"
         android:background="@drawable/nad_round_top"
         app:layout_anchor="@id/app_bar"
         app:layout_anchorGravity="bottom"
