@@ -20,6 +20,7 @@ import static com.android.systemui.statusbar.notification.TransformState.TRANSFO
 
 import android.app.Notification;
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.util.ArraySet;
 import android.view.NotificationHeaderView;
 import android.view.View;
@@ -28,6 +29,8 @@ import android.view.animation.Interpolator;
 import android.view.animation.PathInterpolator;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.os.UserHandle;
+import android.provider.Settings;
 
 import com.android.internal.widget.NotificationExpandButton;
 import com.android.systemui.Interpolators;
@@ -54,6 +57,7 @@ public class NotificationHeaderViewWrapper extends NotificationViewWrapper {
 
     protected int mColor;
     private ImageView mIcon;
+    boolean NewHeaderIconStyle;
 
     private NotificationExpandButton mExpandButton;
     protected NotificationHeaderView mNotificationHeader;
@@ -62,9 +66,11 @@ public class NotificationHeaderViewWrapper extends NotificationViewWrapper {
     private boolean mIsLowPriority;
     private boolean mTransformLowPriorityTitle;
     private boolean mShowExpandButtonAtEnd;
+    private Context mContext;
 
     protected NotificationHeaderViewWrapper(Context ctx, View view, ExpandableNotificationRow row) {
         super(ctx, view, row);
+        mContext = ctx;
         mShowExpandButtonAtEnd = ctx.getResources().getBoolean(
                 R.bool.config_showNotificationExpandButtonAtEnd)
                 || NotificationUtils.useNewInterruptionModel(ctx);
@@ -97,6 +103,8 @@ public class NotificationHeaderViewWrapper extends NotificationViewWrapper {
                 }, TRANSFORMING_VIEW_TITLE);
         resolveHeaderViews();
         addAppOpsOnClickListener(row);
+        NewHeaderIconStyle = Settings.System.getIntForUser(mContext.getContentResolver(),
+                Settings.System.HEADER_ICONS_STYLE, 1, UserHandle.USER_CURRENT) == 1;
     }
 
     protected void resolveHeaderViews() {
@@ -126,11 +134,23 @@ public class NotificationHeaderViewWrapper extends NotificationViewWrapper {
         addRemainingTransformTypes();
         updateCropToPaddingForImageViews();
         Notification notification = row.getStatusBarNotification().getNotification();
-        mIcon.setTag(ImageTransformState.ICON_TAG, notification.getSmallIcon());
+
+        if (!NewHeaderIconStyle) {
+            mIcon.setTag(ImageTransformState.ICON_TAG, notification.getSmallIcon());
+        } else {
+        String pkgname = row.getStatusBarNotification().getPackageName();
+        Drawable icon = null;
+        try {
+            icon = mContext.getPackageManager().getApplicationIcon(pkgname);
+            mIcon.setImageDrawable(icon);
+        } catch (android.content.pm.PackageManager.NameNotFoundException e) {
+        }
+        mWorkProfileImage.setImageIcon(notification.getSmallIcon());
+        mIcon.setTag(ImageTransformState.ICON_TAG,notification.getSmallIcon());
         // The work profile image is always the same lets just set the icon tag for it not to
         // animate
         mWorkProfileImage.setTag(ImageTransformState.ICON_TAG, notification.getSmallIcon());
-
+       }
         // We need to reset all views that are no longer transforming in case a view was previously
         // transformed, but now we decided to transform its container instead.
         ArraySet<View> currentViews = mTransformationHelper.getAllTransformingViews();
